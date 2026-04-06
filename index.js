@@ -1,5 +1,4 @@
 const express = require("express");
-const fetch = require("node-fetch"); // Node 18+ you can use global fetch
 const app = express();
 const port = process.env.PORT || 3000;
 
