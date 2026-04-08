@@ -1,79 +1,128 @@
-const express = require("express");
+const express = require('express');
+const path = require('path');
+
+// Initialise Express FIRST before anything else
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
+// Middleware
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
-// Homepage
-app.get("/", (req, res) => {
-  res.send(`
-    <h1>Fixalyze</h1>
-    <p>Enter your Shopify store URL below to get a free AI audit.</p>
-    <form method="POST" action="/analyze">
-      <input name="url" placeholder="Enter your Shopify store URL" style="width:300px;" required />
-      <button type="submit">Analyse</button>
-    </form>
-  `);
+// Serve the frontend
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Analyze route
-app.post("/analyze", async (req, res) => {
-  const storeUrl = req.body.url;
+// Analyse endpoint
+app.post('/analyze', async (req, res) => {
+  const { url } = req.body;
 
-  const prompt = `
-You are a Shopify conversion expert.
-Analyse this Shopify store: ${storeUrl}.
-Output:
-- High-impact issues
-- Medium issues
-- Quick wins
-Include short explanation and suggested fix for each.
-`;
+  if (!url) {
+    return res.status(400).json({ error: 'No URL provided' });
+  }
+
+  const apiKey = process.env.GEN_API_KEY;
+
+  if (!apiKey) {
+    return res.status(500).json({ error: 'API key not configured on server' });
+  }
+
+  const prompt = `You are an expert Shopify UX and conversion rate optimisation consultant.
+
+Audit the following Shopify store URL: ${url}
+
+Based on the URL and your knowledge of Shopify store best practices, provide a structured audit covering:
+
+1. CONVERSION HEALTH SCORE (out of 100)
+   Give an estimated score and explain why.
+
+2. CRITICAL ISSUES (things costing sales right now)
+   List up to 3 critical problems with:
+   - What the issue is
+   - Why it matters (in plain English, no jargon)
+   - Exactly how to fix it in Shopify without a developer
+
+3. MAJOR ISSUES (significant improvements needed)
+   List up to 4 major issues with the same format.
+
+4. QUICK WINS (easy fixes with high impact)
+   List 3 things they can do today in under 30 minutes.
+
+5. THIS WEEK'S CRO TASK
+   Give one specific, actionable task to do this week that will have the most impact.
+
+Write in plain English. Be specific and practical. No waffle. Every recommendation must be achievable in Shopify without hiring a developer.`;
+
+  // Gemini API endpoint - using gemini-2.0-flash
+  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
 
   try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${process.env.GEN_API_KEY}`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          contents: [
-            {
-              parts: [{ text: prompt }]
-            }
-          ]
-        })
-      }
-    );
+    const response = await fetch(geminiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: [
+          {
+            parts: [
+              {
+                text: prompt
+              }
+            ]
+          }
+        ],
+        generationConfig: {
+          temperature: 0.7,
+          maxOutputTokens: 1500,
+        }
+      })
+    });
 
-    const data = await response.json();
+    // Read raw text first before trying to parse
+    const rawText = await response.text();
 
-    console.log("Gemini response:", JSON.stringify(data, null, 2));
+    // Check if we got anything back
+    if (!rawText || rawText.trim() === '') {
+      return res.status(500).json({ error: 'Gemini returned an empty response. Check your API key.' });
+    }
 
-    const auditText =
-      data?.candidates?.[0]?.content?.parts?.[0]?.text ||
-      "No audit returned";
+    // Try to parse as JSON
+    let data;
+    try {
+      data = JSON.parse(rawText);
+    } catch (parseErr) {
+      console.error('Failed to parse Gemini response:', rawText.substring(0, 500));
+      return res.status(500).json({ error: 'Could not parse Gemini response. Raw: ' + rawText.substring(0, 200) });
+    }
 
-    res.send(`
-      <h2>Results for ${storeUrl}</h2>
-      <pre style="white-space: pre-wrap;">${auditText}</pre>
-      <a href="/">Run another audit</a>
-    `);
+    // Check for API-level errors
+    if (data.error) {
+      console.error('Gemini API error:', data.error);
+      return res.status(500).json({
+        error: `Gemini error ${data.error.code}: ${data.error.message}`
+      });
+    }
+
+    // Extract the text from the response
+    const auditText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+    if (!auditText) {
+      console.error('Unexpected Gemini response structure:', JSON.stringify(data).substring(0, 500));
+      return res.status(500).json({ error: 'Gemini response had no content. Unexpected structure.' });
+    }
+
+    res.json({ result: auditText });
 
   } catch (err) {
-    console.error("ERROR:", err);
-
-    res.send(`
-      <h2>Results for ${storeUrl}</h2>
-      <p>Error generating audit.</p>
-      <a href="/">Run another audit</a>
-    `);
+    console.error('Fetch error calling Gemini:', err.message);
+    res.status(500).json({ error: 'Failed to reach Gemini API: ' + err.message });
   }
 });
 
 // Start server
-app.listen(port, () => {
-  console.log(`Fixalyze app running at port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Fixalyze server running on port ${PORT}`);
 });
