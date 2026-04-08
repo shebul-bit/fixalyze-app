@@ -1,7 +1,11 @@
 {
   "name": "fixalyze-app",
   "version": "1.0.0",
+  "description": "AI-powered Shopify UX and CRO audit tool",
   "main": "index.js",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "start": "node index.js"
   },
