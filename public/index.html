@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fixalyze — Shopify CRO Audit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f5f2ec;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 60px 20px;
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 28px;
+      color: #e8420a;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .tagline {
+      font-size: 15px;
+      color: #7a7570;
+      margin-bottom: 48px;
+      font-weight: 300;
+    }
+    .card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 620px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      margin-bottom: 24px;
+    }
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      color: #0f0f0f;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1.5px solid #d8d3cb;
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: #0f0f0f;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 16px;
+    }
+    input[type="text"]:focus { border-color: #e8420a; }
+    button {
+      width: 100%;
+      padding: 15px;
+      background: #e8420a;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    button:hover { background: #c93608; }
+    button:disabled { background: #ccc; cursor: not-allowed; }
+    .status {
+      text-align: center;
+      font-size: 14px;
+      color: #7a7570;
+      margin-top: 16px;
+      min-height: 20px;
+    }
+    .result-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      width: 100%;
+      max-width: 620px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+      display: none;
+    }
+    .result-card h2 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      margin-bottom: 20px;
+      color: #0f0f0f;
+    }
+    .result-body {
+      font-size: 14px;
+      line-height: 1.75;
+      color: #333;
+      white-space: pre-wrap;
+    }
+    .error-msg {
+      color: #c0392b;
+      font-size: 14px;
+      margin-top: 12px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="logo">Fixalyze</div>
+  <p class="tagline">AI-powered Shopify UX &amp; conversion audit</p>
+
+  <div class="card">
+    <label for="shopify-url">Your Shopify store URL</label>
+    <input type="text" id="shopify-url" placeholder="e.g. yourstore.com" />
+    <button id="analyze-btn" onclick="runAudit()">Run Free Audit</button>
+    <div class="status" id="status"></div>
+    <div class="error-msg" id="error-msg"></div>
+  </div>
+
+  <div class="result-card" id="result-card">
+    <h2>Your Audit Results</h2>
+    <div class="result-body" id="result-body"></div>
+  </div>
+
+  <script>
+    async function runAudit() {
+      const url = document.getElementById('shopify-url').value.trim();
+      const btn = document.getElementById('analyze-btn');
+      const status = document.getElementById('status');
+      const errorMsg = document.getElementById('error-msg');
+      const resultCard = document.getElementById('result-card');
+      const resultBody = document.getElementById('result-body');
+
+      // Reset
+      errorMsg.style.display = 'none';
+      resultCard.style.display = 'none';
+      errorMsg.textContent = '';
+
+      if (!url) {
+        errorMsg.textContent = 'Please enter a store URL first.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      btn.disabled = true;
+      status.textContent = 'Analysing your store... this takes about 15 seconds.';
+
+      try {
+        const response = await fetch('/analyze', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url })
+        });
+
+        const data = await response.json();
+
+        if (data.error) {
+          errorMsg.textContent = 'Error: ' + data.error;
+          errorMsg.style.display = 'block';
+        } else {
+          resultBody.textContent = data.result;
+          resultCard.style.display = 'block';
+          resultCard.scrollIntoView({ behavior: 'smooth' });
+        }
+
+      } catch (err) {
+        errorMsg.textContent = 'Something went wrong. Please try again.';
+        errorMsg.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        status.textContent = '';
+      }
+    }
+
+    // Allow Enter key to trigger audit
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') runAudit();
+    });
+  </script>
+
+</body>
+</html>
