@@ -12,6 +12,14 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
+// Secure admin check endpoint - key stored server-side only
+app.post('/check-admin', (req, res) => {
+  const { key } = req.body;
+  const adminKey = process.env.ADMIN_KEY;
+  if (!adminKey) return res.json({ isAdmin: false });
+  res.json({ isAdmin: key === adminKey });
+});
+
 // Helper: normalise URL
 function normaliseUrl(input) {
   let url = input.trim();
@@ -40,8 +48,6 @@ async function scrapePage(url) {
 
     const html = await response.text();
 
-    // Extract useful text content from HTML
-    // Remove scripts, styles, comments
     let cleaned = html
       .replace(/<script[\s\S]*?<\/script>/gi, '')
       .replace(/<style[\s\S]*?<\/style>/gi, '')
@@ -50,24 +56,19 @@ async function scrapePage(url) {
       .replace(/\s+/g, ' ')
       .trim();
 
-    // Extract title
     const titleMatch = html.match(/<title[^>]*>([^<]+)<\/title>/i);
     const title = titleMatch ? titleMatch[1].trim() : 'Unknown';
 
-    // Extract meta description
     const metaMatch = html.match(/<meta[^>]+name=["']description["'][^>]+content=["']([^"']+)["']/i)
       || html.match(/<meta[^>]+content=["']([^"']+)["'][^>]+name=["']description["']/i);
     const metaDesc = metaMatch ? metaMatch[1].trim() : '';
 
-    // Extract h1s
     const h1Matches = [...html.matchAll(/<h1[^>]*>([^<]+)<\/h1>/gi)];
     const h1s = h1Matches.map(m => m[1].trim()).filter(Boolean).slice(0, 5);
 
-    // Extract h2s
     const h2Matches = [...html.matchAll(/<h2[^>]*>([^<]+)<\/h2>/gi)];
     const h2s = h2Matches.map(m => m[1].trim()).filter(Boolean).slice(0, 8);
 
-    // Check for common ecommerce signals
     const hasCart = /cart|basket|bag/i.test(html);
     const hasCheckout = /checkout/i.test(html);
     const hasPrice = /£|\$|€|price|gbp|usd/i.test(html);
@@ -84,7 +85,6 @@ async function scrapePage(url) {
     const hasProductImages = /<img[^>]+product/i.test(html);
     const hasAddToCart = /add.to.cart|add_to_cart/i.test(html);
 
-    // Get a meaningful text excerpt (first 3000 chars of visible content)
     const excerpt = cleaned.substring(0, 3000);
 
     return {
@@ -107,13 +107,6 @@ async function scrapePage(url) {
   }
 }
 
-// Helper: get screenshot URL using screenshotone (free tier)
-function getScreenshotUrl(url) {
-  // Using a free screenshot service - no API key needed for basic use
-  const encoded = encodeURIComponent(url);
-  return `https://api.screenshotone.com/take?url=${encoded}&viewport_width=1280&viewport_height=800&format=jpg&image_quality=80&access_key=free`;
-}
-
 // Analyse endpoint
 app.post('/analyze', async (req, res) => {
   const { url } = req.body;
@@ -128,11 +121,8 @@ app.post('/analyze', async (req, res) => {
   }
 
   const normalisedUrl = normaliseUrl(url);
-
-  // Step 1: Scrape the page
   const scraped = await scrapePage(normalisedUrl);
 
-  // Build context for AI
   let pageContext = '';
   if (scraped.success) {
     const s = scraped.signals;
@@ -157,14 +147,13 @@ REAL PAGE DATA scraped from ${normalisedUrl}:
 - Has Add to Cart: ${s.hasAddToCart ? 'YES' : 'NOT DETECTED'}
 - Has live chat: ${s.hasChatWidget ? 'YES' : 'NOT DETECTED'}
 - Has video content: ${s.hasVideo ? 'YES' : 'NOT DETECTED'}
-
 Page content excerpt: ${scraped.excerpt}
 `;
   } else {
-    pageContext = `Note: Could not scrape ${normalisedUrl} directly (reason: ${scraped.reason}). Base your audit on the URL, domain name, and common ecommerce UX patterns. Be transparent that this is based on typical patterns for this type of store.`;
+    pageContext = `Note: Could not scrape ${normalisedUrl} directly (reason: ${scraped.reason}). Base your audit on the URL, domain name, and common ecommerce UX patterns.`;
   }
 
-  const prompt = `You are an expert ecommerce UX and conversion rate optimisation consultant with 10 years experience, deep knowledge of established UX research and ecommerce conversion best practices.
+  const prompt = `You are an expert ecommerce UX and conversion rate optimisation consultant with 10 years experience and deep knowledge of established UX research and ecommerce conversion best practices.
 
 ${pageContext}
 
@@ -177,7 +166,7 @@ The JSON must follow this exact structure:
 {
   "score": <number 0-100>,
   "scoreExplanation": "<2-3 sentences explaining the score based on real findings>",
-  "totalIssuesFound": <number between 12 and 19>,
+  "totalIssuesFound": 14,
   "issues": [
     {
       "severity": "Critical",
@@ -200,15 +189,13 @@ The JSON must follow this exact structure:
 }
 
 Rules:
-- The issues array must contain EXACTLY 14 issues total
-- Issues must be a mix of severities: at least 3 Critical, at least 4 Major, rest Minor
-- Sort issues by severity: Critical first, then Major, then Minor
-- Base every issue on the REAL DATA provided — reference actual missing elements detected
+- The issues array must contain EXACTLY 14 issues
+- Mix of severities: at least 3 Critical, at least 4 Major, rest Minor
+- Sort issues: Critical first, then Major, then Minor
+- Base every issue on the REAL DATA provided
 - Write in plain English, no jargon
 - Every fix must be actionable without hiring a developer
-- The score should reflect the real data: missing reviews, shipping info etc should lower it significantly
-- Do not invent issues not supported by the data
-- totalIssuesFound must match the issues array length exactly (14)`;
+- totalIssuesFound must be 14`;
 
   const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
@@ -226,7 +213,6 @@ Rules:
     });
 
     const rawText = await response.text();
-
     if (!rawText || rawText.trim() === '') {
       return res.status(500).json({ error: 'Gemini returned an empty response.' });
     }
@@ -247,18 +233,14 @@ Rules:
       return res.status(500).json({ error: 'Gemini response had no content.' });
     }
 
-    // Parse the JSON from Gemini
     let auditData;
     try {
-      // Strip any markdown code fences if present
       const cleaned = auditText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
       auditData = JSON.parse(cleaned);
     } catch (e) {
-      console.error('Failed to parse audit JSON:', auditText.substring(0, 500));
       return res.status(500).json({ error: 'AI returned invalid format. Please try again.' });
     }
 
-    // Screenshot URL
     const screenshotUrl = `https://image.thum.io/get/width/1280/crop/800/noanimate/${normalisedUrl}`;
 
     res.json({
@@ -269,7 +251,6 @@ Rules:
     });
 
   } catch (err) {
-    console.error('Error:', err.message);
     res.status(500).json({ error: 'Failed to reach Gemini API: ' + err.message });
   }
 });
