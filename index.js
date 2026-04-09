@@ -1,128 +1,164 @@
-const express = require('express');
-const path = require('path');
+const express = require(‘express’);
 
-// Initialise Express FIRST before anything else
+const path = require(‘path’);
+
 const app = express();
+
 const PORT = process.env.PORT || 3000;
 
-// Middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static('public'));
 
-// Serve the frontend
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+app.use(express.urlencoded({ extended: true }));
+
+app.use(express.static(‘public’));
+
+app.get(’/’, (req, res) => {
+
+res.sendFile(path.join(__dirname, ‘public’, ‘index.html’));
+
 });
 
-// Analyse endpoint
-app.post('/analyze', async (req, res) => {
-  const { url } = req.body;
+app.post(’/analyze’, async (req, res) => {
 
-  if (!url) {
-    return res.status(400).json({ error: 'No URL provided' });
-  }
+const { url } = req.body;
 
-  const apiKey = process.env.GEN_API_KEY;
+if (!url) {
 
-  if (!apiKey) {
-    return res.status(500).json({ error: 'API key not configured on server' });
-  }
+return res.status(400).json({ error: ‘No URL provided’ });
 
-  const prompt = `You are an expert Shopify UX and conversion rate optimisation consultant.
+}
+
+const apiKey = process.env.GEN_API_KEY;
+
+if (!apiKey) {
+
+return res.status(500).json({ error: ‘API key not configured on server’ });
+
+}
+
+const prompt = `You are an expert Shopify UX and conversion rate optimisation consultant with 10 years experience and deep knowledge of Baymard Institute research.
 
 Audit the following Shopify store URL: ${url}
 
-Based on the URL and your knowledge of Shopify store best practices, provide a structured audit covering:
+Based on the URL and your knowledge of Shopify store best practices, provide a structured audit covering ALL of the following sections in full. Do not cut off or summarise early. Complete every section.
 
 1. CONVERSION HEALTH SCORE (out of 100)
-   Give an estimated score and explain why.
 
-2. CRITICAL ISSUES (things costing sales right now)
-   List up to 3 critical problems with:
-   - What the issue is
-   - Why it matters (in plain English, no jargon)
-   - Exactly how to fix it in Shopify without a developer
+   Give a score and explain in 2-3 sentences exactly why you gave that score.
 
-3. MAJOR ISSUES (significant improvements needed)
-   List up to 4 major issues with the same format.
+1. CRITICAL ISSUES (things costing sales right now)
 
-4. QUICK WINS (easy fixes with high impact)
-   List 3 things they can do today in under 30 minutes.
+   List exactly 3 critical problems. For each one write:
 
-5. THIS WEEK'S CRO TASK
-   Give one specific, actionable task to do this week that will have the most impact.
+- Issue: what the problem is
 
-Write in plain English. Be specific and practical. No waffle. Every recommendation must be achievable in Shopify without hiring a developer.`;
+- Why it matters: the revenue impact in plain English
 
-  // Gemini API endpoint - using gemini-2.0-flash
-const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+- Fix: exactly how to fix it in Shopify without a developer
+
+1. MAJOR ISSUES (significant improvements needed)
+
+   List exactly 4 major issues. For each one write:
+
+- Issue: what the problem is
+
+- Why it matters: the revenue impact in plain English
+
+- Fix: exactly how to fix it in Shopify without a developer
+
+1. QUICK WINS (easy fixes with high impact)
+
+   List exactly 3 things they can do today in under 30 minutes. Be very specific.
+
+1. THIS WEEK’S CRO TASK
+
+   Give one single specific actionable task to do this week that will have the biggest impact on conversions. Include step by step instructions.
+
+Rules:
+
+- Write in plain English, no jargon
+
+- Be specific and practical
+
+- Every fix must be achievable in Shopify without hiring a developer
+
+- Do not cut the response short
+
+- Complete all 5 sections fully`;
+
+  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   try {
-    const response = await fetch(geminiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        contents: [
-          {
-            parts: [
-              {
-                text: prompt
-              }
-            ]
-          }
-        ],
-        generationConfig: {
-          temperature: 0.7,
-          maxOutputTokens: 1500,
-        }
-      })
-    });
 
-    // Read raw text first before trying to parse
-    const rawText = await response.text();
+  const response = await fetch(geminiUrl, {
 
-    // Check if we got anything back
-    if (!rawText || rawText.trim() === '') {
-      return res.status(500).json({ error: 'Gemini returned an empty response. Check your API key.' });
-    }
+  method: ‘POST’,
 
-    // Try to parse as JSON
-    let data;
-    try {
-      data = JSON.parse(rawText);
-    } catch (parseErr) {
-      console.error('Failed to parse Gemini response:', rawText.substring(0, 500));
-      return res.status(500).json({ error: 'Could not parse Gemini response. Raw: ' + rawText.substring(0, 200) });
-    }
+  headers: { ‘Content-Type’: ‘application/json’ },
 
-    // Check for API-level errors
-    if (data.error) {
-      console.error('Gemini API error:', data.error);
-      return res.status(500).json({
-        error: `Gemini error ${data.error.code}: ${data.error.message}`
-      });
-    }
+  body: JSON.stringify({
 
-    // Extract the text from the response
-    const auditText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  contents: [{ parts: [{ text: prompt }] }],
 
-    if (!auditText) {
-      console.error('Unexpected Gemini response structure:', JSON.stringify(data).substring(0, 500));
-      return res.status(500).json({ error: 'Gemini response had no content. Unexpected structure.' });
-    }
+  generationConfig: {
 
-    res.json({ result: auditText });
+  temperature: 0.7,
+
+  maxOutputTokens: 8192,
+
+  }
+
+  })
+
+  });
+
+  const rawText = await response.text();
+
+  if (!rawText || rawText.trim() === ‘’) {
+
+  return res.status(500).json({ error: ‘Gemini returned an empty response.’ });
+
+  }
+
+  let data;
+
+  try {
+
+  data = JSON.parse(rawText);
+
+  } catch (parseErr) {
+
+  return res.status(500).json({ error: ‘Could not parse Gemini response.’ });
+
+  }
+
+  if (data.error) {
+
+  return res.status(500).json({ error: `Gemini error ${data.error.code}: ${data.error.message}` });
+
+  }
+
+  const auditText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+  if (!auditText) {
+
+  return res.status(500).json({ error: ‘Gemini response had no content.’ });
+
+  }
+
+  res.json({ result: auditText });
 
   } catch (err) {
-    console.error('Fetch error calling Gemini:', err.message);
-    res.status(500).json({ error: 'Failed to reach Gemini API: ' + err.message });
-  }
-});
 
-// Start server
+  res.status(500).json({ error: ’Failed to reach Gemini API: ’ + err.message });
+
+  }
+
+  });
+
 app.listen(PORT, () => {
-  console.log(`Fixalyze server running on port ${PORT}`);
+
+console.log(`Fixalyze server running on port ${PORT}`);
+
 });
+ 
