@@ -3,284 +3,1123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fixalyze — Shopify CRO Audit</title>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <title>Fixalyze — Free Shopify CRO Audit</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg: #f7f4ef;
+      --white: #ffffff;
+      --ink: #0f0e0c;
+      --orange: #e8420a;
+      --orange-light: #fff4f0;
+      --orange-border: #ffd4c4;
+      --green: #0a7a4a;
+      --green-bg: #f0faf5;
+      --amber: #b45309;
+      --amber-bg: #fffbeb;
+      --red: #c0392b;
+      --red-bg: #fef2f2;
+      --muted: #6b6660;
+      --border: #e4dfd8;
+      --shadow: 0 2px 16px rgba(0,0,0,0.07);
+      --shadow-lg: 0 8px 40px rgba(0,0,0,0.10);
+    }
+
     body {
       font-family: 'DM Sans', sans-serif;
-      background: #f5f2ec;
+      background: var(--bg);
+      color: var(--ink);
       min-height: 100vh;
+    }
+
+    /* Nav */
+    nav {
       display: flex;
-      flex-direction: column;
       align-items: center;
-      padding: 60px 20px 100px;
+      justify-content: space-between;
+      padding: 20px 40px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
-    .logo {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 32px;
-      color: #e8420a;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-    }
-
-    .tagline {
-      font-size: 15px;
-      color: #7a7570;
-      margin-bottom: 48px;
-      font-weight: 300;
-    }
-
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 40px;
-      width: 100%;
-      max-width: 680px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-      margin-bottom: 24px;
-    }
-
-    label {
-      display: block;
-      font-size: 13px;
-      font-weight: 600;
-      color: #0f0f0f;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      margin-bottom: 10px;
-    }
-
-    input[type="text"] {
-      width: 100%;
-      padding: 14px 16px;
-      border: 1.5px solid #d8d3cb;
-      border-radius: 10px;
-      font-family: 'DM Sans', sans-serif;
-      font-size: 15px;
-      color: #0f0f0f;
-      outline: none;
-      transition: border-color 0.2s;
-      margin-bottom: 16px;
-    }
-
-    input[type="text"]:focus { border-color: #e8420a; }
-
-    button {
-      width: 100%;
-      padding: 15px;
-      background: #e8420a;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    button:hover { background: #c93608; }
-    button:disabled { background: #ccc; cursor: not-allowed; }
-
-    .status {
-      text-align: center;
-      font-size: 14px;
-      color: #7a7570;
-      margin-top: 16px;
-      min-height: 20px;
-      font-style: italic;
-    }
-
-    .error-msg {
-      color: #c0392b;
-      font-size: 14px;
-      margin-top: 12px;
-      background: #ffeaea;
-      padding: 12px 16px;
-      border-radius: 8px;
-      display: none;
-    }
-
-    /* Result card */
-    .result-card {
-      background: white;
-      border-radius: 20px;
-      padding: 40px;
-      width: 100%;
-      max-width: 680px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-      display: none;
-    }
-
-    .result-card h2 {
+    .nav-logo {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
       font-size: 22px;
-      margin-bottom: 28px;
-      color: #0f0f0f;
-      padding-bottom: 16px;
-      border-bottom: 2px solid #f0ece4;
+      color: var(--orange);
+      letter-spacing: -0.02em;
     }
 
-    /* Markdown rendering styles */
-    .result-body h1,
-    .result-body h2,
-    .result-body h3 {
+    .nav-cta {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--muted);
+    }
+
+    .nav-cta span {
+      background: var(--orange);
+      color: white;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-left: 10px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 72px 24px 56px;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--orange-light);
+      border: 1px solid var(--orange-border);
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    .hero-badge::before {
+      content: '';
+      width: 7px;
+      height: 7px;
+      background: var(--orange);
+      border-radius: 50%;
+      animation: blink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 16px;
+    }
+
+    h1 em {
+      font-style: normal;
+      color: var(--orange);
+    }
+
+    .hero-sub {
+      font-size: 16px;
+      color: var(--muted);
+      font-weight: 300;
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto 40px;
+    }
+
+    /* Input card */
+    .input-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      max-width: 620px;
+      margin: 0 auto;
+      box-shadow: var(--shadow);
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .url-input {
+      flex: 1;
+      padding: 14px 18px;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 15px;
+      color: var(--ink);
+      outline: none;
+      background: var(--bg);
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .url-input:focus {
+      border-color: var(--orange);
+      background: var(--white);
+    }
+
+    .url-input::placeholder { color: #b0a9a2; }
+
+    .audit-btn {
+      padding: 14px 28px;
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 12px;
       font-family: 'Syne', sans-serif;
       font-weight: 700;
-      color: #0f0f0f;
-      margin-top: 28px;
-      margin-bottom: 12px;
-      font-size: 17px;
-    }
-
-    .result-body h1 { font-size: 20px; color: #e8420a; }
-    .result-body h2 { font-size: 18px; border-bottom: 1px solid #f0ece4; padding-bottom: 8px; }
-
-    .result-body p {
       font-size: 14px;
-      line-height: 1.75;
-      color: #333;
-      margin-bottom: 12px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s, transform 0.15s;
     }
 
-    .result-body strong {
-      font-weight: 600;
-      color: #0f0f0f;
+    .audit-btn:hover:not(:disabled) {
+      background: #c93608;
+      transform: translateY(-1px);
     }
 
-    .result-body ul, .result-body ol {
-      padding-left: 20px;
-      margin-bottom: 14px;
-    }
+    .audit-btn:disabled { background: #d0c8c0; cursor: not-allowed; transform: none; }
 
-    .result-body li {
-      font-size: 14px;
-      line-height: 1.75;
-      color: #333;
-      margin-bottom: 6px;
-    }
-
-    .result-body hr {
-      border: none;
-      border-top: 1px solid #f0ece4;
-      margin: 24px 0;
-    }
-
-    .result-body blockquote {
-      border-left: 3px solid #e8420a;
-      padding-left: 16px;
-      color: #555;
-      margin: 16px 0;
-      font-style: italic;
-    }
-
-    /* Score highlight */
-    .score-highlight {
-      background: #fff4f0;
-      border: 2px solid #e8420a;
-      border-radius: 12px;
-      padding: 20px 24px;
-      margin: 16px 0 24px;
+    .input-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 12px;
       text-align: center;
     }
 
-    .score-highlight .score-num {
+    .error-msg {
+      background: var(--red-bg);
+      color: var(--red);
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      margin-top: 14px;
+      display: none;
+    }
+
+    /* Loading state */
+    .loading-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 48px 32px;
+      max-width: 620px;
+      margin: 32px auto 0;
+      text-align: center;
+      display: none;
+      box-shadow: var(--shadow);
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--orange);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .loading-title {
       font-family: 'Syne', sans-serif;
-      font-size: 56px;
+      font-weight: 700;
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .loading-steps {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 2;
+    }
+
+    .loading-step {
+      opacity: 0.3;
+      transition: opacity 0.4s;
+    }
+
+    .loading-step.active {
+      opacity: 1;
+      color: var(--orange);
+      font-weight: 500;
+    }
+
+    .loading-step.done { opacity: 0.6; }
+
+    /* Results section */
+    .results-section {
+      max-width: 1100px;
+      margin: 40px auto 80px;
+      padding: 0 24px;
+      display: none;
+    }
+
+    /* Score + screenshot row */
+    .top-row {
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 20px;
+      margin-bottom: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .top-row { grid-template-columns: 1fr; }
+      .input-row { flex-direction: column; }
+      nav { padding: 16px 20px; }
+    }
+
+    /* Score card */
+    .score-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .score-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .score-ring {
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 16px;
+      position: relative;
+    }
+
+    .score-ring svg {
+      transform: rotate(-90deg);
+      width: 140px;
+      height: 140px;
+    }
+
+    .score-ring-bg { fill: none; stroke: var(--border); stroke-width: 10; }
+    .score-ring-fill {
+      fill: none;
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke-dasharray: 345;
+      stroke-dashoffset: 345;
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .score-number {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-family: 'Syne', sans-serif;
       font-weight: 800;
-      color: #e8420a;
+      font-size: 40px;
+      letter-spacing: -0.04em;
       line-height: 1;
     }
 
-    .score-highlight .score-label {
-      font-size: 13px;
-      color: #7a7570;
-      margin-top: 4px;
+    .score-sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 16px;
     }
+
+    .score-explanation {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.6;
+      text-align: left;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+    }
+
+    /* Screenshot card */
+    .screenshot-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      position: relative;
+    }
+
+    .screenshot-header {
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .browser-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #ff5f57; }
+    .dot-yellow { background: #febc2e; }
+    .dot-green { background: #28c840; }
+
+    .browser-url {
+      flex: 1;
+      background: var(--bg);
+      border-radius: 6px;
+      padding: 5px 12px;
+      font-size: 12px;
+      color: var(--muted);
+      font-family: monospace;
+    }
+
+    .screenshot-img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      object-position: top;
+      display: block;
+    }
+
+    .screenshot-loading {
+      width: 100%;
+      height: 340px;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    /* Issues section */
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      margin-top: 32px;
+    }
+
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .issues-count {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Issue cards */
+    .issue-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--border);
+      transition: transform 0.2s;
+    }
+
+    .issue-card:hover { transform: translateX(3px); }
+    .issue-card.critical { border-left-color: var(--red); }
+    .issue-card.major { border-left-color: var(--amber); }
+    .issue-card.minor { border-left-color: var(--green); }
+
+    .issue-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .severity-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+
+    .badge-critical { background: var(--red-bg); color: var(--red); }
+    .badge-major { background: var(--amber-bg); color: var(--amber); }
+    .badge-minor { background: var(--green-bg); color: var(--green); }
+
+    .issue-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.01em;
+    }
+
+    .issue-number {
+      font-size: 12px;
+      color: var(--muted);
+      margin-left: auto;
+    }
+
+    .issue-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .issue-body { grid-template-columns: 1fr; }
+    }
+
+    .issue-field label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .issue-field p {
+      font-size: 13px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .issue-fix {
+      grid-column: 1 / -1;
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+
+    .issue-fix label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .issue-fix p {
+      font-size: 13px;
+      color: var(--ink);
+      line-height: 1.65;
+    }
+
+    /* Upsell banner */
+    .upsell-banner {
+      background: var(--ink);
+      border-radius: 20px;
+      padding: 36px 40px;
+      margin-top: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .upsell-banner::before {
+      content: '';
+      position: absolute;
+      top: -40px;
+      right: -40px;
+      width: 200px;
+      height: 200px;
+      background: var(--orange);
+      border-radius: 50%;
+      opacity: 0.08;
+    }
+
+    .upsell-left {}
+
+    .upsell-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 8px;
+    }
+
+    .upsell-headline {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      color: white;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .upsell-headline span { color: var(--orange); }
+
+    .upsell-body {
+      font-size: 14px;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.6;
+      max-width: 420px;
+    }
+
+    .upsell-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .upsell-feature {
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+      background: rgba(255,255,255,0.08);
+      padding: 4px 12px;
+      border-radius: 100px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .upsell-feature::before { content: '✓'; color: var(--orange); font-weight: 700; }
+
+    .upsell-right { flex-shrink: 0; }
+
+    .upsell-price {
+      text-align: center;
+      margin-bottom: 14px;
+    }
+
+    .upsell-price .amount {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 36px;
+      color: white;
+      letter-spacing: -0.03em;
+    }
+
+    .upsell-price .period {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .upsell-btn {
+      display: block;
+      background: var(--orange);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 14px 32px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    .upsell-btn:hover { background: #c93608; transform: translateY(-2px); }
+
+    .upsell-note {
+      font-size: 11px;
+      color: rgba(255,255,255,0.35);
+      text-align: center;
+      margin-top: 8px;
+    }
+
+    /* Locked issues */
+    .locked-issues {
+      background: var(--white);
+      border: 1.5px dashed var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .lock-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--bg);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+
+    .locked-text strong {
+      display: block;
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 3px;
+    }
+
+    .locked-text span {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* Quick wins */
+    .quick-wins {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 28px;
+      margin-top: 8px;
+      box-shadow: var(--shadow);
+    }
+
+    .quick-wins h3 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quick-win-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .quick-win-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+    .win-num {
+      width: 24px;
+      height: 24px;
+      background: var(--orange);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Scrape notice */
+    .scrape-notice {
+      font-size: 12px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    .scrape-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .scrape-dot.success { background: var(--green); }
+    .scrape-dot.warning { background: var(--amber); }
   </style>
 </head>
 <body>
 
-  <div class="logo">Fixalyze</div>
-  <p class="tagline">AI-powered Shopify UX &amp; conversion audit</p>
+  <nav>
+    <div class="nav-logo">Fixalyze</div>
+    <div class="nav-cta">Want the full audit? <span>Upgrade — £14.99/mo</span></div>
+  </nav>
 
-  <div class="card">
-    <label for="shopify-url">Your Shopify store URL</label>
-    <input type="text" id="shopify-url" placeholder="e.g. yourstore.com" />
-    <button id="analyze-btn" onclick="runAudit()">Run Free Audit</button>
-    <div class="status" id="status"></div>
-    <div class="error-msg" id="error-msg"></div>
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-badge">Free Spot Check</div>
+    <h1>Find out why your store<br>is <em>losing sales</em> today</h1>
+    <p class="hero-sub">Paste your store URL. AI audits your site against UX and conversion best practices in seconds. No account needed.</p>
+
+    <div class="input-card">
+      <div class="input-row">
+        <input type="text" class="url-input" id="shopify-url" placeholder="e.g. yourstore.com" />
+        <button class="audit-btn" id="analyze-btn" onclick="runAudit()">Audit My Store</button>
+      </div>
+      <p class="input-note">Free · No account required · AI-powered · Results in ~20 seconds</p>
+      <div class="error-msg" id="error-msg"></div>
+    </div>
   </div>
 
-  <div class="result-card" id="result-card">
-    <h2 id="result-title">Your Audit Results</h2>
-    <div class="result-body" id="result-body"></div>
+  <!-- Loading -->
+  <div class="loading-card" id="loading-card">
+    <div class="loading-spinner"></div>
+    <div class="loading-title">AI is auditing your store</div>
+    <div class="loading-steps">
+      <div class="loading-step" id="step1">🔍 Scanning your pages...</div>
+      <div class="loading-step" id="step2">🧠 Analysing against UX best practices...</div>
+      <div class="loading-step" id="step3">📊 Calculating your conversion score...</div>
+      <div class="loading-step" id="step4">✍️ Writing your personalised report...</div>
+    </div>
   </div>
 
-  <!-- Marked.js for markdown rendering -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <!-- Results -->
+  <div class="results-section" id="results-section">
+
+    <!-- Top row: score + screenshot -->
+    <div class="top-row">
+      <div class="score-card">
+        <div class="score-label">Conversion Health Score</div>
+        <div class="score-ring">
+          <svg viewBox="0 0 120 120">
+            <circle class="score-ring-bg" cx="60" cy="60" r="55"/>
+            <circle class="score-ring-fill" id="score-ring-fill" cx="60" cy="60" r="55"/>
+          </svg>
+          <div class="score-number" id="score-number">—</div>
+        </div>
+        <div class="score-sub">out of 100</div>
+        <div class="score-explanation" id="score-explanation"></div>
+      </div>
+
+      <div class="screenshot-card">
+        <div class="screenshot-header">
+          <div class="browser-dots">
+            <div class="browser-dot dot-red"></div>
+            <div class="browser-dot dot-yellow"></div>
+            <div class="browser-dot dot-green"></div>
+          </div>
+          <div class="browser-url" id="browser-url">Loading...</div>
+        </div>
+        <div class="screenshot-loading" id="screenshot-loading">📸 Loading screenshot...</div>
+        <img class="screenshot-img" id="screenshot-img" style="display:none" alt="Store screenshot" />
+      </div>
+    </div>
+
+    <!-- Scrape notice -->
+    <div class="scrape-notice" id="scrape-notice"></div>
+
+    <!-- Issues -->
+    <div class="section-header">
+      <div class="section-title">Issues Found</div>
+      <div class="issues-count" id="issues-count"></div>
+    </div>
+
+    <div id="issues-container"></div>
+
+    <!-- Locked issues placeholder -->
+    <div class="locked-issues" id="locked-issues" style="display:none">
+      <div class="lock-icon">🔒</div>
+      <div class="locked-text">
+        <strong id="locked-count">9 more issues found and hidden</strong>
+        <span>Upgrade to Full Audit to see every issue, unlimited rescans, and weekly coaching.</span>
+      </div>
+    </div>
+
+    <!-- Quick wins (locked teaser) -->
+    <div class="quick-wins" id="quick-wins-card" style="display:none">
+      <h3>⚡ Quick Wins — things you can fix today</h3>
+      <div id="quick-wins-list"></div>
+    </div>
+
+    <!-- Upsell banner -->
+    <div class="upsell-banner" id="upsell-banner" style="display:none">
+      <div class="upsell-left">
+        <div class="upsell-eyebrow">Upgrade to Full Audit</div>
+        <div class="upsell-headline">
+          Your store has <span id="upsell-count">9</span> more issues<br>we haven't shown you yet
+        </div>
+        <div class="upsell-body">
+          Fix them before your next visitor leaves. Full Audit reveals every issue, tracks your score over time, and sends you one AI-personalised fix every week.
+        </div>
+        <div class="upsell-features">
+          <div class="upsell-feature">All issues unlocked</div>
+          <div class="upsell-feature">Score tracking</div>
+          <div class="upsell-feature">Weekly AI coaching task</div>
+          <div class="upsell-feature">Unlimited rescans</div>
+          <div class="upsell-feature">Shopify-specific fixes</div>
+        </div>
+      </div>
+      <div class="upsell-right">
+        <div class="upsell-price">
+          <div class="amount">£14.99</div>
+          <div class="period">per month</div>
+        </div>
+        <a href="#" class="upsell-btn">Unlock Full Audit</a>
+        <div class="upsell-note">Cancel anytime · No contracts</div>
+      </div>
+    </div>
+
+  </div>
 
   <script>
+    let hasScanned = false;
+    let loadingInterval;
+    let stepIndex = 0;
+
+    function animateLoadingSteps() {
+      const steps = ['step1','step2','step3','step4'];
+      stepIndex = 0;
+      steps.forEach(s => {
+        document.getElementById(s).className = 'loading-step';
+      });
+      loadingInterval = setInterval(() => {
+        if (stepIndex > 0) {
+          document.getElementById(steps[stepIndex - 1]).className = 'loading-step done';
+        }
+        if (stepIndex < steps.length) {
+          document.getElementById(steps[stepIndex]).className = 'loading-step active';
+          stepIndex++;
+        } else {
+          clearInterval(loadingInterval);
+        }
+      }, 3500);
+    }
+
+    function getScoreColor(score) {
+      if (score >= 70) return '#0a7a4a';
+      if (score >= 45) return '#b45309';
+      return '#c0392b';
+    }
+
+    function animateScore(score) {
+      const fill = document.getElementById('score-ring-fill');
+      const numEl = document.getElementById('score-number');
+      const circumference = 345;
+      const color = getScoreColor(score);
+
+      fill.style.stroke = color;
+      numEl.style.color = color;
+
+      setTimeout(() => {
+        const offset = circumference - (score / 100) * circumference;
+        fill.style.strokeDashoffset = offset;
+      }, 300);
+
+      let current = 0;
+      const step = score / 60;
+      const counter = setInterval(() => {
+        current = Math.min(current + step, score);
+        numEl.textContent = Math.round(current);
+        if (current >= score) clearInterval(counter);
+      }, 25);
+    }
+
+    function severityClass(severity) {
+      const s = severity.toLowerCase();
+      if (s === 'critical') return 'critical';
+      if (s === 'major') return 'major';
+      return 'minor';
+    }
+
+    function badgeClass(severity) {
+      const s = severity.toLowerCase();
+      if (s === 'critical') return 'badge-critical';
+      if (s === 'major') return 'badge-major';
+      return 'badge-minor';
+    }
+
+    function renderIssues(issues) {
+      const container = document.getElementById('issues-container');
+      container.innerHTML = '';
+
+      // Show only first 5
+      const visible = issues.slice(0, 5);
+      const hidden = issues.slice(5);
+
+      visible.forEach((issue, i) => {
+        const div = document.createElement('div');
+        div.className = `issue-card ${severityClass(issue.severity)}`;
+        div.innerHTML = `
+          <div class="issue-top">
+            <span class="severity-badge ${badgeClass(issue.severity)}">${issue.severity}</span>
+            <span class="issue-title">${issue.title}</span>
+            <span class="issue-number">#${i + 1}</span>
+          </div>
+          <div class="issue-body">
+            <div class="issue-field">
+              <label>The Problem</label>
+              <p>${issue.problem}</p>
+            </div>
+            <div class="issue-field">
+              <label>Revenue Impact</label>
+              <p>${issue.impact}</p>
+            </div>
+            <div class="issue-fix">
+              <label>🔧 How to Fix It</label>
+              <p>${issue.fix}</p>
+            </div>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+
+      // Show locked count
+      if (hidden.length > 0) {
+        const lockedEl = document.getElementById('locked-issues');
+        lockedEl.style.display = 'flex';
+        document.getElementById('locked-count').textContent = `${hidden.length} more issues found and hidden`;
+
+        const upsellBanner = document.getElementById('upsell-banner');
+        upsellBanner.style.display = 'flex';
+        document.getElementById('upsell-count').textContent = hidden.length;
+      }
+    }
+
+    function renderQuickWins(wins) {
+      if (!wins || wins.length === 0) return;
+      const card = document.getElementById('quick-wins-card');
+      const list = document.getElementById('quick-wins-list');
+      card.style.display = 'block';
+      list.innerHTML = wins.map((w, i) => `
+        <div class="quick-win-item">
+          <div class="win-num">${i + 1}</div>
+          <span>${w}</span>
+        </div>
+      `).join('');
+    }
+
+    function loadScreenshot(url, screenshotUrl) {
+      document.getElementById('browser-url').textContent = url;
+      const img = document.getElementById('screenshot-img');
+      const loading = document.getElementById('screenshot-loading');
+
+      img.onload = () => {
+        loading.style.display = 'none';
+        img.style.display = 'block';
+      };
+      img.onerror = () => {
+        loading.textContent = '📸 Screenshot unavailable for this site';
+      };
+      img.src = screenshotUrl;
+    }
+
     async function runAudit() {
-      const url = document.getElementById('shopify-url').value.trim();
+      if (hasScanned) {
+        document.getElementById('error-msg').textContent = 'You have already used your free scan. Upgrade to Full Audit for unlimited rescans.';
+        document.getElementById('error-msg').style.display = 'block';
+        return;
+      }
+
+      const urlInput = document.getElementById('shopify-url').value.trim();
       const btn = document.getElementById('analyze-btn');
-      const status = document.getElementById('status');
       const errorMsg = document.getElementById('error-msg');
-      const resultCard = document.getElementById('result-card');
-      const resultBody = document.getElementById('result-body');
-      const resultTitle = document.getElementById('result-title');
 
-      // Reset
       errorMsg.style.display = 'none';
-      resultCard.style.display = 'none';
-      errorMsg.textContent = '';
 
-      if (!url) {
+      if (!urlInput) {
         errorMsg.textContent = 'Please enter a store URL first.';
         errorMsg.style.display = 'block';
         return;
       }
 
       btn.disabled = true;
-      status.textContent = 'AI is analysing your store... this takes about 20 seconds.';
+      document.getElementById('loading-card').style.display = 'block';
+      document.getElementById('results-section').style.display = 'none';
+      animateLoadingSteps();
+
+      document.getElementById('loading-card').scrollIntoView({ behavior: 'smooth' });
 
       try {
         const response = await fetch('/analyze', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url })
+          body: JSON.stringify({ url: urlInput })
         });
 
         const data = await response.json();
+        clearInterval(loadingInterval);
 
         if (data.error) {
           errorMsg.textContent = 'Error: ' + data.error;
           errorMsg.style.display = 'block';
-        } else {
-          // Render markdown properly
-          resultTitle.textContent = 'Audit Results for ' + url;
-          resultBody.innerHTML = marked.parse(data.result);
-          resultCard.style.display = 'block';
-          resultCard.scrollIntoView({ behavior: 'smooth' });
+          document.getElementById('loading-card').style.display = 'none';
+          btn.disabled = false;
+          return;
         }
 
+        const audit = data.audit;
+
+        // Hide loading
+        document.getElementById('loading-card').style.display = 'none';
+        document.getElementById('results-section').style.display = 'block';
+
+        // Animate score
+        animateScore(audit.score);
+        document.getElementById('score-explanation').textContent = audit.scoreExplanation;
+
+        // Issues count
+        document.getElementById('issues-count').textContent = `${audit.totalIssuesFound} issues found — showing 5 of ${audit.totalIssuesFound}`;
+
+        // Render issues (capped to 5)
+        renderIssues(audit.issues);
+
+        // Quick wins
+        renderQuickWins(audit.quickWins);
+
+        // Screenshot
+        loadScreenshot(data.scrapedUrl, data.screenshotUrl);
+
+        // Scrape notice
+        const notice = document.getElementById('scrape-notice');
+        if (data.scrapeSuccess) {
+          notice.innerHTML = '<div class="scrape-dot success"></div> Live data scraped from your store';
+        } else {
+          notice.innerHTML = '<div class="scrape-dot warning"></div> Could not access site directly — audit based on URL analysis and common patterns';
+        }
+
+        // Mark as scanned - lock rescan
+        hasScanned = true;
+        btn.textContent = 'Rescan Locked';
+
+        document.getElementById('results-section').scrollIntoView({ behavior: 'smooth' });
+
       } catch (err) {
+        clearInterval(loadingInterval);
         errorMsg.textContent = 'Something went wrong. Please try again.';
         errorMsg.style.display = 'block';
-      } finally {
+        document.getElementById('loading-card').style.display = 'none';
         btn.disabled = false;
-        status.textContent = '';
       }
     }
 
-    document.addEventListener('keydown', (e) => {
+    document.getElementById('shopify-url').addEventListener('keydown', (e) => {
       if (e.key === 'Enter') runAudit();
     });
   </script>
