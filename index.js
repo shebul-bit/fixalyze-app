@@ -56,7 +56,7 @@ Based on the URL and your knowledge of Shopify store best practices, provide a s
 Write in plain English. Be specific and practical. No waffle. Every recommendation must be achievable in Shopify without hiring a developer.`;
 
   // Gemini API endpoint - using gemini-2.0-flash
-  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   try {
     const response = await fetch(geminiUrl, {
