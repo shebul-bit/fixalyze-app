@@ -4,18 +4,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fixalyze — Free Shopify CRO Audit</title>
-  <!-- Matching fixalyze.com fonts: Montserrat + Open Sans via Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- jsPDF for PDF download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      /* Fixalyze brand colours matched from fixalyze.com */
+      --brand-btn: #1D2463;
+      --brand-btn-hover: #141854;
       --brand-orange: #e8420a;
-      --brand-orange-hover: #c93608;
-      --brand-dark: #1a1a2e;
-      --brand-darker: #0f0f1e;
-      --brand-navy: #16213e;
+      --brand-light-blue: #87C6E4;
+      --brand-light-blue-hover: #6ab5d8;
       --white: #ffffff;
       --off-white: #f8f7f5;
       --light-grey: #f2f0ed;
@@ -47,7 +47,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 68px;
+      height: 72px;
       position: sticky;
       top: 0;
       z-index: 200;
@@ -55,22 +55,21 @@
     }
 
     .nav-logo img {
-      height: 36px;
+      height: 44px;
+      width: auto;
       display: block;
     }
 
-    .nav-logo-text {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 900;
-      font-size: 22px;
-      color: var(--brand-orange);
-      letter-spacing: -0.02em;
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 28px;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 28px;
+      gap: 24px;
       list-style: none;
     }
 
@@ -84,27 +83,126 @@
 
     .nav-links a:hover { color: var(--brand-orange); }
 
-    .nav-btn {
-      background: var(--brand-orange);
-      color: white !important;
-      padding: 9px 20px;
+    .nav-upgrade-btn {
+      background: var(--brand-btn);
+      color: white;
+      padding: 10px 20px;
       border-radius: 6px;
-      font-size: 13px !important;
-      font-weight: 700 !important;
+      font-size: 13px;
+      font-weight: 700;
       cursor: pointer;
-      transition: background 0.2s !important;
+      transition: background 0.2s;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      white-space: nowrap;
+      text-decoration: none;
+      display: inline-block;
     }
 
-    .nav-btn:hover { background: var(--brand-orange-hover) !important; }
+    .nav-upgrade-btn:hover { background: var(--brand-btn-hover); }
+
+    /* Hamburger — mobile only */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      background: none;
+      border: none;
+      z-index: 300;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--text);
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* Mobile nav drawer */
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 72px;
+      left: 0;
+      right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      z-index: 190;
+      padding: 20px 24px 24px;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-100%);
+      opacity: 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
+    }
+
+    .mobile-nav.open {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .mobile-nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 16px;
+    }
+
+    .mobile-nav-links li a {
+      display: block;
+      padding: 14px 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.2s;
+    }
+
+    .mobile-nav-links li:last-child a { border-bottom: none; }
+    .mobile-nav-links li a:hover { color: var(--brand-orange); }
+
+    .mobile-upgrade-btn {
+      display: block;
+      width: 100%;
+      background: var(--brand-btn);
+      color: white;
+      padding: 13px 20px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      text-align: center;
+      margin-top: 8px;
+      text-decoration: none;
+    }
 
     @media (max-width: 768px) {
-      .nav-links { display: none; }
       nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .nav-upgrade-btn.desktop-only { display: none; }
+      .hamburger { display: flex; }
+      .mobile-nav { display: block; }
+    }
+
+    /* Always show upgrade on mobile via mobile nav */
+    @media (min-width: 769px) {
+      .mobile-nav { display: none !important; }
     }
 
     /* ── HERO ── */
     .hero {
-      background: linear-gradient(135deg, var(--brand-darker) 0%, var(--brand-navy) 50%, #1a1a3e 100%);
+      background: linear-gradient(135deg, #0f0f1e 0%, #1a1a3e 50%, #162040 100%);
       padding: 80px 24px 72px;
       text-align: center;
       position: relative;
@@ -114,23 +212,19 @@
     .hero::before {
       content: '';
       position: absolute;
-      top: -80px;
-      right: -80px;
-      width: 400px;
-      height: 400px;
-      background: var(--brand-orange);
+      top: -80px; right: -80px;
+      width: 400px; height: 400px;
+      background: var(--brand-light-blue);
       border-radius: 50%;
-      opacity: 0.06;
+      opacity: 0.05;
       pointer-events: none;
     }
 
     .hero::after {
       content: '';
       position: absolute;
-      bottom: -60px;
-      left: -60px;
-      width: 300px;
-      height: 300px;
+      bottom: -60px; left: -60px;
+      width: 300px; height: 300px;
       background: var(--brand-orange);
       border-radius: 50%;
       opacity: 0.04;
@@ -141,9 +235,9 @@
       display: inline-flex;
       align-items: center;
       gap: 7px;
-      background: rgba(232, 66, 10, 0.15);
-      border: 1px solid rgba(232, 66, 10, 0.35);
-      color: #ff8c6a;
+      background: rgba(135, 198, 228, 0.12);
+      border: 1px solid rgba(135, 198, 228, 0.3);
+      color: var(--brand-light-blue);
       font-size: 11px;
       font-weight: 700;
       letter-spacing: 0.12em;
@@ -156,7 +250,7 @@
     .hero-badge-dot {
       width: 6px;
       height: 6px;
-      background: var(--brand-orange);
+      background: var(--brand-light-blue);
       border-radius: 50%;
       animation: pulse-dot 1.5s ease-in-out infinite;
     }
@@ -169,7 +263,7 @@
     .hero h1 {
       font-family: 'Montserrat', sans-serif;
       font-weight: 900;
-      font-size: clamp(30px, 5vw, 52px);
+      font-size: clamp(28px, 5vw, 50px);
       color: var(--white);
       line-height: 1.1;
       letter-spacing: -0.03em;
@@ -179,12 +273,12 @@
 
     .hero h1 em {
       font-style: normal;
-      color: var(--brand-orange);
+      color: var(--brand-light-blue);
     }
 
     .hero-sub {
-      font-size: 16px;
-      color: rgba(255,255,255,0.65);
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
       font-weight: 300;
       line-height: 1.65;
       max-width: 500px;
@@ -199,7 +293,6 @@
       max-width: 640px;
       margin: 0 auto;
       box-shadow: var(--shadow-lg);
-      position: relative;
     }
 
     .input-label {
@@ -217,6 +310,11 @@
       gap: 10px;
     }
 
+    @media (max-width: 540px) {
+      .input-row { flex-direction: column; }
+      .input-card { padding: 22px 20px; }
+    }
+
     .url-input {
       flex: 1;
       padding: 13px 16px;
@@ -230,16 +328,13 @@
       background: var(--off-white);
     }
 
-    .url-input:focus {
-      border-color: var(--brand-orange);
-      background: var(--white);
-    }
-
+    .url-input:focus { border-color: var(--brand-btn); background: var(--white); }
+    .url-input.invalid { border-color: var(--red); }
     .url-input::placeholder { color: #b8b2aa; }
 
     .audit-btn {
       padding: 13px 26px;
-      background: var(--brand-orange);
+      background: var(--brand-btn);
       color: white;
       border: none;
       border-radius: 8px;
@@ -253,20 +348,12 @@
       transition: background 0.2s, transform 0.15s;
     }
 
-    .audit-btn:hover:not(:disabled) {
-      background: var(--brand-orange-hover);
-      transform: translateY(-1px);
-    }
-
-    .audit-btn:disabled {
-      background: #c4bdb6;
-      cursor: not-allowed;
-      transform: none;
-    }
+    .audit-btn:hover:not(:disabled) { background: var(--brand-btn-hover); transform: translateY(-1px); }
+    .audit-btn:disabled { background: #c4bdb6; cursor: not-allowed; transform: none; }
 
     .input-note {
       font-size: 11px;
-      color: rgba(255,255,255,0.45);
+      color: rgba(255,255,255,0.4);
       margin-top: 14px;
       text-align: center;
     }
@@ -275,7 +362,7 @@
       background: var(--red-bg);
       color: var(--red);
       border-radius: 8px;
-      padding: 11px 14px;
+      padding: 10px 14px;
       font-size: 13px;
       margin-top: 12px;
       display: none;
@@ -287,7 +374,7 @@
       border: 1px solid var(--border);
       border-radius: 14px;
       padding: 48px 32px;
-      max-width: 580px;
+      max-width: 540px;
       margin: 40px auto 0;
       text-align: center;
       display: none;
@@ -298,7 +385,7 @@
       width: 44px;
       height: 44px;
       border: 3px solid var(--border);
-      border-top-color: var(--brand-orange);
+      border-top-color: var(--brand-btn);
       border-radius: 50%;
       animation: spin 0.75s linear infinite;
       margin: 0 auto 20px;
@@ -314,22 +401,11 @@
       margin-bottom: 6px;
     }
 
-    .loading-url {
-      font-size: 13px;
-      color: var(--brand-orange);
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
-
-    .loading-steps {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 2.2;
-    }
-
+    .loading-url { font-size: 13px; color: var(--brand-btn); margin-bottom: 20px; font-weight: 600; }
+    .loading-steps { font-size: 13px; color: var(--muted); line-height: 2.2; }
     .loading-step { opacity: 0.3; transition: opacity 0.4s; }
-    .loading-step.active { opacity: 1; color: var(--brand-orange); font-weight: 600; }
-    .loading-step.done { opacity: 0.55; }
+    .loading-step.active { opacity: 1; color: var(--brand-btn); font-weight: 600; }
+    .loading-step.done { opacity: 0.5; }
 
     /* ── RESULTS ── */
     .results-wrap {
@@ -339,11 +415,9 @@
       display: none;
     }
 
-    .results-header {
-      margin-bottom: 28px;
-    }
+    .results-header { margin-bottom: 24px; }
 
-    .results-url {
+    .results-url-label {
       font-size: 12px;
       font-weight: 600;
       letter-spacing: 0.1em;
@@ -355,9 +429,18 @@
     .results-title {
       font-family: 'Montserrat', sans-serif;
       font-weight: 900;
-      font-size: 26px;
+      font-size: 24px;
       letter-spacing: -0.02em;
       color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .results-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 14px;
+      flex-wrap: wrap;
     }
 
     .scrape-badge {
@@ -366,35 +449,51 @@
       gap: 6px;
       font-size: 11px;
       font-weight: 600;
-      padding: 4px 10px;
+      padding: 4px 12px;
       border-radius: 100px;
-      margin-top: 8px;
     }
 
     .scrape-badge.live { background: var(--green-bg); color: var(--green); }
     .scrape-badge.estimated { background: var(--amber-bg); color: var(--amber); }
     .scrape-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 
+    .pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: var(--brand-btn);
+      color: white;
+      border: none;
+      border-radius: 7px;
+      padding: 8px 18px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .pdf-btn:hover { background: var(--brand-btn-hover); }
+
     /* Top row */
     .top-row {
       display: grid;
-      grid-template-columns: 280px 1fr;
+      grid-template-columns: 260px 1fr;
       gap: 20px;
       margin-bottom: 24px;
       align-items: start;
     }
 
-    @media (max-width: 820px) {
-      .top-row { grid-template-columns: 1fr; }
-      .input-row { flex-direction: column; }
-    }
+    @media (max-width: 820px) { .top-row { grid-template-columns: 1fr; } }
 
     /* Score card */
     .score-card {
       background: var(--white);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 28px 20px;
+      padding: 26px 20px;
       text-align: center;
       box-shadow: var(--shadow);
     }
@@ -405,22 +504,17 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .score-ring {
       width: 130px;
       height: 130px;
-      margin: 0 auto 14px;
+      margin: 0 auto 12px;
       position: relative;
     }
 
-    .score-ring svg {
-      transform: rotate(-90deg);
-      width: 130px;
-      height: 130px;
-    }
-
+    .score-ring svg { transform: rotate(-90deg); width: 130px; height: 130px; }
     .ring-bg { fill: none; stroke: var(--border); stroke-width: 10; }
     .ring-fill {
       fill: none;
@@ -433,8 +527,7 @@
 
     .score-num {
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       font-family: 'Montserrat', sans-serif;
       font-weight: 900;
@@ -443,11 +536,7 @@
       line-height: 1;
     }
 
-    .score-out-of {
-      font-size: 12px;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
+    .score-out-of { font-size: 12px; color: var(--muted); margin-bottom: 14px; }
 
     .score-expl {
       font-size: 12px;
@@ -491,9 +580,9 @@
       font-size: 11px;
       color: var(--muted);
       font-family: monospace;
-      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .screenshot-area {
@@ -508,10 +597,10 @@
       height: 100%;
       object-fit: cover;
       object-position: top;
-      display: none;
+      display: block;
     }
 
-    .screenshot-placeholder {
+    .ss-loading {
       position: absolute;
       inset: 0;
       display: flex;
@@ -521,30 +610,37 @@
       gap: 10px;
       color: var(--muted);
       font-size: 13px;
+      background: var(--light-grey);
     }
 
-    .screenshot-placeholder-icon { font-size: 32px; }
+    .ss-spinner {
+      width: 28px;
+      height: 28px;
+      border: 2px solid var(--border);
+      border-top-color: var(--brand-btn);
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+    }
 
     /* Section heads */
     .section-head {
       display: flex;
       align-items: baseline;
       justify-content: space-between;
-      margin: 32px 0 14px;
+      margin: 28px 0 14px;
+      flex-wrap: wrap;
+      gap: 6px;
     }
 
     .section-head h2 {
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
-      font-size: 18px;
+      font-size: 17px;
       letter-spacing: -0.01em;
       color: var(--text);
     }
 
-    .section-meta {
-      font-size: 12px;
-      color: var(--muted);
-    }
+    .section-meta { font-size: 12px; color: var(--muted); }
 
     /* Issue cards */
     .issue-card {
@@ -552,17 +648,13 @@
       border: 1px solid var(--border);
       border-left: 4px solid var(--border);
       border-radius: 12px;
-      padding: 22px 22px 20px;
+      padding: 20px 20px 18px;
       margin-bottom: 10px;
       box-shadow: var(--shadow);
-      transition: transform 0.2s, box-shadow 0.2s;
+      transition: transform 0.2s;
     }
 
-    .issue-card:hover {
-      transform: translateX(4px);
-      box-shadow: var(--shadow-lg);
-    }
-
+    .issue-card:hover { transform: translateX(3px); }
     .issue-card.critical { border-left-color: var(--red); }
     .issue-card.major { border-left-color: var(--amber); }
     .issue-card.minor { border-left-color: var(--green); }
@@ -596,18 +688,9 @@
       flex: 1;
     }
 
-    .issue-num {
-      font-size: 11px;
-      color: var(--muted);
-      font-weight: 600;
-    }
+    .issue-num { font-size: 11px; color: var(--muted); font-weight: 600; }
 
-    .issue-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
+    .issue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 600px) { .issue-grid { grid-template-columns: 1fr; } }
 
     .issue-field-label {
@@ -619,43 +702,39 @@
       margin-bottom: 4px;
     }
 
-    .issue-field-text {
-      font-size: 13px;
-      color: #333;
-      line-height: 1.6;
-    }
+    .issue-field-text { font-size: 13px; color: #333; line-height: 1.6; }
 
     .issue-fix-box {
       grid-column: 1 / -1;
       background: var(--off-white);
       border-radius: 8px;
-      padding: 14px;
+      padding: 12px 14px;
     }
 
-    .issue-fix-box .issue-field-label { color: var(--brand-orange); }
+    .issue-fix-box .issue-field-label { color: var(--brand-btn); }
 
-    /* Locked card */
+    /* Locked */
     .locked-card {
       background: var(--white);
       border: 1.5px dashed var(--border);
       border-radius: 12px;
-      padding: 20px 22px;
+      padding: 18px 20px;
       margin-bottom: 10px;
       display: none;
       align-items: center;
-      gap: 16px;
+      gap: 14px;
     }
 
     .lock-icon {
-      width: 42px;
-      height: 42px;
+      width: 40px;
+      height: 40px;
+      min-width: 40px;
       background: var(--light-grey);
       border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 20px;
-      flex-shrink: 0;
+      font-size: 18px;
     }
 
     .locked-text strong { display: block; font-size: 14px; font-weight: 700; margin-bottom: 3px; }
@@ -666,27 +745,16 @@
       background: var(--white);
       border: 1px solid var(--border);
       border-radius: 14px;
-      padding: 24px;
-      margin-top: 8px;
+      padding: 22px;
       box-shadow: var(--shadow);
       display: none;
-    }
-
-    .quick-wins-card h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 15px;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .qw-item {
       display: flex;
       align-items: flex-start;
       gap: 12px;
-      padding: 11px 0;
+      padding: 10px 0;
       border-bottom: 1px solid var(--border);
       font-size: 13px;
       line-height: 1.55;
@@ -699,7 +767,7 @@
       width: 24px;
       height: 24px;
       min-width: 24px;
-      background: var(--brand-orange);
+      background: var(--brand-btn);
       color: white;
       border-radius: 50%;
       display: flex;
@@ -709,14 +777,14 @@
       font-weight: 700;
     }
 
-    /* ── UPSELL BANNER ── */
+    /* ── UPSELL ── */
     .upsell-banner {
-      background: linear-gradient(135deg, var(--brand-darker) 0%, var(--brand-navy) 100%);
+      background: linear-gradient(135deg, #0f0f1e 0%, #1a1a3e 100%);
       border-radius: 16px;
-      padding: 40px;
-      margin-top: 32px;
+      padding: 36px 40px;
+      margin-top: 28px;
       display: none;
-      gap: 32px;
+      gap: 28px;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
@@ -728,10 +796,10 @@
       content: '';
       position: absolute;
       top: -60px; right: -60px;
-      width: 240px; height: 240px;
-      background: var(--brand-orange);
+      width: 220px; height: 220px;
+      background: var(--brand-light-blue);
       border-radius: 50%;
-      opacity: 0.07;
+      opacity: 0.06;
     }
 
     .upsell-eyebrow {
@@ -739,70 +807,56 @@
       font-weight: 700;
       letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--brand-orange);
+      color: var(--brand-light-blue);
       margin-bottom: 10px;
     }
 
     .upsell-headline {
       font-family: 'Montserrat', sans-serif;
       font-weight: 900;
-      font-size: 22px;
+      font-size: 20px;
       color: var(--white);
       letter-spacing: -0.02em;
       line-height: 1.2;
       margin-bottom: 10px;
     }
 
-    .upsell-headline span { color: var(--brand-orange); }
+    .upsell-headline span { color: var(--brand-light-blue); }
 
-    .upsell-body {
-      font-size: 13px;
-      color: rgba(255,255,255,0.6);
-      line-height: 1.65;
-      max-width: 400px;
-      margin-bottom: 18px;
-    }
+    .upsell-body { font-size: 13px; color: rgba(255,255,255,0.55); line-height: 1.65; max-width: 400px; margin-bottom: 16px; }
 
-    .upsell-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 7px;
-    }
+    .upsell-pills { display: flex; flex-wrap: wrap; gap: 7px; }
 
     .upsell-pill {
       font-size: 11px;
-      color: rgba(255,255,255,0.75);
+      color: rgba(255,255,255,0.7);
       background: rgba(255,255,255,0.09);
       padding: 4px 12px;
       border-radius: 100px;
     }
 
-    .upsell-pill::before { content: '✓ '; color: var(--brand-orange); font-weight: 700; }
+    .upsell-pill::before { content: '✓ '; color: var(--brand-light-blue); font-weight: 700; }
 
     .upsell-right { text-align: center; flex-shrink: 0; }
 
     .upsell-price-amount {
       font-family: 'Montserrat', sans-serif;
       font-weight: 900;
-      font-size: 44px;
+      font-size: 40px;
       color: var(--white);
       letter-spacing: -0.04em;
       line-height: 1;
     }
 
-    .upsell-price-period {
-      font-size: 13px;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 18px;
-    }
+    .upsell-price-period { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
 
     .upsell-cta-btn {
       display: block;
-      background: var(--brand-orange);
+      background: var(--brand-btn);
       color: white;
       border: none;
       border-radius: 8px;
-      padding: 14px 36px;
+      padding: 13px 32px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
       font-size: 13px;
@@ -814,22 +868,14 @@
       text-align: center;
     }
 
-    .upsell-cta-btn:hover {
-      background: var(--brand-orange-hover);
-      transform: translateY(-2px);
-    }
-
-    .upsell-small {
-      font-size: 11px;
-      color: rgba(255,255,255,0.3);
-      margin-top: 8px;
-    }
+    .upsell-cta-btn:hover { background: var(--brand-btn-hover); transform: translateY(-2px); }
+    .upsell-small { font-size: 11px; color: rgba(255,255,255,0.3); margin-top: 8px; }
 
     /* ── EMAIL MODAL ── */
     .modal-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(15, 15, 30, 0.75);
+      background: rgba(10,10,20,0.7);
       z-index: 500;
       display: none;
       align-items: center;
@@ -843,8 +889,8 @@
     .modal {
       background: var(--white);
       border-radius: 20px;
-      padding: 40px;
-      max-width: 460px;
+      padding: 36px;
+      max-width: 440px;
       width: 100%;
       box-shadow: 0 24px 80px rgba(0,0,0,0.3);
       position: relative;
@@ -852,24 +898,23 @@
     }
 
     @keyframes modal-in {
-      from { opacity: 0; transform: scale(0.92) translateY(16px); }
+      from { opacity: 0; transform: scale(0.92) translateY(12px); }
       to { opacity: 1; transform: scale(1) translateY(0); }
     }
 
     .modal-close {
       position: absolute;
-      top: 16px; right: 16px;
-      width: 32px; height: 32px;
+      top: 14px; right: 14px;
+      width: 30px; height: 30px;
       background: var(--light-grey);
       border: none;
       border-radius: 50%;
-      font-size: 16px;
+      font-size: 14px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--muted);
-      transition: background 0.2s;
     }
 
     .modal-close:hover { background: var(--border); }
@@ -884,47 +929,29 @@
       text-transform: uppercase;
       padding: 4px 12px;
       border-radius: 100px;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .modal h2 {
       font-family: 'Montserrat', sans-serif;
       font-weight: 900;
-      font-size: 22px;
+      font-size: 20px;
       letter-spacing: -0.02em;
       color: var(--text);
       margin-bottom: 10px;
       line-height: 1.25;
     }
 
-    .modal h2 span { color: var(--brand-orange); }
+    .modal h2 span { color: var(--brand-btn); }
 
-    .modal-body {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.65;
-      margin-bottom: 24px;
-    }
+    .modal-body { font-size: 13px; color: var(--muted); line-height: 1.65; margin-bottom: 20px; }
 
-    .modal-features {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-bottom: 24px;
-    }
+    .modal-features { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
 
-    .modal-feature {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 13px;
-      color: var(--text);
-    }
+    .modal-feature { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text); }
 
     .modal-feature-check {
-      width: 20px;
-      height: 20px;
-      min-width: 20px;
+      width: 20px; height: 20px; min-width: 20px;
       background: var(--green-bg);
       color: var(--green);
       border-radius: 50%;
@@ -937,7 +964,7 @@
 
     .modal-email-input {
       width: 100%;
-      padding: 13px 16px;
+      padding: 12px 14px;
       border: 1.5px solid var(--border);
       border-radius: 8px;
       font-family: 'Open Sans', sans-serif;
@@ -948,61 +975,35 @@
       transition: border-color 0.2s;
     }
 
-    .modal-email-input:focus { border-color: var(--brand-orange); }
+    .modal-email-input:focus { border-color: var(--brand-btn); }
 
     .modal-submit-btn {
       width: 100%;
-      padding: 14px;
-      background: var(--brand-orange);
+      padding: 13px;
+      background: var(--brand-btn);
       color: white;
       border: none;
       border-radius: 8px;
       font-family: 'Montserrat', sans-serif;
       font-weight: 800;
-      font-size: 14px;
+      font-size: 13px;
       letter-spacing: 0.06em;
       text-transform: uppercase;
       cursor: pointer;
       transition: background 0.2s;
     }
 
-    .modal-submit-btn:hover { background: var(--brand-orange-hover); }
+    .modal-submit-btn:hover { background: var(--brand-btn-hover); }
+    .modal-note { font-size: 11px; color: var(--muted); text-align: center; margin-top: 8px; }
 
-    .modal-note {
-      font-size: 11px;
-      color: var(--muted);
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .modal-success {
-      text-align: center;
-      padding: 20px 0;
-      display: none;
-    }
-
-    .modal-success-icon {
-      font-size: 48px;
-      margin-bottom: 16px;
-    }
-
-    .modal-success h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 20px;
-      margin-bottom: 10px;
-    }
-
-    .modal-success p {
-      font-size: 13px;
-      color: var(--muted);
-      line-height: 1.65;
-    }
+    .modal-success { text-align: center; padding: 16px 0; display: none; }
+    .modal-success-icon { font-size: 44px; margin-bottom: 14px; }
+    .modal-success h3 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 18px; margin-bottom: 8px; }
+    .modal-success p { font-size: 13px; color: var(--muted); line-height: 1.65; }
 
     /* ── ADMIN MODAL ── */
     .admin-modal-overlay {
-      position: fixed;
-      inset: 0;
+      position: fixed; inset: 0;
       background: rgba(0,0,0,0.5);
       z-index: 600;
       display: none;
@@ -1013,33 +1014,21 @@
     .admin-modal-overlay.open { display: flex; }
 
     .admin-modal {
-      background: var(--brand-darker);
-      border: 1px solid rgba(232,66,10,0.3);
+      background: #0f0f1e;
+      border: 1px solid rgba(135,198,228,0.2);
       border-radius: 14px;
-      padding: 32px;
-      max-width: 360px;
+      padding: 28px;
+      max-width: 340px;
       width: 90%;
-      box-shadow: 0 24px 80px rgba(0,0,0,0.5);
     }
 
-    .admin-modal h3 {
-      font-family: 'Montserrat', sans-serif;
-      font-weight: 800;
-      font-size: 16px;
-      color: white;
-      margin-bottom: 6px;
-    }
-
-    .admin-modal p {
-      font-size: 12px;
-      color: rgba(255,255,255,0.45);
-      margin-bottom: 18px;
-    }
+    .admin-modal h3 { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 15px; color: white; margin-bottom: 5px; }
+    .admin-modal p { font-size: 12px; color: rgba(255,255,255,0.4); margin-bottom: 16px; }
 
     .admin-input {
       width: 100%;
-      padding: 11px 14px;
-      background: rgba(255,255,255,0.08);
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.07);
       border: 1px solid rgba(255,255,255,0.15);
       border-radius: 7px;
       color: white;
@@ -1050,12 +1039,12 @@
       letter-spacing: 0.1em;
     }
 
-    .admin-input:focus { border-color: var(--brand-orange); }
+    .admin-input:focus { border-color: var(--brand-light-blue); }
 
     .admin-submit {
       width: 100%;
       padding: 11px;
-      background: var(--brand-orange);
+      background: var(--brand-btn);
       color: white;
       border: none;
       border-radius: 7px;
@@ -1063,42 +1052,47 @@
       font-weight: 700;
       font-size: 13px;
       cursor: pointer;
-      margin-bottom: 8px;
+      margin-bottom: 7px;
     }
 
-    .admin-cancel {
-      width: 100%;
-      padding: 9px;
-      background: transparent;
-      color: rgba(255,255,255,0.4);
-      border: none;
-      font-size: 12px;
-      cursor: pointer;
-    }
-
-    .admin-error {
-      font-size: 12px;
-      color: #ff6b6b;
-      margin-bottom: 8px;
-      display: none;
-    }
+    .admin-cancel { width: 100%; padding: 8px; background: transparent; color: rgba(255,255,255,0.35); border: none; font-size: 12px; cursor: pointer; }
+    .admin-error { font-size: 12px; color: #ff6b6b; margin-bottom: 8px; display: none; }
   </style>
 </head>
 <body>
 
-  <!-- Nav -->
+  <!-- ── NAV ── -->
   <nav>
-    <div class="nav-logo-text">Fixalyze</div>
-    <ul class="nav-links">
-      <li><a href="https://www.fixalyze.com">Home</a></li>
-      <li><a href="https://www.fixalyze.com/pricing">Pricing</a></li>
-      <li><a href="https://www.fixalyze.com/about">About</a></li>
-      <li><a href="https://www.fixalyze.com/contact">Contact</a></li>
-      <li><a href="#" class="nav-btn" onclick="openUpgradeModal(event)">Upgrade — £14.99/mo</a></li>
-    </ul>
+    <a href="https://www.fixalyze.com" class="nav-logo">
+      <img src="https://www.fixalyze.com/wp-content/uploads/2025/06/fixalyze_logo_colorv02.png" alt="Fixalyze" />
+    </a>
+
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="https://www.fixalyze.com">Home</a></li>
+        <li><a href="https://www.fixalyze.com/pricing">Pricing</a></li>
+        <li><a href="https://www.fixalyze.com/about">About</a></li>
+        <li><a href="https://www.fixalyze.com/contact">Contact</a></li>
+      </ul>
+      <button class="nav-upgrade-btn desktop-only" onclick="openUpgradeModal(event)">Upgrade — £14.99/mo</button>
+      <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
-  <!-- Hero -->
+  <!-- Mobile nav drawer -->
+  <div class="mobile-nav" id="mobile-nav">
+    <ul class="mobile-nav-links">
+      <li><a href="https://www.fixalyze.com" onclick="closeMobileNav()">Home</a></li>
+      <li><a href="https://www.fixalyze.com/pricing" onclick="closeMobileNav()">Pricing</a></li>
+      <li><a href="https://www.fixalyze.com/about" onclick="closeMobileNav()">About</a></li>
+      <li><a href="https://www.fixalyze.com/contact" onclick="closeMobileNav()">Contact</a></li>
+    </ul>
+    <button class="mobile-upgrade-btn" onclick="openUpgradeModal(event)">Upgrade — £14.99/mo</button>
+  </div>
+
+  <!-- ── HERO ── -->
   <div class="hero">
     <div class="hero-badge">
       <div class="hero-badge-dot"></div>
@@ -1118,7 +1112,7 @@
     <p class="input-note">Free · AI-powered · No account needed · ~20 seconds</p>
   </div>
 
-  <!-- Loading -->
+  <!-- ── LOADING ── -->
   <div class="loading-card" id="loading-card">
     <div class="loading-spinner"></div>
     <div class="loading-title">AI is auditing your store</div>
@@ -1131,17 +1125,22 @@
     </div>
   </div>
 
-  <!-- Results -->
+  <!-- ── RESULTS ── -->
   <div class="results-wrap" id="results-wrap">
 
     <div class="results-header">
-      <div class="results-url" id="results-url-label"></div>
+      <div class="results-url-label" id="results-url-label"></div>
       <div class="results-title">Your Conversion Audit Report</div>
-      <div id="scrape-badge"></div>
+      <div class="results-actions">
+        <div id="scrape-badge-wrap"></div>
+        <button class="pdf-btn" onclick="downloadPDF()" id="pdf-btn" style="display:none">
+          ⬇ Download PDF Report
+        </button>
+      </div>
     </div>
 
-    <!-- Score + Screenshot -->
     <div class="top-row">
+      <!-- Score -->
       <div class="score-card">
         <div class="score-card-label">Conversion Health Score</div>
         <div class="score-ring">
@@ -1155,6 +1154,7 @@
         <div class="score-expl" id="score-expl"></div>
       </div>
 
+      <!-- Screenshot -->
       <div class="screenshot-card">
         <div class="browser-bar">
           <div class="browser-dots">
@@ -1165,11 +1165,11 @@
           <div class="browser-addr" id="browser-addr">Loading...</div>
         </div>
         <div class="screenshot-area">
-          <div class="screenshot-placeholder" id="ss-placeholder">
-            <div class="screenshot-placeholder-icon">📸</div>
-            <span>Loading store screenshot...</span>
+          <div class="ss-loading" id="ss-loading">
+            <div class="ss-spinner"></div>
+            <span>Loading screenshot...</span>
           </div>
-          <img class="screenshot-img" id="ss-img" alt="Store screenshot" />
+          <img class="screenshot-img" id="ss-img" alt="Store screenshot" style="display:none" />
         </div>
       </div>
     </div>
@@ -1179,7 +1179,6 @@
       <h2>Issues Found</h2>
       <div class="section-meta" id="issues-meta"></div>
     </div>
-
     <div id="issues-list"></div>
 
     <div class="locked-card" id="locked-card">
@@ -1191,11 +1190,10 @@
     </div>
 
     <!-- Quick Wins -->
-    <div class="section-head" style="margin-top:28px">
+    <div class="section-head">
       <h2>⚡ Quick Wins</h2>
-      <div class="section-meta">Things you can fix today in under 30 mins</div>
+      <div class="section-meta">Fix these today in under 30 minutes</div>
     </div>
-
     <div class="quick-wins-card" id="quick-wins-card">
       <div id="quick-wins-list"></div>
     </div>
@@ -1207,15 +1205,13 @@
         <div class="upsell-headline">
           Your store has <span id="upsell-num">9</span> more issues<br>we haven't shown you yet
         </div>
-        <div class="upsell-body">
-          Fix them before your next visitor leaves. Full Audit reveals every issue, tracks your score over time, and sends you one personalised AI fix every single week.
-        </div>
+        <div class="upsell-body">Fix them before your next visitor leaves. Full Audit reveals every issue, tracks your score over time, and sends you one personalised AI fix every single week.</div>
         <div class="upsell-pills">
           <div class="upsell-pill">All issues unlocked</div>
           <div class="upsell-pill">Score tracking over time</div>
           <div class="upsell-pill">Weekly AI coaching task</div>
           <div class="upsell-pill">Unlimited rescans</div>
-          <div class="upsell-pill">Shopify-specific fixes only</div>
+          <div class="upsell-pill">Shopify-specific fixes</div>
         </div>
       </div>
       <div class="upsell-right">
@@ -1228,53 +1224,34 @@
 
   </div>
 
-  <!-- Email Capture Modal -->
+  <!-- ── EMAIL MODAL ── -->
   <div class="modal-overlay" id="upgrade-modal">
     <div class="modal">
       <button class="modal-close" onclick="closeUpgradeModal()">✕</button>
-
       <div id="modal-form-content">
         <div class="modal-badge">🚀 Coming Soon</div>
         <h2>Unlock the <span>Full Audit</span></h2>
-        <p class="modal-body">Full paid plans are launching soon. Drop your email and you'll be first to know — plus get an exclusive early access discount.</p>
-
+        <p class="modal-body">Full paid plans are launching soon. Drop your email and be first to know — plus get an exclusive early access discount.</p>
         <div class="modal-features">
-          <div class="modal-feature">
-            <div class="modal-feature-check">✓</div>
-            All 14 issues unlocked — nothing hidden
-          </div>
-          <div class="modal-feature">
-            <div class="modal-feature-check">✓</div>
-            Score tracking — watch your store improve
-          </div>
-          <div class="modal-feature">
-            <div class="modal-feature-check">✓</div>
-            Weekly AI coaching task sent every Monday
-          </div>
-          <div class="modal-feature">
-            <div class="modal-feature-check">✓</div>
-            Unlimited rescans at any time
-          </div>
-          <div class="modal-feature">
-            <div class="modal-feature-check">✓</div>
-            Competitor benchmarking (yearly plan)
-          </div>
+          <div class="modal-feature"><div class="modal-feature-check">✓</div>All 14 issues unlocked — nothing hidden</div>
+          <div class="modal-feature"><div class="modal-feature-check">✓</div>Score tracking — watch your store improve</div>
+          <div class="modal-feature"><div class="modal-feature-check">✓</div>Weekly AI coaching task every Monday</div>
+          <div class="modal-feature"><div class="modal-feature-check">✓</div>Unlimited rescans at any time</div>
+          <div class="modal-feature"><div class="modal-feature-check">✓</div>Competitor benchmarking (yearly plan)</div>
         </div>
-
         <input type="email" class="modal-email-input" id="modal-email" placeholder="your@email.com" />
         <button class="modal-submit-btn" onclick="submitEmail()">Notify Me When It Launches</button>
         <p class="modal-note">No spam. One email when we launch. That's it.</p>
       </div>
-
       <div class="modal-success" id="modal-success">
         <div class="modal-success-icon">🎉</div>
         <h3>You're on the list!</h3>
-        <p>We'll email you the moment Full Audit launches — with an exclusive early access discount just for you.</p>
+        <p>We'll email you the moment Full Audit launches — with an exclusive early access discount.</p>
       </div>
     </div>
   </div>
 
-  <!-- Admin bypass modal -->
+  <!-- ── ADMIN MODAL ── -->
   <div class="admin-modal-overlay" id="admin-modal">
     <div class="admin-modal">
       <h3>🔐 Admin Access</h3>
@@ -1290,16 +1267,64 @@
     // ── State ──
     let hasScanned = false;
     let isAdmin = false;
+    let auditDataGlobal = null;
+    let auditUrlGlobal = '';
     let loadingInterval;
     let stepIdx = 0;
 
-    // ── Check for admin param on load ──
+    // ── Mobile nav ──
+    function toggleMobileNav() {
+      const nav = document.getElementById('mobile-nav');
+      const btn = document.getElementById('hamburger');
+      nav.classList.toggle('open');
+      btn.classList.toggle('open');
+    }
+
+    function closeMobileNav() {
+      document.getElementById('mobile-nav').classList.remove('open');
+      document.getElementById('hamburger').classList.remove('open');
+    }
+
+    // Close mobile nav on outside click
+    document.addEventListener('click', (e) => {
+      const nav = document.getElementById('mobile-nav');
+      const btn = document.getElementById('hamburger');
+      if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) {
+        closeMobileNav();
+      }
+    });
+
+    // ── URL validation ──
+    function validateUrl(input) {
+      const trimmed = input.trim();
+      if (!trimmed) return { valid: false, message: 'Please enter a store URL.' };
+
+      // Must not contain spaces, commas or obviously invalid chars
+      if (/[\s,<>"'{}|\\^`\[\]]/.test(trimmed)) {
+        return { valid: false, message: 'That doesn\'t look like a valid URL — please check for typos (e.g. commas instead of dots).' };
+      }
+
+      // Strip protocol for checking
+      const stripped = trimmed.replace(/^https?:\/\//i, '').replace(/^www\./i, '');
+
+      // Must have at least one dot and a valid TLD
+      if (!/^[a-zA-Z0-9][a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+\.[a-zA-Z]{2,}/.test(stripped)) {
+        return { valid: false, message: 'Please enter a valid website address, e.g. yourstore.com' };
+      }
+
+      // Block obvious non-URLs
+      if (stripped.length < 4) {
+        return { valid: false, message: 'Please enter a complete website address.' };
+      }
+
+      return { valid: true };
+    }
+
+    // ── Admin ──
     window.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       const key = params.get('admin');
-      if (key) {
-        verifyKeyWithServer(key);
-      }
+      if (key) verifyKeyWithServer(key);
     });
 
     async function verifyKeyWithServer(key) {
@@ -1310,28 +1335,25 @@
           body: JSON.stringify({ key })
         });
         const data = await res.json();
-        if (data.isAdmin) {
-          isAdmin = true;
-          showAdminMode();
-        }
+        if (data.isAdmin) { isAdmin = true; showAdminMode(); }
       } catch (e) {}
     }
 
     function showAdminMode() {
       const btn = document.getElementById('analyze-btn');
       btn.textContent = 'Audit My Store ★';
-      btn.style.background = '#1a1a2e';
-      btn.style.border = '2px solid #e8420a';
+      btn.style.background = '#0f0f1e';
+      btn.style.border = '2px solid #87C6E4';
     }
 
-    // ── Admin modal (accessible via double-clicking logo) ──
     let logoClickCount = 0;
-    document.querySelector('.nav-logo-text').addEventListener('click', () => {
+    document.querySelector('.nav-logo').addEventListener('click', (e) => {
       logoClickCount++;
       if (logoClickCount >= 3) {
+        e.preventDefault();
         logoClickCount = 0;
         document.getElementById('admin-modal').classList.add('open');
-        document.getElementById('admin-key-input').focus();
+        setTimeout(() => document.getElementById('admin-key-input').focus(), 100);
       }
     });
 
@@ -1350,10 +1372,10 @@
           isAdmin = true;
           closeAdminModal();
           showAdminMode();
-          // Reset scan lock if already scanned
           hasScanned = false;
           const btn = document.getElementById('analyze-btn');
           btn.disabled = false;
+          btn.onclick = runAudit;
         } else {
           err.style.display = 'block';
         }
@@ -1369,9 +1391,16 @@
       document.getElementById('admin-error').style.display = 'none';
     }
 
+    document.getElementById('admin-key-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') verifyAdminKey();
+      if (e.key === 'Escape') closeAdminModal();
+    });
+
     // ── Upgrade modal ──
     function openUpgradeModal(e) {
       if (e) e.preventDefault();
+      document.getElementById('modal-form-content').style.display = 'block';
+      document.getElementById('modal-success').style.display = 'none';
       document.getElementById('upgrade-modal').classList.add('open');
     }
 
@@ -1385,10 +1414,13 @@
 
     function submitEmail() {
       const email = document.getElementById('modal-email').value.trim();
-      if (!email || !email.includes('@')) {
-        document.getElementById('modal-email').style.borderColor = 'red';
+      const input = document.getElementById('modal-email');
+      if (!email || !email.includes('@') || !email.includes('.')) {
+        input.style.borderColor = 'red';
+        input.focus();
         return;
       }
+      input.style.borderColor = '';
       document.getElementById('modal-form-content').style.display = 'none';
       document.getElementById('modal-success').style.display = 'block';
     }
@@ -1399,7 +1431,6 @@
       stepIdx = 0;
       steps.forEach(s => document.getElementById(s).className = 'loading-step');
       document.getElementById('loading-url').textContent = url;
-
       loadingInterval = setInterval(() => {
         if (stepIdx > 0 && stepIdx <= steps.length) {
           document.getElementById(steps[stepIdx - 1]).className = 'loading-step done';
@@ -1424,15 +1455,11 @@
       const fill = document.getElementById('ring-fill');
       const numEl = document.getElementById('score-num');
       const colour = scoreColour(score);
-      const circumference = 326;
-
       fill.style.stroke = colour;
       numEl.style.color = colour;
-
       setTimeout(() => {
-        fill.style.strokeDashoffset = circumference - (score / 100) * circumference;
+        fill.style.strokeDashoffset = 326 - (score / 100) * 326;
       }, 200);
-
       let cur = 0;
       const step = score / 60;
       const t = setInterval(() => {
@@ -1444,19 +1471,18 @@
 
     // ── Render issues ──
     function sevClass(s) {
-      s = s.toLowerCase();
+      s = (s || '').toLowerCase();
       return s === 'critical' ? 'critical' : s === 'major' ? 'major' : 'minor';
     }
 
     function sevBadge(s) {
-      s = s.toLowerCase();
+      s = (s || '').toLowerCase();
       return s === 'critical' ? 'sev-critical' : s === 'major' ? 'sev-major' : 'sev-minor';
     }
 
     function renderIssues(issues) {
       const container = document.getElementById('issues-list');
       container.innerHTML = '';
-
       const visible = issues.slice(0, 5);
       const hidden = issues.slice(5);
 
@@ -1482,14 +1508,12 @@
               <div class="issue-field-label">🔧 How to Fix It</div>
               <div class="issue-field-text">${issue.fix}</div>
             </div>
-          </div>
-        `;
+          </div>`;
         container.appendChild(d);
       });
 
       if (hidden.length > 0) {
-        const lc = document.getElementById('locked-card');
-        lc.style.display = 'flex';
+        document.getElementById('locked-card').style.display = 'flex';
         document.getElementById('locked-label').textContent = `${hidden.length} more issues hidden — upgrade to see all`;
         document.getElementById('upsell-banner').style.display = 'flex';
         document.getElementById('upsell-num').textContent = hidden.length;
@@ -1505,25 +1529,192 @@
         <div class="qw-item">
           <div class="qw-num">${i + 1}</div>
           <span>${w}</span>
-        </div>
-      `).join('');
+        </div>`).join('');
     }
 
+    // ── Screenshot — loads immediately via proxy ──
     function loadScreenshot(url, ssUrl) {
       document.getElementById('browser-addr').textContent = url;
       const img = document.getElementById('ss-img');
-      const ph = document.getElementById('ss-placeholder');
-      img.onload = () => { ph.style.display = 'none'; img.style.display = 'block'; };
-      img.onerror = () => { ph.innerHTML = '<div style="font-size:28px">🏪</div><span>Screenshot unavailable</span>'; };
+      const loading = document.getElementById('ss-loading');
+
+      // Show image immediately, hide spinner once loaded
+      img.style.display = 'block';
+      img.onload = () => { loading.style.display = 'none'; };
+      img.onerror = () => {
+        loading.innerHTML = '<span style="font-size:28px">🏪</span><span>Screenshot unavailable</span>';
+        img.style.display = 'none';
+      };
       img.src = ssUrl;
     }
 
-    // ── Main audit function ──
+    // ── PDF Download ──
+    function downloadPDF() {
+      if (!auditDataGlobal) return;
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ orientation: 'p', unit: 'mm', format: 'a4' });
+      const pageW = doc.internal.pageSize.getWidth();
+      const margin = 18;
+      const contentW = pageW - margin * 2;
+      let y = 20;
+
+      function checkPage(needed) {
+        if (y + needed > 275) {
+          doc.addPage();
+          y = 20;
+        }
+      }
+
+      function addText(text, x, fontSize, style, colour) {
+        doc.setFontSize(fontSize);
+        doc.setFont('helvetica', style || 'normal');
+        doc.setTextColor(...(colour || [30, 30, 30]));
+        const lines = doc.splitTextToSize(text, contentW - (x - margin));
+        doc.text(lines, x, y);
+        y += lines.length * (fontSize * 0.45) + 2;
+      }
+
+      // Header background
+      doc.setFillColor(29, 36, 99);
+      doc.rect(0, 0, pageW, 36, 'F');
+
+      // Logo text (fallback since we can't embed external image in jsPDF easily)
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.setTextColor(255, 255, 255);
+      doc.text('FIXALYZE', margin, 16);
+
+      doc.setFontSize(9);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(200, 220, 240);
+      doc.text('AI-Powered Shopify UX & Conversion Audit', margin, 23);
+
+      doc.setFontSize(8);
+      doc.setTextColor(150, 180, 210);
+      doc.text(`Generated: ${new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`, margin, 30);
+
+      y = 46;
+
+      // URL
+      doc.setFontSize(11);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(100, 100, 120);
+      doc.text('Store Audited:', margin, y);
+      doc.setTextColor(29, 36, 99);
+      doc.text(auditUrlGlobal, margin + 36, y);
+      y += 10;
+
+      // Score
+      doc.setFillColor(240, 245, 255);
+      doc.roundedRect(margin, y, contentW, 22, 3, 3, 'F');
+
+      const scoreColourRgb = auditDataGlobal.score >= 70 ? [5, 150, 105] : auditDataGlobal.score >= 45 ? [217, 119, 6] : [220, 38, 38];
+      doc.setFontSize(22);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(...scoreColourRgb);
+      doc.text(`${auditDataGlobal.score}/100`, margin + 6, y + 14);
+
+      doc.setFontSize(10);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(80, 80, 100);
+      const explLines = doc.splitTextToSize(auditDataGlobal.scoreExplanation, contentW - 50);
+      doc.text(explLines, margin + 48, y + 7);
+      y += 30;
+
+      // Issues
+      doc.setFontSize(13);
+      doc.setFont('helvetica', 'bold');
+      doc.setTextColor(29, 36, 99);
+      doc.text('Issues Found (Free Spot Check — Top 5)', margin, y);
+      y += 8;
+
+      const visible = auditDataGlobal.issues.slice(0, 5);
+      visible.forEach((issue, i) => {
+        checkPage(40);
+
+        const sevColours = {
+          critical: [220, 38, 38],
+          major: [217, 119, 6],
+          minor: [5, 150, 105]
+        };
+        const sc = sevColours[(issue.severity || '').toLowerCase()] || [100, 100, 100];
+
+        doc.setFillColor(...sc);
+        doc.roundedRect(margin, y, 22, 6, 1, 1, 'F');
+        doc.setFontSize(7);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(255, 255, 255);
+        doc.text((issue.severity || '').toUpperCase(), margin + 2, y + 4.2);
+
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(30, 30, 50);
+        doc.text(`#${i + 1} ${issue.title}`, margin + 26, y + 4.5);
+        y += 9;
+
+        doc.setFontSize(9);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(100, 100, 130);
+        doc.text('Problem:', margin, y);
+        y += 4;
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 50, 70);
+        const pLines = doc.splitTextToSize(issue.problem, contentW);
+        doc.text(pLines, margin, y);
+        y += pLines.length * 4 + 2;
+
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(100, 100, 130);
+        doc.text('How to Fix:', margin, y);
+        y += 4;
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(50, 50, 70);
+        const fLines = doc.splitTextToSize(issue.fix, contentW);
+        doc.text(fLines, margin, y);
+        y += fLines.length * 4 + 6;
+
+        // Divider
+        doc.setDrawColor(220, 220, 230);
+        doc.line(margin, y, margin + contentW, y);
+        y += 5;
+      });
+
+      // Quick wins
+      if (auditDataGlobal.quickWins && auditDataGlobal.quickWins.length) {
+        checkPage(20);
+        doc.setFontSize(13);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(29, 36, 99);
+        doc.text('Quick Wins', margin, y);
+        y += 7;
+        auditDataGlobal.quickWins.forEach((w, i) => {
+          checkPage(12);
+          doc.setFontSize(9);
+          doc.setFont('helvetica', 'normal');
+          doc.setTextColor(50, 50, 70);
+          const wLines = doc.splitTextToSize(`${i + 1}. ${w}`, contentW);
+          doc.text(wLines, margin, y);
+          y += wLines.length * 4 + 3;
+        });
+      }
+
+      // Footer
+      checkPage(16);
+      y += 4;
+      doc.setFillColor(29, 36, 99);
+      doc.rect(0, y, pageW, 14, 'F');
+      doc.setFontSize(8);
+      doc.setFont('helvetica', 'normal');
+      doc.setTextColor(200, 210, 240);
+      doc.text('Upgrade to Full Audit at app.fixalyze.com — Unlock all issues, score tracking & weekly AI coaching', margin, y + 8);
+
+      const filename = `fixalyze-audit-${auditUrlGlobal.replace(/https?:\/\//,'').replace(/[^a-z0-9]/gi,'-')}.pdf`;
+      doc.save(filename);
+    }
+
+    // ── Main audit ──
     async function runAudit() {
       if (hasScanned && !isAdmin) {
-        const err = document.getElementById('error-msg');
-        err.textContent = 'You\'ve used your free scan. Upgrade to Full Audit for unlimited rescans.';
-        err.style.display = 'block';
         openUpgradeModal(null);
         return;
       }
@@ -1531,12 +1722,18 @@
       const urlVal = document.getElementById('shopify-url').value.trim();
       const btn = document.getElementById('analyze-btn');
       const err = document.getElementById('error-msg');
+      const input = document.getElementById('shopify-url');
 
       err.style.display = 'none';
+      input.classList.remove('invalid');
 
-      if (!urlVal) {
-        err.textContent = 'Please enter a store URL first.';
+      // Validate URL
+      const validation = validateUrl(urlVal);
+      if (!validation.valid) {
+        err.textContent = validation.message;
         err.style.display = 'block';
+        input.classList.add('invalid');
+        input.focus();
         return;
       }
 
@@ -1565,18 +1762,23 @@
         }
 
         const audit = data.audit;
+        auditDataGlobal = audit;
+        auditUrlGlobal = data.scrapedUrl;
 
         // Show results
         document.getElementById('results-wrap').style.display = 'block';
         document.getElementById('results-url-label').textContent = data.scrapedUrl;
 
         // Scrape badge
-        const badge = document.getElementById('scrape-badge');
+        const badgeWrap = document.getElementById('scrape-badge-wrap');
         if (data.scrapeSuccess) {
-          badge.innerHTML = '<span class="scrape-badge live"><span class="scrape-badge-dot"></span>Live data scraped from your store</span>';
+          badgeWrap.innerHTML = '<span class="scrape-badge live"><span class="scrape-badge-dot"></span>Live data scraped</span>';
         } else {
-          badge.innerHTML = '<span class="scrape-badge estimated"><span class="scrape-badge-dot"></span>Estimated — site could not be accessed directly</span>';
+          badgeWrap.innerHTML = '<span class="scrape-badge estimated"><span class="scrape-badge-dot"></span>Estimated — site could not be accessed directly</span>';
         }
+
+        // Show PDF button
+        document.getElementById('pdf-btn').style.display = 'inline-flex';
 
         // Score
         animateScore(audit.score);
@@ -1588,9 +1790,11 @@
         // Render
         renderIssues(audit.issues);
         renderQuickWins(audit.quickWins);
+
+        // Screenshot — start loading immediately
         loadScreenshot(data.scrapedUrl, data.screenshotUrl);
 
-        // Lock rescan (unless admin)
+        // Lock rescan
         if (!isAdmin) {
           hasScanned = true;
           btn.textContent = '🔒 Rescan Locked — Upgrade';
@@ -1615,8 +1819,10 @@
       if (e.key === 'Enter') runAudit();
     });
 
-    document.getElementById('admin-key-input').addEventListener('keydown', e => {
-      if (e.key === 'Enter') verifyAdminKey();
+    // Clear invalid state on input
+    document.getElementById('shopify-url').addEventListener('input', () => {
+      document.getElementById('shopify-url').classList.remove('invalid');
+      document.getElementById('error-msg').style.display = 'none';
     });
   </script>
 
