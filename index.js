@@ -1,4 +1,3 @@
-
 const express = require('express');
 const path = require('path');
 
@@ -60,7 +59,7 @@ This signup came from the "Notify Me When It Launches" form on app.fixalyze.com
       // Using Gmail SMTP via nodemailer if available
       // npm install nodemailer — add to package.json
       const nodemailer = require('nodemailer');
-      const transporter = nodemailer.createTransporter({
+      const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: { user: smtpUser, pass: smtpPass }
       });
