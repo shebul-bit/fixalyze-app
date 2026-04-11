@@ -1,3 +1,4 @@
+
 const express = require('express');
 const path = require('path');
 
@@ -84,6 +85,9 @@ async function scrapePage(url) {
     const isShopify = /shopify/i.test(html);
     const hasProductImages = /<img[^>]+product/i.test(html);
     const hasAddToCart = /add.to.cart|add_to_cart/i.test(html);
+    const hasMobileViewport = /viewport/i.test(html);
+    const hasMobileMenu = /mobile.menu|hamburger|nav-mobile|menu-toggle/i.test(html);
+    const hasTapTargets = /btn|button|cta/i.test(html);
 
     const excerpt = cleaned.substring(0, 3000);
 
@@ -97,7 +101,8 @@ async function scrapePage(url) {
         hasCart, hasCheckout, hasPrice, hasReviews, hasShipping,
         hasReturns, hasSearch, hasNewsletter, hasSocialProof,
         hasTrustBadges, hasVideo, hasChatWidget, isShopify,
-        hasProductImages, hasAddToCart
+        hasProductImages, hasAddToCart, hasMobileViewport,
+        hasMobileMenu, hasTapTargets
       },
       excerpt,
       url
@@ -147,6 +152,9 @@ REAL PAGE DATA scraped from ${normalisedUrl}:
 - Has Add to Cart: ${s.hasAddToCart ? 'YES' : 'NOT DETECTED'}
 - Has live chat: ${s.hasChatWidget ? 'YES' : 'NOT DETECTED'}
 - Has video content: ${s.hasVideo ? 'YES' : 'NOT DETECTED'}
+- Has mobile viewport meta tag: ${s.hasMobileViewport ? 'YES' : 'MISSING - potential mobile issue'}
+- Has mobile navigation detected: ${s.hasMobileMenu ? 'YES' : 'NOT DETECTED'}
+- Has CTA buttons detected: ${s.hasTapTargets ? 'YES' : 'NOT DETECTED'}
 Page content excerpt: ${scraped.excerpt}
 `;
   } else {
@@ -161,12 +169,26 @@ Based on the REAL DATA above, produce a thorough UX and CRO audit of ${normalise
 
 You MUST respond ONLY with a valid JSON object. No markdown, no explanation, no text before or after. Just the raw JSON.
 
-The JSON must follow this exact structure:
+The JSON must follow this EXACT structure — do not rename or remove any fields:
 
 {
   "score": <number 0-100>,
   "scoreExplanation": "<2-3 sentences explaining the score based on real findings>",
   "totalIssuesFound": 14,
+  "mobileIssue1": {
+    "severity": "Critical",
+    "title": "<mobile-specific issue title — must start with [Mobile]>",
+    "problem": "<specific mobile UX problem — e.g. no sticky add-to-cart on mobile, tap targets too small, mobile nav friction, font too small on mobile, checkout friction on mobile, images not optimised for mobile>",
+    "impact": "<revenue impact — note 70%+ of Shopify traffic is mobile so this affects most visitors>",
+    "fix": "<exact fix in Shopify theme editor without a developer>"
+  },
+  "mobileIssue2": {
+    "severity": "Major",
+    "title": "<second mobile issue title — must start with [Mobile] and be different from mobileIssue1>",
+    "problem": "<second distinct mobile UX problem>",
+    "impact": "<revenue impact in plain English>",
+    "fix": "<exact fix in Shopify theme editor without a developer>"
+  },
   "issues": [
     {
       "severity": "Critical",
@@ -189,8 +211,9 @@ The JSON must follow this exact structure:
 }
 
 Rules:
-- The issues array must contain EXACTLY 14 issues
-- Mix of severities: at least 3 Critical, at least 4 Major, rest Minor
+- mobileIssue1 and mobileIssue2 are REQUIRED — never omit them
+- The issues array must contain EXACTLY 12 issues (12 + 2 mobile = 14 total)
+- Mix of severities in issues: at least 2 Critical, at least 4 Major, rest Minor
 - Sort issues: Critical first, then Major, then Minor
 - Base every issue on the REAL DATA provided
 - Write in plain English, no jargon
