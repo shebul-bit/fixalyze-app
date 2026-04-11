@@ -690,6 +690,18 @@
 
     .issue-num { font-size: 11px; color: var(--muted); font-weight: 600; }
 
+    .mobile-badge {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      padding: 3px 9px;
+      border-radius: 100px;
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+
+    .issue-card.mobile-issue { border-left-color: #0369a1; }
+
     .issue-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
     @media (max-width: 600px) { .issue-grid { grid-template-columns: 1fr; } }
 
@@ -1480,41 +1492,59 @@
       return s === 'critical' ? 'sev-critical' : s === 'major' ? 'sev-major' : 'sev-minor';
     }
 
-    function renderIssues(issues) {
+    function buildIssueCard(issue, number, isMobile) {
+      const d = document.createElement('div');
+      d.className = 'issue-card ' + sevClass(issue.severity) + (isMobile ? ' mobile-issue' : '');
+      const mobileBadge = isMobile ? '<span class="mobile-badge">📱 Mobile</span>' : '';
+      const cleanTitle = issue.title.replace(/^\[Mobile\]\s*/i, '');
+      d.innerHTML =
+        '<div class="issue-top">' +
+          '<span class="sev-badge ' + sevBadge(issue.severity) + '">' + issue.severity + '</span>' +
+          mobileBadge +
+          '<span class="issue-title">' + cleanTitle + '</span>' +
+          '<span class="issue-num">#' + number + '</span>' +
+        '</div>' +
+        '<div class="issue-grid">' +
+          '<div>' +
+            '<div class="issue-field-label">The Problem</div>' +
+            '<div class="issue-field-text">' + issue.problem + '</div>' +
+          '</div>' +
+          '<div>' +
+            '<div class="issue-field-label">Revenue Impact</div>' +
+            '<div class="issue-field-text">' + issue.impact + '</div>' +
+          '</div>' +
+          '<div class="issue-fix-box">' +
+            '<div class="issue-field-label">🔧 How to Fix It</div>' +
+            '<div class="issue-field-text">' + issue.fix + '</div>' +
+          '</div>' +
+        '</div>';
+      return d;
+    }
+
+    function renderIssues(audit) {
       const container = document.getElementById('issues-list');
       container.innerHTML = '';
-      const visible = issues.slice(0, 5);
-      const hidden = issues.slice(5);
 
-      visible.forEach((issue, i) => {
-        const d = document.createElement('div');
-        d.className = `issue-card ${sevClass(issue.severity)}`;
-        d.innerHTML = `
-          <div class="issue-top">
-            <span class="sev-badge ${sevBadge(issue.severity)}">${issue.severity}</span>
-            <span class="issue-title">${issue.title}</span>
-            <span class="issue-num">#${i + 1}</span>
-          </div>
-          <div class="issue-grid">
-            <div>
-              <div class="issue-field-label">The Problem</div>
-              <div class="issue-field-text">${issue.problem}</div>
-            </div>
-            <div>
-              <div class="issue-field-label">Revenue Impact</div>
-              <div class="issue-field-text">${issue.impact}</div>
-            </div>
-            <div class="issue-fix-box">
-              <div class="issue-field-label">🔧 How to Fix It</div>
-              <div class="issue-field-text">${issue.fix}</div>
-            </div>
-          </div>`;
-        container.appendChild(d);
+      const allIssues = [];
+      if (audit.mobileIssue1) allIssues.push(Object.assign({}, audit.mobileIssue1, { isMobile: true }));
+      if (audit.mobileIssue2) allIssues.push(Object.assign({}, audit.mobileIssue2, { isMobile: true }));
+      if (audit.issues) audit.issues.forEach(function(i) { allIssues.push(Object.assign({}, i, { isMobile: false })); });
+
+      var sevOrder = { critical: 0, major: 1, minor: 2 };
+      allIssues.sort(function(a, b) {
+        return (sevOrder[(a.severity||'').toLowerCase()] || 2) - (sevOrder[(b.severity||'').toLowerCase()] || 2);
+      });
+
+      var visible = allIssues.slice(0, 5);
+      var hidden = allIssues.slice(5);
+
+      visible.forEach(function(issue, i) {
+        container.appendChild(buildIssueCard(issue, i + 1, issue.isMobile));
       });
 
       if (hidden.length > 0) {
         document.getElementById('locked-card').style.display = 'flex';
-        document.getElementById('locked-label').textContent = `${hidden.length} more issues hidden — upgrade to see all`;
+        document.getElementById('locked-label').textContent = hidden.length + ' more issues hidden — upgrade to see all';
         document.getElementById('upsell-banner').style.display = 'flex';
         document.getElementById('upsell-num').textContent = hidden.length;
       }
@@ -1788,7 +1818,7 @@
         document.getElementById('issues-meta').textContent = `${audit.totalIssuesFound} issues found — showing 5 free`;
 
         // Render
-        renderIssues(audit.issues);
+        renderIssues(audit);
         renderQuickWins(audit.quickWins);
 
         // Screenshot — start loading immediately
