@@ -13,12 +13,73 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// Secure admin check endpoint - key stored server-side only
+// Secure admin check endpoint
 app.post('/check-admin', (req, res) => {
   const { key } = req.body;
   const adminKey = process.env.ADMIN_KEY;
   if (!adminKey) return res.json({ isAdmin: false });
   res.json({ isAdmin: key === adminKey });
+});
+
+// Waitlist signup endpoint — sends email via Gmail SMTP or logs to console
+app.post('/waitlist', async (req, res) => {
+  const { name, email, storeName } = req.body;
+
+  if (!name || !email || !storeName) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ error: 'Invalid email address' });
+  }
+
+  // Format the notification email body
+  const emailBody = `
+NEW FIXALYZE WAITLIST SIGNUP
+=============================
+
+Name:         ${name}
+Email:        ${email}
+Shopify Store: ${storeName}
+Signed up:    ${new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })}
+
+---
+This signup came from the "Notify Me When It Launches" form on app.fixalyze.com
+`;
+
+  // Log to Render logs (always works, free)
+  console.log('WAITLIST SIGNUP:', { name, email, storeName, timestamp: new Date().toISOString() });
+
+  // If SMTP env vars are set, send actual email
+  const smtpUser = process.env.SMTP_USER;
+  const smtpPass = process.env.SMTP_PASS;
+
+  if (smtpUser && smtpPass) {
+    try {
+      // Using Gmail SMTP via nodemailer if available
+      // npm install nodemailer — add to package.json
+      const nodemailer = require('nodemailer');
+      const transporter = nodemailer.createTransporter({
+        service: 'gmail',
+        auth: { user: smtpUser, pass: smtpPass }
+      });
+
+      await transporter.sendMail({
+        from: smtpUser,
+        to: 'contact@fixalyze.com',
+        subject: `🛍️ New Waitlist Signup: ${name} — ${storeName}`,
+        text: emailBody
+      });
+
+      console.log('Waitlist email sent to contact@fixalyze.com');
+    } catch (emailErr) {
+      console.error('Email send failed:', emailErr.message);
+      // Still return success — we logged it above
+    }
+  }
+
+  res.json({ success: true });
 });
 
 // Helper: normalise URL
@@ -177,14 +238,14 @@ The JSON must follow this EXACT structure — do not rename or remove any fields
   "totalIssuesFound": 14,
   "mobileIssue1": {
     "severity": "Critical",
-    "title": "<mobile-specific issue title — must start with [Mobile]>",
+    "title": "<mobile-specific issue title>",
     "problem": "<specific mobile UX problem — e.g. no sticky add-to-cart on mobile, tap targets too small, mobile nav friction, font too small on mobile, checkout friction on mobile, images not optimised for mobile>",
-    "impact": "<revenue impact — note 70%+ of Shopify traffic is mobile so this affects most visitors>",
+    "impact": "<revenue impact — note 70%+ of Shopify traffic is mobile so this directly affects most visitors>",
     "fix": "<exact fix in Shopify theme editor without a developer>"
   },
   "mobileIssue2": {
     "severity": "Major",
-    "title": "<second mobile issue title — must start with [Mobile] and be different from mobileIssue1>",
+    "title": "<second mobile issue title — must be different from mobileIssue1>",
     "problem": "<second distinct mobile UX problem>",
     "impact": "<revenue impact in plain English>",
     "fix": "<exact fix in Shopify theme editor without a developer>"
@@ -211,8 +272,8 @@ The JSON must follow this EXACT structure — do not rename or remove any fields
 }
 
 Rules:
-- mobileIssue1 and mobileIssue2 are REQUIRED — never omit them
-- The issues array must contain EXACTLY 12 issues (12 + 2 mobile = 14 total)
+- mobileIssue1 and mobileIssue2 are REQUIRED — never omit them — they are always shown to the user
+- The issues array must contain EXACTLY 12 issues (2 mobile + 12 desktop = 14 total)
 - Mix of severities in issues: at least 2 Critical, at least 4 Major, rest Minor
 - Sort issues: Critical first, then Major, then Minor
 - Base every issue on the REAL DATA provided
