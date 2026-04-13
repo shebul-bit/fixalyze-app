@@ -2,9 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="cf-2fa-verify" content="disable">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fixalyze — Free Shopify CRO Audit Tool</title>
+
+  <!-- Primary SEO -->
+  <title>Free Shopify CRO Audit Tool — Find Why Your Store Loses Sales | Fixalyze</title>
+  <meta name="description" content="Get a free AI-powered Shopify UX and conversion audit in 30 seconds. See your conversion health score, critical issues, and exact fixes — no account needed. Trusted by Shopify store owners to increase sales.">
+  <meta name="keywords" content="free Shopify CRO audit, Shopify conversion rate optimisation, Shopify UX audit, increase Shopify sales, Shopify store audit free, Shopify conversion optimisation tool, ecommerce CRO audit, Shopify store review">
+  <meta name="robots" content="index, follow">
+  <meta name="author" content="Fixalyze">
+  <link rel="canonical" href="https://app.fixalyze.com/">
+
+  <!-- Open Graph (for sharing on Facebook, LinkedIn etc) -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://app.fixalyze.com/">
+  <meta property="og:title" content="Free Shopify CRO Audit — Find Why Your Store Loses Sales">
+  <meta property="og:description" content="AI audits your Shopify store in 30 seconds. Get your conversion health score, critical UX issues, and exact fixes. Free. No account needed.">
+  <meta property="og:image" content="https://www.fixalyze.com/wp-content/uploads/2025/06/fixalyze_logo_colorv02.png">
+  <meta property="og:site_name" content="Fixalyze">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Free Shopify CRO Audit — Find Why Your Store Loses Sales | Fixalyze">
+  <meta name="twitter:description" content="AI audits your Shopify store in 30 seconds. Get your conversion health score, critical UX issues, and exact fixes. Free. No account needed.">
+  <meta name="twitter:image" content="https://www.fixalyze.com/wp-content/uploads/2025/06/fixalyze_logo_colorv02.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="https://www.fixalyze.com/wp-content/uploads/2025/07/cropped-fixalyze_site_icon.png">
+  <link rel="apple-touch-icon" href="https://www.fixalyze.com/wp-content/uploads/2025/07/cropped-fixalyze_site_icon.png">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
@@ -471,9 +495,9 @@
     <div class="modal">
       <button class="modal-close" onclick="closeUpgradeModal()">✕</button>
       <div id="modal-form-content">
-        <div class="modal-badge">🚀 Launching Soon</div>
-        <h2>Be First to <span>Unlock Full Audit</span></h2>
-        <p class="modal-body">Full paid plans are coming very soon. Join the waitlist and get an exclusive early-bird discount when we launch — plus priority access before we open to everyone.</p>
+        <div class="modal-badge">🚀 Paid Plans Launching Very Soon</div>
+        <h2>Join the Waitlist — <span>Get Early Access</span></h2>
+        <p class="modal-body">Full paid plans are launching very soon. Join the waitlist now and you'll be the first to know — with an exclusive early-bird discount reserved just for you. You won't be able to pay yet, but you'll be first in line when we open.</p>
 
         <div class="form-group">
           <label class="form-label" for="field-name">Your Name *</label>
@@ -484,7 +508,7 @@
         <div class="form-group">
           <label class="form-label" for="field-email">Email Address *</label>
           <input type="email" class="form-input" id="field-email" placeholder="e.g. sarah@yourstore.com" />
-          <div class="field-error-msg" id="err-email">Please enter a valid email address (e.g. sarah@yourstore.com).</div>
+          <div class="field-error-msg" id="err-email">Please enter a valid email address (e.g. <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="fb889a899a93bb82948e89888f94899ed5989496">[email&#160;protected]</a>).</div>
         </div>
 
         <div class="form-group">
@@ -1147,7 +1171,18 @@
         document.getElementById('loading-card').style.display = 'none';
 
         if (data.error) {
-          err.textContent = 'Error: ' + data.error;
+          var rawError = data.error || '';
+          var friendlyError = 'Something went wrong with the audit. Please try again.';
+          if (rawError.includes('quota') || rawError.includes('429')) {
+            friendlyError = 'Our AI is very busy right now. Please wait a minute and try again.';
+          } else if (rawError.includes('invalid format') || rawError.includes('JSON')) {
+            friendlyError = 'The AI returned an unexpected response. Please try again — this usually fixes itself.';
+          } else if (rawError.includes('Could not scrape') || rawError.includes('ENOTFOUND') || rawError.includes('fetch')) {
+            friendlyError = 'We could not access that URL. Please check the address is correct and the site is publicly accessible.';
+          } else if (rawError.includes('API key')) {
+            friendlyError = 'There is a configuration issue on our end. Please try again in a few minutes.';
+          }
+          err.textContent = friendlyError;
           err.style.display = 'block';
           btn.disabled = false;
           return;
@@ -1179,7 +1214,7 @@
 
         if (!isAdmin) {
           hasScanned = true;
-          btn.textContent = '🔒 Rescan Locked — Upgrade';
+          btn.textContent = '🔒 Rescan Locked — Join Waitlist';
           btn.disabled = false;
           btn.onclick = function() { openUpgradeModal(null); };
         } else {
@@ -1191,13 +1226,13 @@
       } catch(e) {
         clearInterval(loadingInterval);
         document.getElementById('loading-card').style.display = 'none';
-        err.textContent = 'Something went wrong. Please try again.';
+        err.textContent = 'Could not connect to the audit service. Please check your internet connection and try again.';
         err.style.display = 'block';
         btn.disabled = false;
       }
     }
 
-    document.getElementById('shopify-url').addEventListener('keydown', function(e) { if (e.key === 'Enter') runAudit(); });
+    document.getElementById('shopify-url').addEventListener('keydown', function(e) { if (e.key === 'Enter') runAudit();
 
     document.getElementById('shopify-url').addEventListener('input', function() {
       this.classList.remove('invalid');
