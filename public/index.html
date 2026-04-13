@@ -6,6 +6,14 @@
 
   <!-- Primary SEO -->
   <title>Free Shopify CRO Audit Tool — Find Why Your Store Loses Sales | Fixalyze</title>
+  <!-- Google Analytics GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-K820RXHEX0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-K820RXHEX0');
+  </script>
   <meta name="description" content="Get a free AI-powered Shopify UX and conversion audit in 30 seconds. See your conversion health score, critical issues, and exact fixes — no account needed. Trusted by Shopify store owners to increase sales.">
   <meta name="keywords" content="free Shopify CRO audit, Shopify conversion rate optimisation, Shopify UX audit, increase Shopify sales, Shopify store audit free, Shopify conversion optimisation tool, ecommerce CRO audit, Shopify store review">
   <meta name="robots" content="index, follow">
@@ -353,7 +361,7 @@
         <li><a href="https://www.fixalyze.com/about">About</a></li>
         <li><a href="https://www.fixalyze.com/contact">Contact</a></li>
       </ul>
-      <button class="nav-upgrade-btn" onclick="openUpgradeModal(event)">Upgrade — £14.99/mo</button>
+      <button class="nav-upgrade-btn" onclick="track('upgrade_nav_click'); openUpgradeModal(event)">Upgrade — £14.99/mo</button>
       <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -367,7 +375,7 @@
       <li><a href="https://www.fixalyze.com/about" onclick="closeMobileNav()">About</a></li>
       <li><a href="https://www.fixalyze.com/contact" onclick="closeMobileNav()">Contact</a></li>
     </ul>
-    <button class="mobile-upgrade-btn" onclick="openUpgradeModal(event)">Upgrade — £14.99/mo</button>
+    <button class="mobile-upgrade-btn" onclick="track('upgrade_mobile_click'); openUpgradeModal(event)">Upgrade — £14.99/mo</button>
   </div>
 
   <!-- ── HERO ── -->
@@ -412,7 +420,7 @@
       <div class="results-title">Your Conversion Audit Report</div>
       <div class="results-actions">
         <div id="scrape-badge-wrap"></div>
-        <button class="pdf-btn" id="pdf-btn" onclick="downloadPDF()">⬇ Download PDF Report</button>
+        <button class="pdf-btn" id="pdf-btn" onclick="track('pdf_download_click'); downloadPDF()">⬇ Download PDF Report</button>
       </div>
     </div>
 
@@ -484,7 +492,7 @@
       <div class="upsell-right">
         <div class="upsell-price-amount">£14.99</div>
         <div class="upsell-price-period">per month — cancel anytime</div>
-        <a href="#" class="upsell-cta-btn" onclick="openUpgradeModal(event)">Unlock Full Audit Now</a>
+        <a href="#" class="upsell-cta-btn" onclick="track('upgrade_upsell_click'); openUpgradeModal(event)">Unlock Full Audit Now</a>
         <div class="upsell-small">No contracts · No setup fees</div>
       </div>
     </div>
@@ -508,7 +516,7 @@
         <div class="form-group">
           <label class="form-label" for="field-email">Email Address *</label>
           <input type="email" class="form-input" id="field-email" placeholder="e.g. sarah@yourstore.com" />
-          <div class="field-error-msg" id="err-email">Please enter a valid email address (e.g. sarah@yourstore.com).</div>
+          <div class="field-error-msg" id="err-email">Please enter a valid email address (e.g. <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="592a382b38311920362c2b2a2d362b3c773a3634">[email&#160;protected]</a>).</div>
         </div>
 
         <div class="form-group">
@@ -541,7 +549,15 @@
     </div>
   </div>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+
+    // ── GA4 Event Tracking ──
+    function track(eventName, params) {
+      if (typeof gtag !== 'undefined') {
+        gtag('event', eventName, params || {});
+      }
+    }
+
     var hasScanned = false;
     var isAdmin = false;
     var auditDataGlobal = null;
@@ -699,6 +715,7 @@
         document.getElementById('modal-submitting').style.display = 'none';
 
         if (data.success) {
+          track('waitlist_submitted', { store: store });
           document.getElementById('modal-form-content').style.display = 'none';
           document.getElementById('modal-success').style.display = 'block';
         } else {
@@ -1144,6 +1161,9 @@
       err.style.display = 'none';
       input.classList.remove('invalid');
 
+      // Track audit attempt
+      track('url_entered', { url: urlVal });
+
       var validation = validateUrl(urlVal);
       if (!validation.valid) {
         err.textContent = validation.message;
@@ -1171,6 +1191,7 @@
         document.getElementById('loading-card').style.display = 'none';
 
         if (data.error) {
+          track('audit_error', { error_type: data.error || 'unknown' });
           var rawError = data.error || '';
           var friendlyError = 'Something went wrong with the audit. Please try again.';
           if (rawError.includes('quota') || rawError.includes('429')) {
@@ -1193,6 +1214,7 @@
         auditUrlGlobal = data.scrapedUrl;
         screenshotUrlGlobal = data.screenshotUrl;
 
+        track('audit_completed', { url: data.scrapedUrl, score: data.audit ? data.audit.score : 0 });
         document.getElementById('results-wrap').style.display = 'block';
         document.getElementById('results-url-label').textContent = data.scrapedUrl;
 
@@ -1215,8 +1237,9 @@
         if (!isAdmin) {
           hasScanned = true;
           btn.textContent = '🔒 Rescan Locked — Join Waitlist';
+          btn.setAttribute('data-tracking', 'rescan_locked');
           btn.disabled = false;
-          btn.onclick = function() { openUpgradeModal(null); };
+          btn.onclick = function() { track('rescan_locked_click'); openUpgradeModal(null); };
         } else {
           btn.disabled = false;
         }
