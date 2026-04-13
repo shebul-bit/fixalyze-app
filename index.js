@@ -33,49 +33,31 @@ app.post('/waitlist', async (req, res) => {
     return res.status(400).json({ error: 'Invalid email address' });
   }
 
-  // Format the notification email body
-  const emailBody = `
-NEW FIXALYZE WAITLIST SIGNUP
-=============================
-
-Name:         ${name}
-Email:        ${email}
-Shopify Store: ${storeName}
-Signed up:    ${new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })}
-
----
-This signup came from the "Notify Me When It Launches" form on app.fixalyze.com
-`;
-
-  // Log to Render logs (always works, free)
+  // Log to Render logs
   console.log('WAITLIST SIGNUP:', { name, email, storeName, timestamp: new Date().toISOString() });
 
-  // If SMTP env vars are set, send actual email
-  const smtpUser = process.env.SMTP_USER;
-  const smtpPass = process.env.SMTP_PASS;
-
-  if (smtpUser && smtpPass) {
-    try {
-      // Using Gmail SMTP via nodemailer if available
-      // npm install nodemailer — add to package.json
-      const nodemailer = require('nodemailer');
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: { user: smtpUser, pass: smtpPass }
-      });
-
-      await transporter.sendMail({
-        from: smtpUser,
-        to: 'contact@fixalyze.com',
-        subject: `🛍️ New Waitlist Signup: ${name} — ${storeName}`,
-        text: emailBody
-      });
-
-      console.log('Waitlist email sent to contact@fixalyze.com');
-    } catch (emailErr) {
-      console.error('Email send failed:', emailErr.message);
-      // Still return success — we logged it above
+  // Send via Web3Forms
+  try {
+    const web3response = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        access_key: '7e286f72-4aad-4259-b56a-48e8eb85bcae',
+        subject: `New Fixalyze Waitlist Signup: ${name} - ${storeName}`,
+        from_name: 'Fixalyze App',
+        name: name,
+        email: email,
+        message: `NEW WAITLIST SIGNUP\n\nName: ${name}\nEmail: ${email}\nShopify Store: ${storeName}\nSigned up: ${new Date().toLocaleString('en-GB', { timeZone: 'Europe/London' })}\n\nThis signup came from app.fixalyze.com`
+      })
+    });
+    const web3data = await web3response.json();
+    if (web3data.success) {
+      console.log('Waitlist email sent successfully via Web3Forms');
+    } else {
+      console.error('Web3Forms error:', JSON.stringify(web3data));
     }
+  } catch (emailErr) {
+    console.error('Web3Forms request failed:', emailErr.message);
   }
 
   res.json({ success: true });
