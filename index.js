@@ -300,9 +300,23 @@ Rules:
 
     let auditData;
     try {
-      const cleaned = auditText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      // Gemini 2.5 Flash sometimes returns thinking text before JSON
+      // Strip everything before the first { and after the last }
+      let cleaned = auditText.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      
+      // Find the first { and last } to extract just the JSON object
+      const firstBrace = cleaned.indexOf('{');
+      const lastBrace = cleaned.lastIndexOf('}');
+      
+      if (firstBrace === -1 || lastBrace === -1) {
+        console.error('No JSON braces found in response. First 500 chars:', cleaned.substring(0, 500));
+        return res.status(500).json({ error: 'AI returned invalid format. Please try again.' });
+      }
+      
+      cleaned = cleaned.substring(firstBrace, lastBrace + 1);
       auditData = JSON.parse(cleaned);
     } catch (e) {
+      console.error('JSON parse error:', e.message, '\nFirst 500 chars of response:', auditText.substring(0, 500));
       return res.status(500).json({ error: 'AI returned invalid format. Please try again.' });
     }
 
