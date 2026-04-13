@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="cf-2fa-verify" content="disable">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fixalyze — Free Shopify CRO Audit Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -483,7 +484,7 @@
         <div class="form-group">
           <label class="form-label" for="field-email">Email Address *</label>
           <input type="email" class="form-input" id="field-email" placeholder="e.g. sarah@yourstore.com" />
-          <div class="field-error-msg" id="err-email">Please enter a valid email address (e.g. <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e0998f95a0998f959293948f9285ce838f8d">[email&#160;protected]</a>).</div>
+          <div class="field-error-msg" id="err-email">Please enter a valid email address (e.g. sarah@yourstore.com).</div>
         </div>
 
         <div class="form-group">
@@ -516,7 +517,7 @@
     </div>
   </div>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     var hasScanned = false;
     var isAdmin = false;
     var auditDataGlobal = null;
