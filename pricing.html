@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Pricing — AI-Powered Shopify CRO Audit Tool | Fixalyze</title>
+  <meta name="description" content="Start free and upgrade when you're ready. Fixalyze AI audits your Shopify store for UX and conversion issues. Free spot check, £14.99/month full audit, or £99.99/year growth plan.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://app.fixalyze.com/pricing">
+  <meta property="og:title" content="Fixalyze Pricing — AI Shopify CRO Audit">
+  <meta property="og:description" content="Free spot check, £14.99/month full audit, or £99.99/year. AI audits your Shopify store in seconds.">
+  <meta property="og:url" content="https://app.fixalyze.com/pricing">
+  <link rel="icon" type="image/png" href="https://www.fixalyze.com/wp-content/uploads/2025/07/cropped-fixalyze_site_icon.png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Open+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-K820RXHEX0"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-K820RXHEX0');
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --brand-btn: #1D2463;
+      --brand-btn-hover: #141854;
+      --brand-orange: #e8420a;
+      --brand-blue: #87C6E4;
+      --white: #ffffff;
+      --off-white: #f8f7f5;
+      --light-grey: #f2f0ed;
+      --border: #e4dfd8;
+      --text: #1a1a2e;
+      --muted: #6b6878;
+      --green: #059669;
+      --green-bg: #ecfdf5;
+      --shadow: 0 2px 20px rgba(0,0,0,0.07);
+      --shadow-lg: 0 8px 48px rgba(0,0,0,0.12);
+    }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: var(--off-white);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    /* ── NAV ── */
+    nav {
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+    }
+
+    .nav-logo img { height: 44px; width: auto; display: block; }
+
+    .nav-right { display: flex; align-items: center; gap: 24px; }
+
+    .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
+    .nav-links a { font-size: 13px; font-weight: 600; color: var(--text); text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--brand-orange); }
+    .nav-links a.active { color: var(--brand-orange); }
+
+    .nav-cta {
+      background: var(--brand-btn);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      font-family: 'Montserrat', sans-serif;
+      text-decoration: none;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover { background: var(--brand-btn-hover); }
+
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 6px; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); border-radius: 2px; transition: all 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    .mobile-nav {
+      display: none;
+      position: fixed;
+      top: 72px; left: 0; right: 0;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+      z-index: 190;
+      padding: 20px 24px 24px;
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-110%);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      opacity: 0;
+    }
+    .mobile-nav.open { transform: translateY(0); opacity: 1; }
+    .mobile-nav-links { list-style: none; margin-bottom: 16px; }
+    .mobile-nav-links li a { display: block; padding: 13px 0; font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); }
+    .mobile-nav-links li:last-child a { border-bottom: none; }
+    .mobile-cta { display: block; width: 100%; background: var(--brand-btn); color: white; padding: 13px; border-radius: 8px; font-size: 14px; font-weight: 700; text-align: center; text-decoration: none; font-family: 'Montserrat', sans-serif; margin-top: 8px; }
+
+    @media (max-width: 768px) {
+      nav { padding: 0 20px; }
+      .nav-links, .nav-cta { display: none; }
+      .hamburger { display: flex; }
+      .mobile-nav { display: block; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0f0f1e 0%, #1a1a3e 55%, #162040 100%);
+      padding: 72px 24px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 400px; height: 400px; background: var(--brand-blue); border-radius: 50%; opacity: 0.05; pointer-events: none; }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(135,198,228,0.12);
+      border: 1px solid rgba(135,198,228,0.3);
+      color: var(--brand-blue);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+
+    .hero h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: clamp(28px, 5vw, 48px);
+      color: var(--white);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 16px;
+    }
+    .hero h1 em { font-style: normal; color: var(--brand-blue); }
+
+    .hero-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,0.6);
+      font-weight: 300;
+      line-height: 1.7;
+      max-width: 500px;
+      margin: 0 auto 32px;
+    }
+
+    /* ── TOGGLE ── */
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin-bottom: 0;
+    }
+
+    .toggle-label {
+      font-size: 14px;
+      font-weight: 600;
+      color: rgba(255,255,255,0.5);
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+    .toggle-label.active { color: white; }
+
+    .toggle {
+      width: 48px;
+      height: 26px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 100px;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .toggle.yearly { background: var(--brand-blue); }
+
+    .toggle-knob {
+      width: 20px;
+      height: 20px;
+      background: white;
+      border-radius: 50%;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .toggle.yearly .toggle-knob { transform: translateX(22px); }
+
+    .save-pill {
+      background: var(--brand-orange);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 100px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .save-pill.show { opacity: 1; }
+
+    /* ── PRICING CARDS ── */
+    .pricing-section {
+      max-width: 1060px;
+      margin: 0 auto;
+      padding: 64px 24px 100px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 900px) { .cards-grid { grid-template-columns: 1fr; max-width: 480px; margin: 0 auto; } }
+
+    .card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      position: relative;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .card:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); }
+
+    .card.featured {
+      background: var(--brand-btn);
+      border-color: var(--brand-btn);
+      color: white;
+      transform: scale(1.03);
+    }
+    .card.featured:hover { transform: scale(1.03) translateY(-4px); }
+
+    .popular-tag {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--brand-blue);
+      color: var(--brand-btn);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 5px 16px;
+      border-radius: 100px;
+      white-space: nowrap;
+    }
+
+    .card-eyebrow {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .card.featured .card-eyebrow { color: rgba(255,255,255,0.5); }
+
+    .card-name {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 22px;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    .card-tagline {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 300;
+      font-style: italic;
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+    .card.featured .card-tagline { color: rgba(255,255,255,0.6); }
+
+    .price-block {
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .card.featured .price-block { border-bottom-color: rgba(255,255,255,0.15); }
+
+    .price-main {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 52px;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+
+    .price-main sup {
+      font-size: 24px;
+      vertical-align: super;
+      font-weight: 700;
+      letter-spacing: 0;
+    }
+
+    .price-period {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+      font-weight: 400;
+    }
+    .card.featured .price-period { color: rgba(255,255,255,0.5); }
+
+    .price-yearly-note {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--brand-blue);
+      margin-top: 4px;
+      display: none;
+    }
+    .price-yearly-note.show { display: block; }
+
+    /* Features list */
+    .features-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .features-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .feat-check {
+      width: 18px;
+      height: 18px;
+      min-width: 18px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      margin-top: 1px;
+    }
+
+    .feat-check.yes { background: var(--green-bg); color: var(--green); }
+    .feat-check.lock { background: var(--light-grey); color: var(--muted); font-size: 9px; }
+    .card.featured .feat-check.yes { background: rgba(255,255,255,0.15); color: white; }
+
+    .feat-text { flex: 1; color: var(--text); }
+    .card.featured .feat-text { color: rgba(255,255,255,0.85); }
+    .feat-text.locked { color: var(--muted); text-decoration: line-through; opacity: 0.5; }
+    .feat-text strong { font-weight: 600; }
+
+    .feat-divider {
+      height: 1px;
+      background: var(--border);
+      margin: 4px 0;
+    }
+    .card.featured .feat-divider { background: rgba(255,255,255,0.1); }
+
+    .feat-plus-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+    .card.featured .feat-plus-label { color: rgba(255,255,255,0.4); }
+
+    /* CTA buttons */
+    .card-cta {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .cta-free { background: var(--brand-btn); color: white; }
+    .cta-free:hover { background: var(--brand-btn-hover); }
+
+    .cta-monthly { background: var(--brand-blue); color: var(--brand-btn); }
+    .cta-monthly:hover { background: #6ab5d8; }
+
+    .cta-yearly { background: rgba(255,255,255,0.12); color: white; border: 1.5px solid rgba(255,255,255,0.3); }
+    .cta-yearly:hover { background: rgba(255,255,255,0.2); }
+
+    .cta-note {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 10px;
+    }
+    .card.featured .cta-note { color: rgba(255,255,255,0.35); }
+
+    /* ── COMPARISON TABLE ── */
+    .comparison-section {
+      max-width: 860px;
+      margin: 0 auto 100px;
+      padding: 0 24px;
+    }
+
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 24px;
+      letter-spacing: -0.02em;
+      text-align: center;
+      margin-bottom: 32px;
+      color: var(--text);
+    }
+
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--white);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .comparison-table th {
+      background: var(--brand-btn);
+      color: white;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 16px 20px;
+      text-align: left;
+      letter-spacing: 0.03em;
+    }
+
+    .comparison-table th:first-child { border-radius: 0; }
+    .comparison-table th.highlight { background: var(--brand-blue); color: var(--brand-btn); }
+
+    .comparison-table td {
+      padding: 14px 20px;
+      font-size: 13px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+      vertical-align: middle;
+    }
+
+    .comparison-table tr:last-child td { border-bottom: none; }
+    .comparison-table tr:nth-child(even) td { background: var(--off-white); }
+
+    .comparison-table td.feature-name {
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .check-yes { color: var(--green); font-size: 16px; }
+    .check-no { color: #ccc; font-size: 16px; }
+    .check-partial { color: var(--brand-orange); font-size: 12px; font-weight: 600; }
+
+    @media (max-width: 600px) {
+      .comparison-table { font-size: 11px; }
+      .comparison-table td, .comparison-table th { padding: 10px 12px; }
+    }
+
+    /* ── FAQ ── */
+    .faq-section {
+      max-width: 680px;
+      margin: 0 auto 100px;
+      padding: 0 24px;
+    }
+
+    .faq-item {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 18px 20px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      user-select: none;
+    }
+
+    .faq-question:hover { color: var(--brand-btn); }
+
+    .faq-icon {
+      font-size: 18px;
+      color: var(--muted);
+      transition: transform 0.2s;
+      flex-shrink: 0;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .faq-answer-inner {
+      padding: 0 20px 18px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+
+    /* ── CTA BANNER ── */
+    .cta-banner {
+      background: linear-gradient(135deg, #0f0f1e 0%, #1a1a3e 100%);
+      border-radius: 20px;
+      padding: 56px 48px;
+      text-align: center;
+      max-width: 760px;
+      margin: 0 auto 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-banner::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 240px; height: 240px;
+      background: var(--brand-blue);
+      border-radius: 50%;
+      opacity: 0.06;
+    }
+
+    .cta-banner h2 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: clamp(22px, 4vw, 32px);
+      color: white;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+      line-height: 1.2;
+    }
+
+    .cta-banner h2 span { color: var(--brand-blue); }
+
+    .cta-banner p {
+      font-size: 15px;
+      color: rgba(255,255,255,0.55);
+      max-width: 480px;
+      margin: 0 auto 32px;
+      line-height: 1.65;
+      font-weight: 300;
+    }
+
+    .cta-banner-btn {
+      display: inline-block;
+      background: var(--brand-btn);
+      color: white;
+      padding: 16px 40px;
+      border-radius: 10px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .cta-banner-btn:hover { background: var(--brand-btn-hover); transform: translateY(-2px); }
+
+    .cta-banner-note {
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 14px;
+    }
+
+    /* ── TRUST BAR ── */
+    .trust-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 64px;
+    }
+
+    .trust-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .trust-item-icon { font-size: 18px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--brand-btn);
+      color: rgba(255,255,255,0.6);
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+    }
+
+    footer a { color: rgba(255,255,255,0.6); text-decoration: none; }
+    footer a:hover { color: white; }
+    footer strong { color: white; font-weight: 700; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="https://www.fixalyze.com">
+      <img src="https://www.fixalyze.com/wp-content/uploads/2025/06/fixalyze_logo_colorv02.png" alt="Fixalyze" />
+    </a>
+    <div class="nav-right">
+      <ul class="nav-links">
+        <li><a href="https://www.fixalyze.com">Home</a></li>
+        <li><a href="https://app.fixalyze.com/pricing" class="active">Pricing</a></li>
+        <li><a href="https://www.fixalyze.com/about">About</a></li>
+        <li><a href="https://www.fixalyze.com/contact">Contact</a></li>
+      </ul>
+      <a href="https://app.fixalyze.com" class="nav-cta">Run Free Audit</a>
+      <button class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <div class="mobile-nav" id="mobile-nav">
+    <ul class="mobile-nav-links">
+      <li><a href="https://www.fixalyze.com">Home</a></li>
+      <li><a href="https://app.fixalyze.com/pricing">Pricing</a></li>
+      <li><a href="https://www.fixalyze.com/about">About</a></li>
+      <li><a href="https://www.fixalyze.com/contact">Contact</a></li>
+    </ul>
+    <a href="https://app.fixalyze.com" class="mobile-cta">Run Free Audit</a>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-eyebrow">Simple, transparent pricing</div>
+    <h1>Start free.<br>Upgrade when <em>your store needs it</em>.</h1>
+    <p class="hero-sub">Every plan includes AI-powered audits based on real UX research and conversion best practices. No consultants. No jargon. Just results.</p>
+
+    <div class="toggle-wrap">
+      <span class="toggle-label active" id="label-monthly">Monthly</span>
+      <div class="toggle" id="billing-toggle" onclick="toggleBilling()">
+        <div class="toggle-knob"></div>
+      </div>
+      <span class="toggle-label" id="label-yearly">Yearly</span>
+      <span class="save-pill" id="save-pill">Save £80</span>
+    </div>
+  </div>
+
+  <!-- TRUST BAR -->
+  <div class="trust-bar">
+    <div class="trust-item"><span class="trust-item-icon">🤖</span>AI-powered audits</div>
+    <div class="trust-item"><span class="trust-item-icon">⚡</span>Results in 30 seconds</div>
+    <div class="trust-item"><span class="trust-item-icon">🔒</span>No account needed for free tier</div>
+    <div class="trust-item"><span class="trust-item-icon">📱</span>Desktop & mobile issues covered</div>
+    <div class="trust-item"><span class="trust-item-icon">❌</span>Cancel anytime</div>
+  </div>
+
+  <!-- PRICING CARDS -->
+  <div class="pricing-section">
+    <div class="cards-grid">
+
+      <!-- FREE -->
+      <div class="card">
+        <div class="card-eyebrow">Get started</div>
+        <div class="card-name">Spot Check</div>
+        <div class="card-tagline">See what's costing you sales — no account needed</div>
+        <div class="price-block">
+          <div class="price-main">Free</div>
+          <div class="price-period">No credit card required</div>
+        </div>
+        <ul class="features-list">
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>AI audit</strong> — 5 issues surfaced instantly</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>Conversion health score</strong> out of 100</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text">Critical / Major / Minor severity labels</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text">Mobile UX issues always included</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text">Store screenshot with browser preview</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text">PDF report download</span>
+          </li>
+          <li><div class="feat-divider"></div></li>
+          <li>
+            <div class="feat-check lock">🔒</div>
+            <span class="feat-text locked">Full audit — all 14 issues</span>
+          </li>
+          <li>
+            <div class="feat-check lock">🔒</div>
+            <span class="feat-text locked">Score tracking over time</span>
+          </li>
+          <li>
+            <div class="feat-check lock">🔒</div>
+            <span class="feat-text locked">Weekly AI coaching task</span>
+          </li>
+        </ul>
+        <a href="https://app.fixalyze.com" class="card-cta cta-free" onclick="gtag('event','pricing_cta_click',{plan:'free'})">Run Free Audit</a>
+        <div class="cta-note">One scan per session · No signup</div>
+      </div>
+
+      <!-- MONTHLY / FEATURED -->
+      <div class="card featured">
+        <div class="popular-tag">⭐ Most Popular</div>
+        <div class="card-eyebrow">Full tool</div>
+        <div class="card-name">Full Audit</div>
+        <div class="card-tagline">Everything you need to improve conversions every week</div>
+        <div class="price-block">
+          <div class="price-main" id="monthly-price"><sup>£</sup>14.99</div>
+          <div class="price-period" id="monthly-period">per month — cancel anytime</div>
+          <div class="price-yearly-note" id="yearly-note">Billed £99.99/year — saves £80</div>
+        </div>
+        <ul class="features-list">
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>Full audit</strong> — all 14 issues unlocked</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>Score tracking</strong> — watch your store improve</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>Weekly AI coaching task</strong> — one fix every Monday</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>Unlimited rescans</strong> — rescan after every fix</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>Shopify-specific fixes</strong> — no developer needed</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>Industry benchmarking</strong> — see how you compare</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text">Everything in Spot Check</span>
+          </li>
+        </ul>
+        <a href="https://app.fixalyze.com" class="card-cta cta-monthly" onclick="gtag('event','pricing_cta_click',{plan:'monthly'})">
+          <span id="monthly-btn-text">Start Full Audit</span>
+        </a>
+        <div class="cta-note">Launching soon — join waitlist for early access</div>
+      </div>
+
+      <!-- YEARLY -->
+      <div class="card">
+        <div class="card-eyebrow">Best value</div>
+        <div class="card-name">Growth Plan</div>
+        <div class="card-tagline">For stores serious about beating their competitors</div>
+        <div class="price-block">
+          <div class="price-main"><sup>£</sup>99.99</div>
+          <div class="price-period">per year — that's £8.33/month</div>
+          <div class="price-yearly-note show" style="color: var(--brand-orange);">Save £80 vs monthly billing</div>
+        </div>
+        <ul class="features-list">
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text">Everything in Full Audit</span>
+          </li>
+          <li><div class="feat-divider"></div></li>
+          <li><div class="feat-plus-label">Plus</div></li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>Competitor benchmarking</strong> — audit 3 rival stores</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>Monthly auto re-audit</strong> — flags regressions automatically</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>Audit history exports</strong> — branded PDF reports</span>
+          </li>
+          <li>
+            <div class="feat-check yes">✓</div>
+            <span class="feat-text"><strong>Priority support</strong></span>
+          </li>
+        </ul>
+        <a href="https://app.fixalyze.com" class="card-cta cta-free" onclick="gtag('event','pricing_cta_click',{plan:'yearly'})">Get Growth Plan</a>
+        <div class="cta-note">Launching soon — join waitlist for early access</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="comparison-section">
+    <h2 class="section-title">What's included in each plan</h2>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Spot Check</th>
+          <th class="highlight">Full Audit</th>
+          <th>Growth Plan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="feature-name">AI-powered audit</td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">Conversion health score</td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">Issues shown</td>
+          <td>5 of 14</td>
+          <td>All 14</td>
+          <td>All 14</td>
+        </tr>
+        <tr>
+          <td class="feature-name">Mobile UX issues</td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">PDF report download</td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">Unlimited rescans</td>
+          <td><span class="check-no">—</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">Score tracking over time</td>
+          <td><span class="check-no">—</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">Weekly AI coaching task</td>
+          <td><span class="check-no">—</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">Shopify-specific fixes</td>
+          <td><span class="check-no">—</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">Industry benchmarking</td>
+          <td><span class="check-no">—</span></td>
+          <td><span class="check-yes">✓</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">Competitor benchmarking</td>
+          <td><span class="check-no">—</span></td>
+          <td><span class="check-no">—</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">Monthly auto re-audit</td>
+          <td><span class="check-no">—</span></td>
+          <td><span class="check-no">—</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">Priority support</td>
+          <td><span class="check-no">—</span></td>
+          <td><span class="check-no">—</span></td>
+          <td><span class="check-yes">✓</span></td>
+        </tr>
+        <tr>
+          <td class="feature-name">Price</td>
+          <td><strong>Free</strong></td>
+          <td><strong>£14.99/mo</strong></td>
+          <td><strong>£99.99/yr</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <h2 class="section-title">Frequently asked questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Do I need a Shopify account to use Fixalyze?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">No. You just paste your store URL and Fixalyze audits the publicly visible storefront. No Shopify login, no API access, no sensitive credentials needed.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        How is this different from Google Lighthouse or Hotjar?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Google Lighthouse measures page speed and accessibility. Hotjar shows you raw heatmap data. Neither tells you what to fix or why it's costing you sales. Fixalyze gives you a prioritised list of specific UX and conversion issues with exact fix instructions — written for Shopify store owners who don't have a developer.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        What does the AI actually analyse?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Fixalyze scrapes your live store and analyses it against established UX research and ecommerce conversion best practices. It checks for missing trust signals, checkout friction, mobile UX issues, product page weaknesses, navigation problems, social proof gaps, and more — then scores your store and prioritises what to fix first.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        When are paid plans launching?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Very soon. Run a free audit and join the waitlist — you'll be first to know and receive an exclusive early-bird discount when we launch. Free tier is available right now with no signup required.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Can I cancel anytime?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Yes. No contracts, no minimum terms. Cancel whenever you like. Monthly subscribers can cancel before their next billing date. Yearly subscribers are billed once upfront.</div>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">
+        Does it work for non-Shopify stores?
+        <span class="faq-icon">+</span>
+      </div>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">Fixalyze is optimised specifically for Shopify — the fix recommendations are tailored to what's achievable in Shopify's theme editor without a developer. It will audit other ecommerce sites but the Shopify-specific guidance won't apply.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA BANNER -->
+  <div style="padding: 0 24px;">
+    <div class="cta-banner">
+      <h2>Your store is losing sales <span>right now</span>.</h2>
+      <p>Find out exactly why — for free. No account, no credit card, no fluff. Just an honest AI audit of your store in 30 seconds.</p>
+      <a href="https://app.fixalyze.com" class="cta-banner-btn" onclick="gtag('event','pricing_bottom_cta_click',{})">Run My Free Audit Now</a>
+      <div class="cta-banner-note">Free forever · No signup required · Results in 30 seconds</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <strong>Fixalyze</strong> · AI-Powered Shopify UX & Conversion Audits ·
+    <a href="https://app.fixalyze.com">Run Free Audit</a> ·
+    <a href="https://www.fixalyze.com">fixalyze.com</a> ·
+    <a href="https://www.fixalyze.com/contact">Contact</a>
+    <br><br>
+    © 2025–2026 Fixalyze Ltd. All rights reserved.
+  </footer>
+
+  <script>
+    var isYearly = false;
+
+    function toggleNav() {
+      document.getElementById('mobile-nav').classList.toggle('open');
+      document.getElementById('hamburger').classList.toggle('open');
+    }
+
+    function toggleBilling() {
+      isYearly = !isYearly;
+      var toggle = document.getElementById('billing-toggle');
+      var labelMonthly = document.getElementById('label-monthly');
+      var labelYearly = document.getElementById('label-yearly');
+      var savePill = document.getElementById('save-pill');
+      var price = document.getElementById('monthly-price');
+      var period = document.getElementById('monthly-period');
+      var yearlyNote = document.getElementById('yearly-note');
+      var btnText = document.getElementById('monthly-btn-text');
+
+      if (isYearly) {
+        toggle.classList.add('yearly');
+        labelMonthly.classList.remove('active');
+        labelYearly.classList.add('active');
+        savePill.classList.add('show');
+        price.innerHTML = '<sup>£</sup>8.33';
+        period.textContent = 'per month, billed £99.99/year';
+        yearlyNote.classList.add('show');
+        btnText.textContent = 'Get Yearly Plan';
+        gtag('event', 'pricing_toggle_yearly', {});
+      } else {
+        toggle.classList.remove('yearly');
+        labelMonthly.classList.add('active');
+        labelYearly.classList.remove('active');
+        savePill.classList.remove('show');
+        price.innerHTML = '<sup>£</sup>14.99';
+        period.textContent = 'per month — cancel anytime';
+        yearlyNote.classList.remove('show');
+        btnText.textContent = 'Start Full Audit';
+      }
+    }
+
+    function toggleFaq(el) {
+      var item = el.parentElement;
+      var isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+      if (!isOpen) item.classList.add('open');
+    }
+  </script>
+
+</body>
+</html>
