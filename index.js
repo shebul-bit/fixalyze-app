@@ -158,6 +158,11 @@ async function scrapePage(url) {
 app.post('/analyze', async (req, res) => {
   const { url } = req.body;
 
+  // Warmup ping — wake server without running a real audit
+  if (url === '__warmup__') {
+    return res.json({ warmup: true });
+  }
+
   if (!url) {
     return res.status(400).json({ error: 'No URL provided' });
   }
@@ -262,12 +267,15 @@ Rules:
 - Every fix must be actionable without hiring a developer
 - totalIssuesFound must be 14`;
 
-  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=${apiKey}`;
 
   try {
+    const geminiAbort = new AbortController();
+    const geminiTimeout = setTimeout(() => geminiAbort.abort(), 25000);
     const response = await fetch(geminiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      signal: geminiAbort.signal,
       body: JSON.stringify({
         contents: [{ parts: [{ text: prompt }] }],
         generationConfig: {
@@ -277,6 +285,7 @@ Rules:
       })
     });
 
+    clearTimeout(geminiTimeout);
     const rawText = await response.text();
     if (!rawText || rawText.trim() === '') {
       return res.status(500).json({ error: 'Gemini returned an empty response.' });
