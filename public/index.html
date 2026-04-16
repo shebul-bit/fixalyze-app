@@ -581,6 +581,9 @@
       if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) closeMobileNav();
     });
 
+    // ── Wake Render server immediately on page load to minimise cold-start delay ──
+    fetch('/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url: '__warmup__' }) }).catch(function(){});
+
     // ── Admin + Auto-audit from ?url= ──
     window.addEventListener('DOMContentLoaded', function() {
       var params = new URLSearchParams(window.location.search);
@@ -594,8 +597,18 @@
       if (urlParam) {
         var input = document.getElementById('shopify-url');
         if (input) {
-          input.value = urlParam.startsWith('http') ? urlParam : 'https://' + urlParam;
-          // Short delay so admin unlock (if also present) completes first
+          // Sanitise: trim whitespace
+          var cleaned = urlParam.trim();
+          // If no dots at all it's probably just a store handle — append .myshopify.com
+          if (cleaned && !cleaned.includes('.')) {
+            cleaned = cleaned + '.myshopify.com';
+          }
+          // Ensure protocol present
+          if (!cleaned.startsWith('http')) {
+            cleaned = 'https://' + cleaned;
+          }
+          input.value = cleaned;
+          // Small delay so admin unlock (if also present) resolves first
           setTimeout(function() { runAudit(); }, 400);
         }
       }
@@ -1206,17 +1219,30 @@
         if (data.error) {
           track('audit_error', { error_type: data.error || 'unknown' });
           var rawError = data.error || '';
+          var isJsonError = rawError.includes('invalid format') || rawError.includes('JSON') || rawError.includes('parse') || rawError.includes('unexpected');
           var friendlyError = 'Something went wrong with the audit. Please try again.';
           if (rawError.includes('quota') || rawError.includes('429')) {
             friendlyError = 'Our AI is very busy right now. Please wait a minute and try again.';
-          } else if (rawError.includes('invalid format') || rawError.includes('JSON')) {
-            friendlyError = 'The AI returned an unexpected response. Please try again — this usually fixes itself.';
+          } else if (isJsonError) {
+            friendlyError = 'The AI took too long to warm up. Retrying automatically…';
           } else if (rawError.includes('Could not scrape') || rawError.includes('ENOTFOUND') || rawError.includes('fetch')) {
             friendlyError = 'We could not access that URL. Please check the address is correct and the site is publicly accessible.';
           } else if (rawError.includes('API key')) {
             friendlyError = 'There is a configuration issue on our end. Please try again in a few minutes.';
           }
-          err.textContent = friendlyError;
+          // Auto-retry once on JSON/parse errors (Gemini cold-start timeout)
+          if (isJsonError && !window._hasAutoRetried) {
+            window._hasAutoRetried = true;
+            err.textContent = friendlyError;
+            err.style.display = 'block';
+            btn.disabled = true;
+            setTimeout(function() { err.style.display = 'none'; runAudit(); }, 2500);
+            return;
+          }
+          window._hasAutoRetried = false;
+          err.textContent = isJsonError
+            ? 'The AI returned an unexpected response. Please click Run Free Audit to try again.'
+            : friendlyError;
           err.style.display = 'block';
           btn.disabled = false;
           return;
