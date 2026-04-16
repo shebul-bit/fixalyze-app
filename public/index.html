@@ -1288,9 +1288,10 @@
       } catch(e) {
         clearInterval(loadingInterval);
         document.getElementById('loading-card').style.display = 'none';
-        err.textContent = 'Could not connect to the audit service. Please check your internet connection and try again.';
+        err.textContent = 'Error: ' + e.message + ' — ' + e.name;
         err.style.display = 'block';
         btn.disabled = false;
+        console.error('runAudit error:', e);
       }
     }
 
