@@ -172,8 +172,11 @@ app.post('/analyze', async (req, res) => {
     return res.status(500).json({ error: 'API key not configured on server' });
   }
 
+  console.log('ANALYZE START:', url);
   const normalisedUrl = normaliseUrl(url);
+  console.log('NORMALISED URL:', normalisedUrl);
   const scraped = await scrapePage(normalisedUrl);
+  console.log('SCRAPE DONE, success:', scraped.success);
 
   let pageContext = '';
   if (scraped.success) {
@@ -267,7 +270,7 @@ Rules:
 - Every fix must be actionable without hiring a developer
 - totalIssuesFound must be 14`;
 
-  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=${apiKey}`;
 
   try {
     const geminiAbort = new AbortController();
@@ -286,7 +289,9 @@ Rules:
     });
 
     clearTimeout(geminiTimeout);
+    console.log('GEMINI STATUS:', response.status);
     const rawText = await response.text();
+    console.log('GEMINI RAW LENGTH:', rawText.length, 'FIRST 200:', rawText.substring(0, 200));
     if (!rawText || rawText.trim() === '') {
       return res.status(500).json({ error: 'Gemini returned an empty response.' });
     }
@@ -339,6 +344,7 @@ Rules:
     });
 
   } catch (err) {
+    console.error('OUTER CATCH ERROR:', err.message, err.name);
     res.status(500).json({ error: 'Failed to reach Gemini API: ' + err.message });
   }
 });
