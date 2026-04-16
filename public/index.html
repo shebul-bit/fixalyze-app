@@ -581,11 +581,24 @@
       if (nav.classList.contains('open') && !nav.contains(e.target) && !btn.contains(e.target)) closeMobileNav();
     });
 
-    // ── Admin ──
+    // ── Admin + Auto-audit from ?url= ──
     window.addEventListener('DOMContentLoaded', function() {
       var params = new URLSearchParams(window.location.search);
+
+      // Admin unlock via ?admin=KEY
       var key = params.get('admin');
       if (key) verifyKeyWithServer(key);
+
+      // Auto-populate and trigger audit from ?url=
+      var urlParam = params.get('url');
+      if (urlParam) {
+        var input = document.getElementById('shopify-url');
+        if (input) {
+          input.value = urlParam.startsWith('http') ? urlParam : 'https://' + urlParam;
+          // Short delay so admin unlock (if also present) completes first
+          setTimeout(function() { runAudit(); }, 400);
+        }
+      }
     });
 
     async function verifyKeyWithServer(key) {
