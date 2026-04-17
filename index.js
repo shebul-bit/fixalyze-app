@@ -270,7 +270,7 @@ Rules:
 - Every fix must be actionable without hiring a developer
 - totalIssuesFound must be 14`;
 
-  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-04-17:generateContent?key=${apiKey}`;
+  const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   try {
     const geminiAbort = new AbortController();
