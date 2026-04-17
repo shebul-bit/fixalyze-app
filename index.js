@@ -274,7 +274,7 @@ Rules:
 
   try {
     const geminiAbort = new AbortController();
-    const geminiTimeout = setTimeout(() => geminiAbort.abort(), 55000);
+    const geminiTimeout = setTimeout(() => geminiAbort.abort(), 30000);
     const response = await fetch(geminiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -284,6 +284,9 @@ Rules:
         generationConfig: {
           temperature: 0.4,
           maxOutputTokens: 8192,
+          thinkingConfig: {
+            thinkingBudget: 0
+          }
         }
       })
     });
@@ -352,3 +355,4 @@ Rules:
 app.listen(PORT, () => {
   console.log(`Fixalyze server running on port ${PORT}`);
 });
+
