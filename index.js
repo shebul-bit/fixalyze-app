@@ -274,7 +274,7 @@ Rules:
 
   try {
     const geminiAbort = new AbortController();
-    const geminiTimeout = setTimeout(() => geminiAbort.abort(), 25000);
+    const geminiTimeout = setTimeout(() => geminiAbort.abort(), 55000);
     const response = await fetch(geminiUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
