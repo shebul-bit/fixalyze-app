@@ -90,8 +90,8 @@
     .nav-right { display: flex; align-items: center; gap: 24px; }
 
     .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
-    .nav-links a { font-size: 13px; font-weight: 600; color: var(--text); text-decoration: none; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--brand-orange); }
+    .nav-links a { font-size: 14px; font-weight: 500; color: #1D2463; text-decoration: none; transition: color 0.2s; font-family: 'Open Sans', sans-serif; letter-spacing: 0.01em; }
+    .nav-links a:hover { color: #e8420a; text-decoration: underline; }
 
     .nav-upgrade-btn {
       background: var(--brand-btn);
@@ -129,9 +129,9 @@
     }
     .mobile-nav.open { transform: translateY(0); opacity: 1; }
     .mobile-nav-links { list-style: none; margin-bottom: 16px; }
-    .mobile-nav-links li a { display: block; padding: 13px 0; font-size: 15px; font-weight: 600; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--border); transition: color 0.2s; }
+    .mobile-nav-links li a { display: block; padding: 13px 0; font-size: 15px; font-weight: 500; color: #1D2463; text-decoration: none; border-bottom: 1px solid var(--border); transition: color 0.2s; font-family: 'Open Sans', sans-serif; }
     .mobile-nav-links li:last-child a { border-bottom: none; }
-    .mobile-nav-links li a:hover { color: var(--brand-orange); }
+    .mobile-nav-links li a:hover { color: #e8420a; text-decoration: underline; }
     .mobile-upgrade-btn { display: block; width: 100%; background: var(--brand-btn); color: white; padding: 13px 20px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; font-family: 'Montserrat', sans-serif; text-align: center; margin-top: 8px; }
 
     @media (max-width: 768px) {
@@ -143,27 +143,28 @@
 
     /* ── HERO ── */
     .hero {
-      background: linear-gradient(135deg, #0f0f1e 0%, #1a1a3e 55%, #162040 100%);
+      background: #8ed1fc;
       padding: 80px 24px 72px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
-    .hero::before { content: ''; position: absolute; top: -80px; right: -80px; width: 400px; height: 400px; background: var(--brand-blue); border-radius: 50%; opacity: 0.05; pointer-events: none; }
-    .hero::after { content: ''; position: absolute; bottom: -60px; left: -60px; width: 280px; height: 280px; background: var(--brand-orange); border-radius: 50%; opacity: 0.04; pointer-events: none; }
+    .hero::before { display: none; }
+    .hero::after { display: none; }
 
-    .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(135,198,228,0.12); border: 1px solid rgba(135,198,228,0.3); color: var(--brand-blue); font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 28px; }
-    .hero-badge-dot { width: 6px; height: 6px; background: var(--brand-blue); border-radius: 50%; animation: pulse-dot 1.5s ease-in-out infinite; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(29,36,99,0.1); border: 1px solid rgba(29,36,99,0.25); color: #1D2463; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 28px; }
+    .hero-badge-dot { width: 6px; height: 6px; background: #1D2463; border-radius: 50%; animation: pulse-dot 1.5s ease-in-out infinite; }
     @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
 
-    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(28px, 5vw, 50px); color: var(--white); line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 18px; }
-    .hero h1 em { font-style: normal; color: var(--brand-blue); }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(28px, 5vw, 50px); color: #1D2463; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 18px; }
+    .hero h1 em { font-style: normal; color: #ffffff; }
+    .hero h1 .period { color: #8ed1fc; }
 
-    .hero-sub { font-size: 15px; color: rgba(255,255,255,0.6); font-weight: 300; line-height: 1.7; max-width: 520px; margin: 0 auto 16px; }
+    .hero-sub { font-size: 15px; color: #8ed1fc; font-weight: 300; line-height: 1.7; max-width: 520px; margin: 0 auto 16px; }
 
     .hero-proof { display: flex; align-items: center; justify-content: center; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
-    .hero-proof-item { font-size: 12px; color: rgba(255,255,255,0.45); display: flex; align-items: center; gap: 5px; }
-    .hero-proof-item::before { content: '✓'; color: var(--brand-blue); font-weight: 700; }
+    .hero-proof-item { font-size: 12px; color: #8ed1fc; display: flex; align-items: center; gap: 5px; }
+    .hero-proof-item::before { content: '✓'; color: #8ed1fc; font-weight: 700; }
 
     /* ── INPUT CARD ── */
     .input-card { background: var(--white); border-radius: 14px; padding: 28px 32px; max-width: 640px; margin: 0 auto; box-shadow: var(--shadow-lg); }
@@ -180,13 +181,13 @@
     .audit-btn:hover:not(:disabled) { background: var(--brand-btn-hover); transform: translateY(-1px); }
     .audit-btn:disabled { background: #c4bdb6; cursor: not-allowed; transform: none; }
 
-    .input-note { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 14px; text-align: center; }
+    .input-note { font-size: 11px; color: #8ed1fc; margin-top: 14px; text-align: center; }
 
     .error-msg { background: var(--red-bg); color: var(--red); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-top: 12px; display: none; }
 
     /* ── LOADING ── */
     .loading-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 48px 32px; max-width: 540px; margin: 40px auto 0; text-align: center; display: none; box-shadow: var(--shadow); }
-    .loading-spinner { width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--brand-btn); border-radius: 50%; animation: spin 0.75s linear infinite; margin: 0 auto 20px; }
+    .loading-spinner { width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: #1D2463; border-radius: 50%; animation: spin 0.75s linear infinite; margin: 0 auto 20px; }
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 17px; color: var(--text); margin-bottom: 6px; }
     .loading-url { font-size: 13px; color: var(--brand-btn); margin-bottom: 20px; font-weight: 600; }
@@ -235,7 +236,7 @@
     .screenshot-area { position: relative; height: 320px; background: var(--light-grey); overflow: hidden; }
     .screenshot-img { width: 100%; height: 100%; object-fit: cover; object-position: top; display: block; }
     .ss-loading { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; color: var(--muted); font-size: 13px; background: var(--light-grey); }
-    .ss-spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: var(--brand-btn); border-radius: 50%; animation: spin 0.75s linear infinite; }
+    .ss-spinner { width: 28px; height: 28px; border: 2px solid var(--border); border-top-color: #1D2463; border-radius: 50%; animation: spin 0.75s linear infinite; }
 
     /* Section heads */
     .section-head { display: flex; align-items: baseline; justify-content: space-between; margin: 28px 0 14px; flex-wrap: wrap; gap: 6px; }
@@ -286,7 +287,7 @@
     .qw-num { width: 24px; height: 24px; min-width: 24px; background: var(--brand-btn); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
 
     /* ── UPSELL ── */
-    .upsell-banner { background: linear-gradient(135deg, #0f0f1e 0%, #1a1a3e 100%); border-radius: 16px; padding: 36px 40px; margin-top: 28px; display: none; gap: 28px; align-items: center; justify-content: space-between; flex-wrap: wrap; position: relative; overflow: hidden; }
+    .upsell-banner { background: #1D2463; border-radius: 16px; padding: 36px 40px; margin-top: 28px; display: none; gap: 28px; align-items: center; justify-content: space-between; flex-wrap: wrap; position: relative; overflow: hidden; }
     .upsell-banner::before { content: ''; position: absolute; top: -60px; right: -60px; width: 220px; height: 220px; background: var(--brand-blue); border-radius: 50%; opacity: 0.06; }
     .upsell-eyebrow { font-size: 10px; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brand-blue); margin-bottom: 10px; }
     .upsell-headline { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 20px; color: var(--white); letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 10px; }
@@ -361,7 +362,7 @@
         <li><a href="https://www.fixalyze.com/about">About</a></li>
         <li><a href="https://www.fixalyze.com/contact">Contact</a></li>
       </ul>
-      <button class="nav-upgrade-btn" onclick="track('upgrade_nav_click'); openUpgradeModal(event)">Upgrade — £14.99/mo</button>
+      <button class="nav-upgrade-btn" onclick="openUpgradeModal(event)">Get Full Access</button>
       <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -375,13 +376,13 @@
       <li><a href="https://www.fixalyze.com/about" onclick="closeMobileNav()">About</a></li>
       <li><a href="https://www.fixalyze.com/contact" onclick="closeMobileNav()">Contact</a></li>
     </ul>
-    <button class="mobile-upgrade-btn" onclick="track('upgrade_mobile_click'); openUpgradeModal(event)">Upgrade — £14.99/mo</button>
+    <button class="mobile-upgrade-btn" onclick="openUpgradeModal(event)">Get Full Access</button>
   </div>
 
   <!-- ── HERO ── -->
   <div class="hero">
     <div class="hero-badge"><div class="hero-badge-dot"></div>Free Spot Check — No Account Needed</div>
-    <h1>Your Shopify store is losing sales.<br>Find out <em>exactly why</em>.</h1>
+    <h1>Your Shopify store is losing sales. Find out <em>exactly why</em><span class="period">.</span></h1>
     <p class="hero-sub">Paste your store URL and get an AI-powered audit in seconds. We identify your biggest conversion killers — and tell you exactly how to fix them. No jargon. No guesswork. Just results.</p>
     <div class="hero-proof">
       <div class="hero-proof-item">Results in under 30 seconds</div>
@@ -476,7 +477,7 @@
 
     <div class="upsell-banner" id="upsell-banner">
       <div>
-        <div class="upsell-eyebrow">Unlock Full Audit — From £14.99/month</div>
+        <div class="upsell-eyebrow">Unlock Full Audit — From £24.99/month</div>
         <div class="upsell-headline">
           <span id="upsell-num">7</span> more issues found.<br>Your competitors already know about them.
         </div>
@@ -490,9 +491,9 @@
         </div>
       </div>
       <div class="upsell-right">
-        <div class="upsell-price-amount">£14.99</div>
-        <div class="upsell-price-period">per month — cancel anytime</div>
-        <a href="#" class="upsell-cta-btn" onclick="track('upgrade_upsell_click'); openUpgradeModal(event)">Unlock Full Audit Now</a>
+        <div class="upsell-price-amount">£24.99</div>
+        <div class="upsell-price-period">per month · or £199/year</div>
+        <a href="#" class="upsell-cta-btn" onclick="track('upgrade_upsell_click'); openUpgradeModal(event)">Get Full Access Now</a>
         <div class="upsell-small">No contracts · No setup fees</div>
       </div>
     </div>
@@ -1143,7 +1144,7 @@
       doc.setFontSize(9);
       doc.setTextColor(180, 200, 240);
       var ctaLines = doc.splitTextToSize(
-        'Every hidden issue is a customer your store is losing right now. Upgrade to Full Audit for £14.99/month and unlock every issue, score tracking over time, unlimited rescans, and a personalised AI coaching task delivered to you every week.',
+        'Every hidden issue is a customer your store is losing right now. Upgrade to Full Audit for £24.99/month and unlock every issue, score tracking over time, unlimited rescans, and a personalised AI coaching task delivered to you every week.',
         contentW - 12
       );
       doc.text(ctaLines, margin + 6, y + 17);
@@ -1304,4 +1305,3 @@
   </script>
 </body>
 </html>
-
