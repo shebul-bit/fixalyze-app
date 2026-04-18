@@ -90,8 +90,8 @@
     .nav-right { display: flex; align-items: center; gap: 24px; }
 
     .nav-links { display: flex; align-items: center; gap: 24px; list-style: none; }
-    .nav-links a { font-size: 14px; font-weight: 500; color: #1D2463; text-decoration: none; transition: color 0.2s; font-family: 'Open Sans', sans-serif; letter-spacing: 0.01em; }
-    .nav-links a:hover { color: #e8420a; text-decoration: underline; }
+    .nav-links a { font-size: 15px; font-weight: 500; color: #1D2463; text-decoration: none; transition: color 0.2s; font-family: 'Open Sans', sans-serif; }
+    .nav-links a:hover { color: #e8420a; }
 
     .nav-upgrade-btn {
       background: var(--brand-btn);
@@ -131,7 +131,7 @@
     .mobile-nav-links { list-style: none; margin-bottom: 16px; }
     .mobile-nav-links li a { display: block; padding: 13px 0; font-size: 15px; font-weight: 500; color: #1D2463; text-decoration: none; border-bottom: 1px solid var(--border); transition: color 0.2s; font-family: 'Open Sans', sans-serif; }
     .mobile-nav-links li:last-child a { border-bottom: none; }
-    .mobile-nav-links li a:hover { color: #e8420a; text-decoration: underline; }
+    .mobile-nav-links li a:hover { color: #e8420a; }
     .mobile-upgrade-btn { display: block; width: 100%; background: var(--brand-btn); color: white; padding: 13px 20px; border-radius: 8px; font-size: 14px; font-weight: 700; cursor: pointer; border: none; font-family: 'Montserrat', sans-serif; text-align: center; margin-top: 8px; }
 
     @media (max-width: 768px) {
@@ -143,7 +143,7 @@
 
     /* ── HERO ── */
     .hero {
-      background: #8ed1fc;
+      background: #ffffff;
       padding: 80px 24px 72px;
       text-align: center;
       position: relative;
@@ -359,8 +359,6 @@
       <ul class="nav-links">
         <li><a href="https://www.fixalyze.com">Home</a></li>
         <li><a href="https://www.fixalyze.com/pricing">Pricing</a></li>
-        <li><a href="https://www.fixalyze.com/about">About</a></li>
-        <li><a href="https://www.fixalyze.com/contact">Contact</a></li>
       </ul>
       <button class="nav-upgrade-btn" onclick="openUpgradeModal(event)">Upgrade — £24.99/month</button>
       <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
@@ -373,8 +371,6 @@
     <ul class="mobile-nav-links">
       <li><a href="https://www.fixalyze.com" onclick="closeMobileNav()">Home</a></li>
       <li><a href="https://www.fixalyze.com/pricing" onclick="closeMobileNav()">Pricing</a></li>
-      <li><a href="https://www.fixalyze.com/about" onclick="closeMobileNav()">About</a></li>
-      <li><a href="https://www.fixalyze.com/contact" onclick="closeMobileNav()">Contact</a></li>
     </ul>
     <button class="mobile-upgrade-btn" onclick="openUpgradeModal(event)">Upgrade — £24.99/month</button>
   </div>
