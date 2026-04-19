@@ -229,14 +229,14 @@ The JSON must follow this EXACT structure — do not rename or remove any fields
     "severity": "Critical",
     "title": "<mobile-specific issue title>",
     "problem": "<specific mobile UX problem — e.g. no sticky add-to-cart on mobile, tap targets too small, mobile nav friction, font too small on mobile, checkout friction on mobile, images not optimised for mobile>",
-    "impact": "<revenue impact — note 70%+ of Shopify traffic is mobile so this directly affects most visitors>",
+    "impact": "<research-backed percentage impact statement — cite a real statistic e.g. '70% of Shopify traffic is mobile — this issue directly affects the majority of your visitors' or 'Baymard Institute found that X% of users abandon due to this exact friction' or 'Google research shows every 100ms delay costs 7% in conversions' — always include a percentage and a credible source reference>",
     "fix": "<exact fix in Shopify theme editor without a developer>"
   },
   "mobileIssue2": {
     "severity": "Major",
     "title": "<second mobile issue title — must be different from mobileIssue1>",
     "problem": "<second distinct mobile UX problem>",
-    "impact": "<revenue impact in plain English>",
+    "impact": "<research-backed percentage impact statement — use real published statistics relevant to this specific issue type. Examples by issue type: trust signals missing = '17% of shoppers abandon checkout due to lack of trust — Baymard Institute'; no reviews = '93% of consumers say reviews influence their purchase decision — Spiegel Research'; poor mobile UX = '53% of mobile users abandon sites that take over 3 seconds to load — Google'; no free shipping shown = '49% of shoppers cite unexpected shipping costs as top reason for cart abandonment — Baymard'; missing returns policy = '67% of shoppers check returns policy before purchasing — Invesp'; no sticky CTA = 'sticky CTAs improve conversion by up to 22% — Nielsen Norman Group'; weak product images = '75% of online shoppers rely on product photos when deciding — MDG Advertising'. Always match the statistic to the actual issue found>",
     "fix": "<exact fix in Shopify theme editor without a developer>"
   },
   "issues": [
@@ -244,7 +244,7 @@ The JSON must follow this EXACT structure — do not rename or remove any fields
       "severity": "Critical",
       "title": "<short issue title>",
       "problem": "<what the problem is, referencing real page data where possible>",
-      "impact": "<revenue impact in plain English>",
+      "impact": "<research-backed percentage impact statement — use real published statistics relevant to this specific issue type. Examples by issue type: trust signals missing = '17% of shoppers abandon checkout due to lack of trust — Baymard Institute'; no reviews = '93% of consumers say reviews influence their purchase decision — Spiegel Research'; poor mobile UX = '53% of mobile users abandon sites that take over 3 seconds to load — Google'; no free shipping shown = '49% of shoppers cite unexpected shipping costs as top reason for cart abandonment — Baymard'; missing returns policy = '67% of shoppers check returns policy before purchasing — Invesp'; no sticky CTA = 'sticky CTAs improve conversion by up to 22% — Nielsen Norman Group'; weak product images = '75% of online shoppers rely on product photos when deciding — MDG Advertising'. Always match the statistic to the actual issue found>",
       "fix": "<exact step by step fix achievable without a developer>"
     }
   ],
@@ -267,6 +267,7 @@ Rules:
 - Sort issues: Critical first, then Major, then Minor
 - Base every issue on the REAL DATA provided
 - Write in plain English, no jargon
+- Every impact field MUST include a specific percentage and a named research source (Baymard Institute, Google, Nielsen Norman Group, Spiegel Research, Invesp etc) — never write vague impact statements like "this hurts conversions" without a stat
 - Every fix must be actionable without hiring a developer
 - totalIssuesFound must be 14`;
 
