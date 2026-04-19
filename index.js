@@ -222,8 +222,8 @@ You MUST respond ONLY with a valid JSON object. No markdown, no explanation, no 
 The JSON must follow this EXACT structure — do not rename or remove any fields:
 
 {
-  "score": <number 0-100>,
-  "scoreExplanation": "<2-3 sentences explaining the score based on real findings>",
+  "score": <number 0-100 — use the FULL range, scored strictly against these bands: 0-25 = missing critical ecommerce fundamentals, no trust signals, broken mobile, no reviews, no clear CTA; 26-45 = major structural problems, poor mobile, missing shipping/returns info, weak social proof; 46-60 = basic store functioning but significant UX friction across multiple areas; 61-74 = decent store with clear improvement areas, some trust signals present; 75-84 = well optimised store, minor issues only, strong trust signals and mobile experience; 85-94 = highly optimised, best practice in most areas, only small improvements possible; 95-100 = exceptional store, best-in-class across all criteria. A typical small Shopify store should score 35-55. A large brand like Gymshark should score 75-85. NEVER default to 65-75 just because it feels safe — score what you actually found>,
+  "scoreExplanation": "<2-3 sentences explaining the score based on real findings — must reference which scoring band this store falls into and why>",
   "totalIssuesFound": 14,
   "mobileIssue1": {
     "severity": "Critical",
