@@ -72,17 +72,19 @@
 
     /* ── NAV ── */
     nav {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,0.85);
+      backdrop-filter: saturate(180%) blur(14px);
+      -webkit-backdrop-filter: saturate(180%) blur(14px);
+      border-bottom: 1px solid #e6e8f3;
       padding: 0 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 72px;
+      height: 68px;
       position: sticky;
       top: 0;
       z-index: 200;
-      box-shadow: 0 1px 8px rgba(0,0,0,0.06);
+      box-shadow: 0 1px 12px rgba(29,36,99,0.07);
     }
 
     .nav-logo img { height: 44px; width: auto; display: block; }
@@ -143,7 +145,8 @@
 
     /* ── HERO ── */
     .hero {
-      background: #8ed1fc;
+      background: #f7f8fc;
+      background-image: radial-gradient(60% 50% at 50% 0%, rgba(142,209,252,.35), transparent 70%), radial-gradient(40% 35% at 85% 60%, rgba(232,66,10,.06), transparent 60%);
       padding: 80px 24px 72px;
       text-align: center;
       position: relative;
@@ -152,19 +155,18 @@
     .hero::before { display: none; }
     .hero::after { display: none; }
 
-    .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: rgba(29,36,99,0.1); border: 1px solid rgba(29,36,99,0.25); color: #1D2463; font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 6px 16px; border-radius: 100px; margin-bottom: 28px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--brand-btn); color: var(--brand-blue); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 24px; }
     .hero-badge-dot { width: 6px; height: 6px; background: #1D2463; border-radius: 50%; animation: pulse-dot 1.5s ease-in-out infinite; }
     @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
 
-    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(28px, 5vw, 50px); color: #1D2463; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 18px; }
-    .hero h1 em { font-style: normal; color: #ffffff; }
-    .hero h1 .period { color: #ffffff; }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(30px, 5vw, 52px); color: #0f1339; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 18px; }
+    .hero h1 em { font-style: normal; color: var(--brand-btn); }
 
-    .hero-sub { font-size: 15px; color: #1D2463; font-weight: 300; line-height: 1.7; max-width: 520px; margin: 0 auto 16px; }
+    .hero-sub { font-size: 16px; color: #5b618a; font-weight: 400; line-height: 1.65; max-width: 540px; margin: 0 auto 20px; }
 
     .hero-proof { display: flex; align-items: center; justify-content: center; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
-    .hero-proof-item { font-size: 12px; color: #1D2463; display: flex; align-items: center; gap: 5px; }
-    .hero-proof-item::before { content: '✓'; color: #1D2463; font-weight: 700; }
+    .hero-proof-item { font-size: 12px; color: #5b618a; display: flex; align-items: center; gap: 6px; font-weight: 500; }
+    .hero-proof-item::before { content: '·'; color: var(--brand-blue); font-weight: 900; font-size: 16px; line-height: 1; }
 
     /* ── INPUT CARD ── */
     .input-card { background: var(--white); border-radius: 14px; padding: 28px 32px; max-width: 640px; margin: 0 auto; box-shadow: var(--shadow-lg); }
@@ -360,7 +362,7 @@
         <li><a href="https://www.fixalyze.com">Home</a></li>
         <li><a href="https://www.fixalyze.com/pricing">Pricing</a></li>
       </ul>
-      <button class="nav-upgrade-btn" onclick="openUpgradeModal(event)">Upgrade — £24.99/month</button>
+      <button class="nav-upgrade-btn" onclick="openUpgradeModal(event)"><svg style="width:14px;height:14px;margin-right:6px;vertical-align:middle" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 4.4L14 7l-4.2 1.6L8 13l-1.8-4.4L2 7l4.2-1.6L8 1z" fill="#8ed1fc"/></svg>Upgrade — £24.99/month</button>
       <button class="hamburger" id="hamburger" onclick="toggleMobileNav()" aria-label="Menu">
         <span></span><span></span><span></span>
       </button>
@@ -372,14 +374,14 @@
       <li><a href="https://www.fixalyze.com" onclick="closeMobileNav()">Home</a></li>
       <li><a href="https://www.fixalyze.com/pricing" onclick="closeMobileNav()">Pricing</a></li>
     </ul>
-    <button class="mobile-upgrade-btn" onclick="openUpgradeModal(event)">Upgrade — £24.99/month</button>
+    <button class="mobile-upgrade-btn" onclick="openUpgradeModal(event)"><svg style="width:14px;height:14px;margin-right:6px;vertical-align:middle" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 4.4L14 7l-4.2 1.6L8 13l-1.8-4.4L2 7l4.2-1.6L8 1z" fill="#8ed1fc"/></svg>Upgrade — £24.99/month</button>
   </div>
 
   <!-- ── HERO ── -->
   <div class="hero">
     <div class="hero-badge"><div class="hero-badge-dot"></div>Free Spot Check — No Account Needed</div>
-    <h1>Your Shopify store is losing sales. Find out <em>exactly why</em><span class="period">.</span></h1>
-    <p class="hero-sub">Paste your store URL and get an AI-powered audit in seconds. We identify your biggest conversion killers — and tell you exactly how to fix them. No jargon. No guesswork. Just results.</p>
+    <h1>Your Shopify store is losing&nbsp;sales.<br>Find out <em>exactly why.</em></h1>
+    <p class="hero-sub">Fixalyze runs a 100-point conversion audit on your storefront — from mobile tap targets to checkout friction — and tells you exactly what to fix to make more sales this week.</p>
     <div class="hero-proof">
       <div class="hero-proof-item">Results in under 30 seconds</div>
       <div class="hero-proof-item">No account required</div>
@@ -1370,5 +1372,13 @@
       document.getElementById('error-msg').style.display = 'none';
     });
   </script>
+
+  <footer style="text-align:center; padding: 32px 24px; font-size: 12px; color: #5b618a; font-family: 'Open Sans', sans-serif; border-top: 1px solid #e6e8f3; margin-top: 40px;">
+    <strong style="color:#1D2463;">Fixalyze</strong> · AI-Powered Shopify UX &amp; Conversion Audits ·
+    <a href="https://www.fixalyze.com" style="color:#1D2463; text-decoration:none;">fixalyze.com</a> ·
+    <a href="https://www.fixalyze.com/contact" style="color:#1D2463; text-decoration:none;">Contact</a>
+    <br><br>© 2025–2026 Fixalyze Ltd. All rights reserved.
+  </footer>
+
 </body>
 </html>
