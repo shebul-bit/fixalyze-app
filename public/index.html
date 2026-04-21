@@ -354,6 +354,14 @@
     .admin-submit { width: 100%; padding: 11px; background: var(--brand-btn); color: white; border: none; border-radius: 7px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; margin-bottom: 7px; }
     .admin-cancel { width: 100%; padding: 8px; background: transparent; color: rgba(255,255,255,0.35); border: none; font-size: 12px; cursor: pointer; }
     .admin-error { font-size: 12px; color: #ff6b6b; margin-bottom: 8px; display: none; }
+
+    /* ── STATS BAR ── */
+    .stats-bar { display: grid; grid-template-columns: repeat(4,1fr); background: #ffffff; border-top: 1px solid #e6e8f3; border-bottom: 1px solid #e6e8f3; }
+    .stats-item { text-align: center; padding: 22px 16px; border-right: 1px solid #e6e8f3; }
+    .stats-item:last-child { border-right: none; }
+    .stats-num { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 34px; color: #1D2463; letter-spacing: -0.03em; line-height: 1; margin-bottom: 5px; }
+    .stats-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9ba3c2; }
+    @media (max-width: 600px) { .stats-bar { grid-template-columns: repeat(2,1fr); } .stats-item { border-bottom: 1px solid #e6e8f3; } }
   </style>
 </head>
 <body>
@@ -403,6 +411,14 @@
       <div class="error-msg" id="error-msg"></div>
     </div>
     <p class="input-note">Free · AI-powered · No account needed · Covers desktop & mobile</p>
+  </div>
+
+  <!-- ── STATS BAR ── -->
+  <div class="stats-bar">
+    <div class="stats-item"><div class="stats-num">14+</div><div class="stats-lbl">Issues Audited Per Store</div></div>
+    <div class="stats-item"><div class="stats-num">100</div><div class="stats-lbl">Point Conversion Score</div></div>
+    <div class="stats-item"><div class="stats-num">30s</div><div class="stats-lbl">To Get Your Report</div></div>
+    <div class="stats-item"><div class="stats-num">0</div><div class="stats-lbl">Developers Needed</div></div>
   </div>
 
   <!-- ── LOADING ── -->
