@@ -145,8 +145,12 @@
 
     /* ── HERO ── */
     .hero {
-      background: #f7f8fc;
-      background-image: radial-gradient(60% 50% at 50% 0%, rgba(142,209,252,.35), transparent 70%), radial-gradient(40% 35% at 85% 60%, rgba(232,66,10,.06), transparent 60%);
+      background-color: #eef6fc;
+      background-image:
+        linear-gradient(rgba(142,209,252,0.35) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(142,209,252,0.35) 1px, transparent 1px),
+        radial-gradient(60% 50% at 50% 0%, rgba(255,255,255,0.7), transparent 70%);
+      background-size: 40px 40px, 40px 40px, 100% 100%;
       padding: 80px 24px 72px;
       text-align: center;
       position: relative;
@@ -155,18 +159,22 @@
     .hero::before { display: none; }
     .hero::after { display: none; }
 
-    .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--brand-btn); color: var(--brand-blue); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 24px; }
+    .hero-badge { display: inline-flex; align-items: center; gap: 10px; background: #ffffff; border: 1px solid #e0ecf8; color: #1D2463; font-size: 13px; font-weight: 500; padding: 8px 16px 8px 8px; border-radius: 100px; margin-bottom: 28px; box-shadow: 0 2px 8px rgba(29,36,99,0.08); }
+    .hero-badge-new { background: #1D2463; color: white; font-size: 11px; font-weight: 800; letter-spacing: 0.08em; padding: 4px 10px; border-radius: 100px; text-transform: uppercase; }
+    .hero-badge-dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; animation: pulse-dot 1.8s ease-in-out infinite; flex-shrink: 0; }
+    @keyframes pulse-dot { 0%, 100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); } 50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); } }
     .hero-badge-dot { width: 6px; height: 6px; background: #1D2463; border-radius: 50%; animation: pulse-dot 1.5s ease-in-out infinite; }
     @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
 
-    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(30px, 5vw, 52px); color: #0f1339; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 18px; }
-    .hero h1 em { font-style: normal; color: var(--brand-btn); }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(32px, 6vw, 58px); color: #1D2463; line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 20px; }
+    .hero h1 em { font-style: normal; color: #e8420a; display: inline-block; position: relative; }
+    .hero h1 em::after { content: ''; position: absolute; bottom: -4px; left: 0; right: 0; height: 4px; background: #8ed1fc; border-radius: 2px; }
 
     .hero-sub { font-size: 16px; color: #5b618a; font-weight: 400; line-height: 1.65; max-width: 540px; margin: 0 auto 20px; }
 
     .hero-proof { display: flex; align-items: center; justify-content: center; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
-    .hero-proof-item { font-size: 12px; color: #5b618a; display: flex; align-items: center; gap: 6px; font-weight: 500; }
-    .hero-proof-item::before { content: '·'; color: var(--brand-blue); font-weight: 900; font-size: 16px; line-height: 1; }
+    .hero-proof-item { font-size: 13px; color: #5b618a; display: flex; align-items: center; gap: 8px; font-weight: 500; }
+    .hero-proof-item::before { content: '✓'; display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px; min-width: 18px; background: #1D2463; color: white; border-radius: 50%; font-size: 10px; font-weight: 700; }
 
     /* ── INPUT CARD ── */
     .input-card { background: var(--white); border-radius: 14px; padding: 28px 32px; max-width: 640px; margin: 0 auto; box-shadow: var(--shadow-lg); }
@@ -179,8 +187,8 @@
     .url-input.invalid { border-color: var(--red); }
     .url-input::placeholder { color: #b8b2aa; }
 
-    .audit-btn { padding: 13px 26px; background: var(--brand-btn); color: white; border: none; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s, transform 0.15s; }
-    .audit-btn:hover:not(:disabled) { background: var(--brand-btn-hover); transform: translateY(-1px); }
+    .audit-btn { padding: 14px 28px; background: #e8420a; color: white; border: none; border-radius: 12px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 14px; box-shadow: 0 4px 16px rgba(232,66,10,0.35); transition: background 0.2s, transform 0.15s, box-shadow 0.2s; cursor: pointer; white-space: nowrap; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s, transform 0.15s; }
+    .audit-btn:hover:not(:disabled) { background: #c73508; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,66,10,0.45); }
     .audit-btn:disabled { background: #c4bdb6; cursor: not-allowed; transform: none; }
 
     .input-note { font-size: 11px; color: #1D2463; margin-top: 14px; text-align: center; }
@@ -348,6 +356,52 @@
     .admin-submit { width: 100%; padding: 11px; background: var(--brand-btn); color: white; border: none; border-radius: 7px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; margin-bottom: 7px; }
     .admin-cancel { width: 100%; padding: 8px; background: transparent; color: rgba(255,255,255,0.35); border: none; font-size: 12px; cursor: pointer; }
     .admin-error { font-size: 12px; color: #ff6b6b; margin-bottom: 8px; display: none; }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 28px 24px;
+      background: #ffffff;
+      border-top: 1px solid #e6e8f3;
+      border-bottom: 1px solid #e6e8f3;
+      flex-wrap: wrap;
+    }
+    .stats-item {
+      text-align: center;
+      padding: 12px 40px;
+      flex: 1;
+      min-width: 140px;
+    }
+    .stats-number {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 36px;
+      color: #1D2463;
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stats-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #9ba3c2;
+      font-family: 'Open Sans', sans-serif;
+    }
+    .stats-divider {
+      width: 1px;
+      height: 40px;
+      background: #e6e8f3;
+      flex-shrink: 0;
+    }
+    @media (max-width: 600px) {
+      .stats-item { padding: 12px 20px; }
+      .stats-divider { display: none; }
+    }
   </style>
 </head>
 <body>
@@ -379,9 +433,9 @@
 
   <!-- ── HERO ── -->
   <div class="hero">
-    <div class="hero-badge"><div class="hero-badge-dot"></div>Free Spot Check — No Account Needed</div>
+    <div<div class="hero-badge"><span class="hero-badge-new">NEW</span>AI audit runs in under 30 seconds<div class="hero-badge-dot"></div></div>Free Spot Check — No Account Needed</div>
     <h1>Your Shopify store is losing&nbsp;sales.<br>Find out <em>exactly why.</em></h1>
-    <p class="hero-sub">Fixalyze runs a 100-point conversion audit on your storefront — from mobile tap targets to checkout friction — and tells you exactly what to fix to make more sales this week.</p>
+    <p class="hero-sub">Fixalyze runs a 100-point conversion audit on your Shopify storefront — from mobile tap targets to checkout friction — and tells you exactly what to fix to make more sales this week.</p>
     <div class="hero-proof">
       <div class="hero-proof-item">Results in under 30 seconds</div>
       <div class="hero-proof-item">No account required</div>
@@ -391,12 +445,40 @@
     <div class="input-card">
       <label class="input-label" for="shopify-url">Enter your Shopify store URL</label>
       <div class="input-row">
-        <input type="text" class="url-input" id="shopify-url" placeholder="e.g. yourstore.com" />
-        <button class="audit-btn" id="analyze-btn" onclick="runAudit()">Run Free Audit</button>
+        <div class="input-prefix">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ba3c2" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <span class="input-https">https://</span>
+        </div>
+        <input type="text" class="url-input" id="shopify-url" placeholder="yourstore.myshopify.com" />
+        <button class="audit-btn" id="analyze-btn" onclick="runAudit()">Run Free Audit →</button>
       </div>
       <div class="error-msg" id="error-msg"></div>
     </div>
     <p class="input-note">Free · AI-powered · No account needed · Covers desktop & mobile</p>
+  </div>
+
+
+  <!-- ── STATS BAR ── -->
+  <div class="stats-bar">
+    <div class="stats-item">
+      <div class="stats-number">14+</div>
+      <div class="stats-label">ISSUES AUDITED PER STORE</div>
+    </div>
+    <div class="stats-divider"></div>
+    <div class="stats-item">
+      <div class="stats-number">100</div>
+      <div class="stats-label">POINT CONVERSION HEALTH SCORE</div>
+    </div>
+    <div class="stats-divider"></div>
+    <div class="stats-item">
+      <div class="stats-number">30</div>
+      <div class="stats-label">SECONDS TO GET YOUR REPORT</div>
+    </div>
+    <div class="stats-divider"></div>
+    <div class="stats-item">
+      <div class="stats-number">0</div>
+      <div class="stats-label">DEVELOPERS NEEDED TO FIX ISSUES</div>
+    </div>
   </div>
 
   <!-- ── LOADING ── -->
