@@ -145,30 +145,36 @@
 
     /* ── HERO ── */
     .hero {
-      background-color: #eef6fc;
-      background-image:
-        linear-gradient(rgba(135,198,228,0.3) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(135,198,228,0.3) 1px, transparent 1px),
-        radial-gradient(70% 60% at 50% 0%, rgba(255,255,255,0.85), transparent);
-      background-size: 40px 40px, 40px 40px, 100% 100%;
-      padding: 80px 24px 72px;
+      padding: 96px 28px 80px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(60% 50% at 50% 0%, rgba(142,209,252,.35), transparent 70%),
+        radial-gradient(40% 30% at 80% 20%, rgba(232,66,10,.08), transparent 70%),
+        linear-gradient(180deg, #f8fbff 0%, #ffffff 60%);
+    }
+    .hero-bg::before {
+      content: ""; position: absolute; inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(29,36,99,.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(29,36,99,.05) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent 70%);
+    }
+    .hero-inner { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; }
     .hero::before { display: none; }
     .hero::after { display: none; }
 
-    .hero-badge { display: inline-flex; align-items: center; gap: 10px; background: #ffffff; border: 1px solid #d8e8f5; color: #1D2463; font-size: 13px; font-weight: 500; padding: 6px 14px 6px 6px; border-radius: 100px; margin-bottom: 28px; box-shadow: 0 2px 8px rgba(29,36,99,0.08); }
-    .badge-new { background: #1D2463; color: white; font-size: 10px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 100px; flex-shrink: 0; }
-    .badge-dot { width: 10px; height: 10px; min-width: 10px; background: #22c55e; border-radius: 50%; animation: badge-pulse 1.8s ease-in-out infinite; flex-shrink: 0; }
-    @keyframes badge-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); } 50% { box-shadow: 0 0 0 6px rgba(34,197,94,0); } }
+    .hero-badge { display: inline-flex; align-items: center; gap: 7px; background: var(--brand-btn); color: var(--brand-blue); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 14px; border-radius: 100px; margin-bottom: 24px; }
     .hero-badge-dot { width: 6px; height: 6px; background: #1D2463; border-radius: 50%; animation: pulse-dot 1.5s ease-in-out infinite; }
     @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
 
-    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(32px, 6vw, 60px); color: #1D2463; line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 20px; }
-    .hero h1 em { font-style: normal; color: #e8420a; display: inline-block; position: relative; }
-    .hero h1 em::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 4px; background: #8ed1fc; border-radius: 2px; }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(30px, 5vw, 52px); color: #0f1339; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 18px; }
     .hero h1 em { font-style: normal; color: var(--brand-btn); }
 
     .hero-sub { font-size: 16px; color: #5b618a; font-weight: 400; line-height: 1.65; max-width: 540px; margin: 0 auto 20px; }
@@ -188,8 +194,8 @@
     .url-input.invalid { border-color: var(--red); }
     .url-input::placeholder { color: #b8b2aa; }
 
-    .audit-btn { padding: 14px 28px; background: #e8420a; color: white; border: none; border-radius: 10px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 14px rgba(232,66,10,0.35); }
-    .audit-btn:hover:not(:disabled) { background: #c73508; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,66,10,0.45); }
+    .audit-btn { padding: 13px 26px; background: var(--brand-btn); color: white; border: none; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s, transform 0.15s; }
+    .audit-btn:hover:not(:disabled) { background: var(--brand-btn-hover); transform: translateY(-1px); }
     .audit-btn:disabled { background: #c4bdb6; cursor: not-allowed; transform: none; }
 
     .input-note { font-size: 11px; color: #1D2463; margin-top: 14px; text-align: center; }
@@ -388,7 +394,9 @@
 
   <!-- ── HERO ── -->
   <div class="hero">
-    <div class="hero-badge"><span class="badge-new">New</span><span>AI audit runs in under 30 seconds</span><span class="badge-dot"></span></div>
+    <div class="hero-bg"></div>
+    <div class="hero-inner">
+    <div class="hero-badge"><div class="hero-badge-dot"></div>Free Spot Check — No Account Needed</div>
     <h1>Your Shopify store is losing&nbsp;sales.<br>Find out <em>exactly why.</em></h1>
     <p class="hero-sub">Fixalyze runs a 100-point conversion audit on your storefront — from mobile tap targets to checkout friction — and tells you exactly what to fix to make more sales this week.</p>
     <div class="hero-proof">
@@ -401,12 +409,13 @@
       <label class="input-label" for="shopify-url">Enter your Shopify store URL</label>
       <div class="input-row">
         <input type="text" class="url-input" id="shopify-url" placeholder="e.g. yourstore.com" />
-        <button class="audit-btn" id="analyze-btn" onclick="runAudit()">Run Free Audit →</button>
+        <button class="audit-btn" id="analyze-btn" onclick="runAudit()">Run Free Audit</button>
       </div>
       <div class="error-msg" id="error-msg"></div>
     </div>
     <p class="input-note">Free · AI-powered · No account needed · Covers desktop & mobile</p>
   </div>
+    </div>
 
   <!-- ── LOADING ── -->
   <div class="loading-card" id="loading-card">
