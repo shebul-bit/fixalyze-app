@@ -166,7 +166,9 @@
     .hero-badge-dot { width: 6px; height: 6px; background: #1D2463; border-radius: 50%; animation: pulse-dot 1.5s ease-in-out infinite; }
     @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
 
-    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(30px, 5vw, 52px); color: #0f1339; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 18px; }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(32px, 6vw, 60px); color: #1D2463; line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 20px; }
+    .hero h1 em { font-style: normal; color: #e8420a; display: inline-block; position: relative; }
+    .hero h1 em::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 4px; background: #8ed1fc; border-radius: 2px; }
     .hero h1 em { font-style: normal; color: var(--brand-btn); }
 
     .hero-sub { font-size: 16px; color: #5b618a; font-weight: 400; line-height: 1.65; max-width: 540px; margin: 0 auto 20px; }
@@ -186,8 +188,8 @@
     .url-input.invalid { border-color: var(--red); }
     .url-input::placeholder { color: #b8b2aa; }
 
-    .audit-btn { padding: 13px 26px; background: var(--brand-btn); color: white; border: none; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s, transform 0.15s; }
-    .audit-btn:hover:not(:disabled) { background: var(--brand-btn-hover); transform: translateY(-1px); }
+    .audit-btn { padding: 14px 28px; background: #e8420a; color: white; border: none; border-radius: 10px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s, transform 0.15s, box-shadow 0.2s; box-shadow: 0 4px 14px rgba(232,66,10,0.35); }
+    .audit-btn:hover:not(:disabled) { background: #c73508; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,66,10,0.45); }
     .audit-btn:disabled { background: #c4bdb6; cursor: not-allowed; transform: none; }
 
     .input-note { font-size: 11px; color: #1D2463; margin-top: 14px; text-align: center; }
@@ -399,7 +401,7 @@
       <label class="input-label" for="shopify-url">Enter your Shopify store URL</label>
       <div class="input-row">
         <input type="text" class="url-input" id="shopify-url" placeholder="e.g. yourstore.com" />
-        <button class="audit-btn" id="analyze-btn" onclick="runAudit()">Run Free Audit</button>
+        <button class="audit-btn" id="analyze-btn" onclick="runAudit()">Run Free Audit →</button>
       </div>
       <div class="error-msg" id="error-msg"></div>
     </div>
