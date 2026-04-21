@@ -145,28 +145,15 @@
 
     /* ── HERO ── */
     .hero {
-      padding: 96px 28px 80px;
+      background: #f8fbff;
+      background-image:
+        radial-gradient(60% 50% at 50% 0%, rgba(142,209,252,.35), transparent 70%),
+        radial-gradient(40% 30% at 80% 20%, rgba(232,66,10,.08), transparent 70%);
+      padding: 80px 24px 72px;
       text-align: center;
       position: relative;
       overflow: hidden;
     }
-    .hero-bg {
-      position: absolute; inset: 0; z-index: 0; pointer-events: none;
-      background:
-        radial-gradient(60% 50% at 50% 0%, rgba(142,209,252,.35), transparent 70%),
-        radial-gradient(40% 30% at 80% 20%, rgba(232,66,10,.08), transparent 70%),
-        linear-gradient(180deg, #f8fbff 0%, #ffffff 60%);
-    }
-    .hero-bg::before {
-      content: ""; position: absolute; inset: 0;
-      background-image:
-        linear-gradient(to right, rgba(29,36,99,.05) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(29,36,99,.05) 1px, transparent 1px);
-      background-size: 44px 44px;
-      mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent 70%);
-      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent 70%);
-    }
-    .hero-inner { position: relative; z-index: 1; max-width: 920px; margin: 0 auto; }
     .hero::before { display: none; }
     .hero::after { display: none; }
 
@@ -368,6 +355,21 @@
     .admin-submit { width: 100%; padding: 11px; background: var(--brand-btn); color: white; border: none; border-radius: 7px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; margin-bottom: 7px; }
     .admin-cancel { width: 100%; padding: 8px; background: transparent; color: rgba(255,255,255,0.35); border: none; font-size: 12px; cursor: pointer; }
     .admin-error { font-size: 12px; color: #ff6b6b; margin-bottom: 8px; display: none; }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(to right, rgba(29,36,99,.05) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(29,36,99,.05) 1px, transparent 1px);
+      background-size: 44px 44px;
+      mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, black, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .hero > * { position: relative; z-index: 1; }
   </style>
 </head>
 <body>
@@ -399,8 +401,6 @@
 
   <!-- ── HERO ── -->
   <div class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-inner">
     <div<div class="hero-badge"><span class="badge-new">New</span><span>AI audit runs in under 30 seconds</span><span class="badge-dot"></span></div>Free Spot Check — No Account Needed</div>
     <h1>Your Shopify store is losing&nbsp;sales.<br>Find out <em>exactly why.</em></h1>
     <p class="hero-sub">Fixalyze runs a 100-point conversion audit on your storefront — from mobile tap targets to checkout friction — and tells you exactly what to fix to make more sales this week.</p>
@@ -420,7 +420,6 @@
     </div>
     <p class="input-note">Free · AI-powered · No account needed · Covers desktop & mobile</p>
   </div>
-    </div>
 
   <!-- ── LOADING ── -->
   <div class="loading-card" id="loading-card">
