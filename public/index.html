@@ -145,12 +145,8 @@
 
     /* ── HERO ── */
     .hero {
-      background-color: #eef6fc;
-      background-image:
-        linear-gradient(rgba(135,198,228,0.3) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(135,198,228,0.3) 1px, transparent 1px),
-        radial-gradient(70% 60% at 50% 0%, rgba(255,255,255,0.85), transparent);
-      background-size: 40px 40px, 40px 40px, 100% 100%;
+      background: #f7f8fc;
+      background-image: radial-gradient(60% 50% at 50% 0%, rgba(142,209,252,.35), transparent 70%), radial-gradient(40% 35% at 85% 60%, rgba(232,66,10,.06), transparent 60%);
       padding: 80px 24px 72px;
       text-align: center;
       position: relative;
@@ -163,11 +159,10 @@
     .hero-badge-dot { width: 6px; height: 6px; background: #1D2463; border-radius: 50%; animation: pulse-dot 1.5s ease-in-out infinite; }
     @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.8); } }
 
-    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(32px, 6vw, 60px); color: #1D2463; line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 20px; }
-    .hero h1 em { font-style: normal; color: #e8420a; display: inline-block; position: relative; }
-    .hero h1 em::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 4px; background: #8ed1fc; border-radius: 2px; }
+    .hero h1 { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(30px, 5vw, 52px); color: #0f1339; line-height: 1.08; letter-spacing: -0.04em; margin-bottom: 18px; }
+    .hero h1 em { font-style: normal; color: var(--brand-btn); }
 
-    .hero-sub { font-size: 16px; color: #5b618a; font-weight: 400; line-height: 1.65; max-width: 560px; margin: 0 auto 24px; text-align: center; }
+    .hero-sub { font-size: 16px; color: #5b618a; font-weight: 400; line-height: 1.65; max-width: 540px; margin: 0 auto 20px; }
 
     .hero-proof { display: flex; align-items: center; justify-content: center; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
     .hero-proof-item { font-size: 12px; color: #5b618a; display: flex; align-items: center; gap: 6px; font-weight: 500; }
@@ -184,8 +179,8 @@
     .url-input.invalid { border-color: var(--red); }
     .url-input::placeholder { color: #b8b2aa; }
 
-    .audit-btn { padding: 14px 28px; background: #e8420a; color: white; border: none; border-radius: 10px; box-shadow: 0 4px 14px rgba(232,66,10,0.35); font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s, transform 0.15s; }
-    .audit-btn:hover:not(:disabled) { background: #c73508; transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,66,10,0.45); }
+    .audit-btn { padding: 13px 26px; background: var(--brand-btn); color: white; border: none; border-radius: 8px; font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; cursor: pointer; white-space: nowrap; transition: background 0.2s, transform 0.15s; }
+    .audit-btn:hover:not(:disabled) { background: var(--brand-btn-hover); transform: translateY(-1px); }
     .audit-btn:disabled { background: #c4bdb6; cursor: not-allowed; transform: none; }
 
     .input-note { font-size: 11px; color: #1D2463; margin-top: 14px; text-align: center; }
@@ -353,14 +348,6 @@
     .admin-submit { width: 100%; padding: 11px; background: var(--brand-btn); color: white; border: none; border-radius: 7px; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; margin-bottom: 7px; }
     .admin-cancel { width: 100%; padding: 8px; background: transparent; color: rgba(255,255,255,0.35); border: none; font-size: 12px; cursor: pointer; }
     .admin-error { font-size: 12px; color: #ff6b6b; margin-bottom: 8px; display: none; }
-
-    /* ── STATS BAR ── */
-    .stats-bar { display: grid; grid-template-columns: repeat(4,1fr); background: #ffffff; border-top: 1px solid #e6e8f3; border-bottom: 1px solid #e6e8f3; }
-    .stats-item { text-align: center; padding: 24px 16px; border-right: 1px solid #e6e8f3; }
-    .stats-item:last-child { border-right: none; }
-    .stats-num { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 34px; color: #1D2463; letter-spacing: -0.03em; line-height: 1; margin-bottom: 5px; }
-    .stats-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9ba3c2; font-family: 'Open Sans', sans-serif; }
-    @media (max-width: 600px) { .stats-bar { grid-template-columns: repeat(2,1fr); } .stats-item { border-bottom: 1px solid #e6e8f3; } }
   </style>
 </head>
 <body>
@@ -392,7 +379,7 @@
 
   <!-- ── HERO ── -->
   <div class="hero">
-    <div class="hero-badge"><span class="badge-new">New</span><span>AI audit runs in under 30 seconds</span><span class="badge-dot"></span></div>Free Spot Check — No Account Needed</div>
+    <div class="hero-badge"><div class="hero-badge-dot"></div>Free Spot Check — No Account Needed</div>
     <h1>Your Shopify store is losing&nbsp;sales.<br>Find out <em>exactly why.</em></h1>
     <p class="hero-sub">Fixalyze runs a 100-point conversion audit on your storefront — from mobile tap targets to checkout friction — and tells you exactly what to fix to make more sales this week.</p>
     <div class="hero-proof">
@@ -404,25 +391,12 @@
     <div class="input-card">
       <label class="input-label" for="shopify-url">Enter your Shopify store URL</label>
       <div class="input-row">
-        <div style="display:flex;align-items:center;gap:6px;padding-right:10px;border-right:1px solid #e6e8f3;margin-right:4px;flex-shrink:0;color:#9ba3c2;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 010 18M12 3a14 14 0 000 18"/></svg>
-          <span style="font-size:13px;font-family:'Open Sans',sans-serif;white-space:nowrap;color:#9ba3c2;">https://</span>
-        </div>
-        <input type="text" class="url-input" id="shopify-url" placeholder="yourstore.myshopify.com" />
-        <button class="audit-btn" id="analyze-btn" onclick="runAudit()">Run Free Audit →</button>
+        <input type="text" class="url-input" id="shopify-url" placeholder="e.g. yourstore.com" />
+        <button class="audit-btn" id="analyze-btn" onclick="runAudit()">Run Free Audit</button>
       </div>
       <div class="error-msg" id="error-msg"></div>
     </div>
     <p class="input-note">Free · AI-powered · No account needed · Covers desktop & mobile</p>
-  </div>
-
-
-  <!-- ── STATS BAR ── -->
-  <div class="stats-bar">
-    <div class="stats-item"><div class="stats-num">14+</div><div class="stats-lbl">Issues Audited Per Store</div></div>
-    <div class="stats-item"><div class="stats-num">100</div><div class="stats-lbl">Point Conversion Score</div></div>
-    <div class="stats-item"><div class="stats-num">30s</div><div class="stats-lbl">To Get Your Report</div></div>
-    <div class="stats-item"><div class="stats-num">0</div><div class="stats-lbl">Developers Needed</div></div>
   </div>
 
   <!-- ── LOADING ── -->
