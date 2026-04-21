@@ -171,8 +171,8 @@
     .hero-sub { font-size: 16px; color: #5b618a; font-weight: 400; line-height: 1.65; max-width: 540px; margin: 0 auto 20px; }
 
     .hero-proof { display: flex; align-items: center; justify-content: center; gap: 24px; margin-bottom: 40px; flex-wrap: wrap; }
-    .hero-proof-item { font-size: 12px; color: #5b618a; display: flex; align-items: center; gap: 6px; font-weight: 500; }
-    .hero-proof-item::before { content: '·'; color: var(--brand-blue); font-weight: 900; font-size: 16px; line-height: 1; }
+    .hero-proof-item { font-size: 13px; color: #5b618a; display: inline-flex; align-items: center; gap: 8px; font-weight: 400; }
+    .hero-proof-check { width: 16px; height: 16px; min-width: 16px; border-radius: 50%; background: #d7ecfe; color: #1D2463; display: grid; place-items: center; font-size: 10px; font-weight: 800; flex-shrink: 0; }
 
     /* ── INPUT CARD ── */
     .input-card { background: var(--white); border-radius: 14px; padding: 28px 32px; max-width: 640px; margin: 0 auto; box-shadow: var(--shadow-lg); }
@@ -359,8 +359,8 @@
     .stats-bar { display: grid; grid-template-columns: repeat(4,1fr); background: #ffffff; border-top: 1px solid #e6e8f3; border-bottom: 1px solid #e6e8f3; }
     .stats-item { text-align: center; padding: 22px 16px; border-right: 1px solid #e6e8f3; }
     .stats-item:last-child { border-right: none; }
-    .stats-num { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 34px; color: #1D2463; letter-spacing: -0.03em; line-height: 1; margin-bottom: 5px; }
-    .stats-lbl { font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9ba3c2; }
+    .stats-num { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 28px; color: #1D2463; letter-spacing: -0.02em; line-height: 1; margin-bottom: 2px; }
+    .stats-lbl { font-size: 12px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: #5b618a; margin-top: 2px; }
     @media (max-width: 600px) { .stats-bar { grid-template-columns: repeat(2,1fr); } .stats-item { border-bottom: 1px solid #e6e8f3; } }
   </style>
 </head>
@@ -397,10 +397,10 @@
     <h1>Your Shopify store is losing&nbsp;sales.<br>Find out <em>exactly why.</em></h1>
     <p class="hero-sub">Fixalyze runs a 100-point conversion audit on your storefront — from mobile tap targets to checkout friction — and tells you exactly what to fix to make more sales this week.</p>
     <div class="hero-proof">
-      <div class="hero-proof-item">Results in under 30 seconds</div>
-      <div class="hero-proof-item">No account required</div>
-      <div class="hero-proof-item">Desktop & mobile issues covered</div>
-      <div class="hero-proof-item">Plain-English fix instructions</div>
+      <span class="hero-proof-item"><span class="hero-proof-check">✓</span>Results in under 30 seconds</span>
+      <span class="hero-proof-item"><span class="hero-proof-check">✓</span>No account required</span>
+      <span class="hero-proof-item"><span class="hero-proof-check">✓</span>Desktop &amp; mobile issues covered</span>
+      <span class="hero-proof-item"><span class="hero-proof-check">✓</span>Plain-English fix instructions</span>
     </div>
     <div class="input-card">
       <label class="input-label" for="shopify-url">Enter your Shopify store URL</label>
@@ -410,7 +410,6 @@
       </div>
       <div class="error-msg" id="error-msg"></div>
     </div>
-    <p class="input-note">Free · AI-powered · No account needed · Covers desktop & mobile</p>
   </div>
 
   <!-- ── STATS BAR ── -->
