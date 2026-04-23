@@ -338,7 +338,7 @@ Rules:
       return res.status(500).json({ error: 'AI returned invalid format. Please try again.' });
     }
 
-    const screenshotUrl = `https://image.thum.io/get/width/1280/crop/800/noanimate/${normalisedUrl}`;
+    const screenshotUrl = `https://s0.wp.com/mshots/v1/${encodeURIComponent(normalisedUrl)}?w=1280&h=800`;
 
     res.json({
       audit: auditData,
@@ -356,4 +356,3 @@ Rules:
 app.listen(PORT, () => {
   console.log(`Fixalyze server running on port ${PORT}`);
 });
-
