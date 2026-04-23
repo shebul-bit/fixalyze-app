@@ -338,7 +338,7 @@ Rules:
       return res.status(500).json({ error: 'AI returned invalid format. Please try again.' });
     }
 
-    const screenshotUrl = `https://s0.wp.com/mshots/v1/${encodeURIComponent(normalisedUrl)}?w=1280&h=800`;
+    const screenshotUrl = `https://api.screenshotone.com/take?access_key=${process.env.SCREENSHOT_KEY}&url=${encodeURIComponent(normalisedUrl)}&viewport_width=1280&viewport_height=800&format=jpg&image_quality=80&block_ads=true&block_cookie_banners=true`;
 
     res.json({
       audit: auditData,
